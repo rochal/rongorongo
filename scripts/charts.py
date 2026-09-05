@@ -215,4 +215,32 @@ fig.text(0.02, 0.975, "Adjacent head-sign pairs seen 4+ times, one witness per f
 fig.tight_layout(rect=(0, 0, 1, 0.95))
 fig.savefig(img / "collocations.png", bbox_inches="tight", pad_inches=0.25)
 plt.close(fig)
+
+# 8 decomposition ------------------------------------------------------------
+if (out / "decomposition.csv").exists():
+    main = [float(r["coverage"]) for r in read("decomposition.csv")]
+    ctrl = collections.defaultdict(list)
+    for r in read("decomposition_control.csv"):
+        ctrl[r["control"]].append(float(r["coverage"]))
+    bins = np.linspace(0, 1, 21)
+    fig, ax = plt.subplots(figsize=(8, 4.6))
+    for k, (c, vals) in enumerate(sorted(ctrl.items())):
+        h, _ = np.histogram(vals, bins)
+        ax.step(bins[:-1], h / len(vals), where="post", color=C[1], lw=2, alpha=0.35 if k else 0.9,
+                label="Random rare signs as templates" if k == 0 else None)
+    h, _ = np.histogram(main, bins)
+    ax.step(bins[:-1], h / len(main), where="post", color=C[0], lw=2, label="55 most frequent signs as templates")
+    if (out / "decomposition_positive.csv").exists():
+        pos = [float(r["coverage"]) for r in read("decomposition_positive.csv")]
+        h, _ = np.histogram(pos, bins)
+        ax.step(bins[:-1], h / len(pos), where="post", color=C[2], lw=2, label="Positive control: variants of the basic signs themselves")
+    ax.axvline(0.8, color=AXIS, lw=1)
+    ax.text(0.81, ax.get_ylim()[1] * 0.92, "decomposes at 80% coverage", color=INK2, fontsize=9)
+    ax.set_xlabel("Share of a rare sign's ink explained by up to three template parts")
+    ax.set_ylabel("Share of rare signs")
+    ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+    ax.xaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+    ax.legend(loc="upper left")
+    finish(fig, ax, "Do the frequent signs explain the rare ones? The test cannot tell",
+           "Coverage of rare signs by frequent-sign parts, by random parts, and of basic-sign variants by their own sign", "decomposition.png")
 print("charts written to", img)

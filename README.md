@@ -26,9 +26,10 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 9. [Shape similarity of the signs](#9-shape-similarity-of-the-signs)
 10. [Genre by vocabulary, and entropy](#10-genre-by-vocabulary-and-entropy)
 11. [A collocation lexicon](#11-a-collocation-lexicon)
-12. [Charts](#12-charts)
-13. [What it means and what it does not](#13-what-it-means-and-what-it-does-not)
-14. [Method, data, reproducibility](#14-method-data-reproducibility)
+12. [Compound decomposition](#12-compound-decomposition)
+13. [Charts](#13-charts)
+14. [What it means and what it does not](#14-what-it-means-and-what-it-does-not)
+15. [Method, data, reproducibility](#15-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -250,7 +251,30 @@ The entropy result says adjacency carries a modest amount of information. Colloc
 
 > **Caveat.** With a corpus this small a pair needs only four occurrences to be tested, so the tail of the collocation list is fragile. The 18 doublings and the handful of spread pairs with more than 10 occurrences are the robust part.
 
-## 12. Charts
+## 12. Compound decomposition
+
+The largest open question from section 8 is whether the 600 rare head signs are compounds of a few dozen basic ones, which is what Pozdniakov's reduction to about 52 signs requires. This section tests it directly on Barthel's drawings, with controls in both directions.
+
+The method: take the 55 most frequent head signs as the basic set, and explain each of the 547 other drawings greedily by up to three basic drawings, each tried mirrored and at five scales, slid over the target by batched FFT correlation. Matching is tolerant: a target pixel counts as explained when it lies within a set distance of part ink, and a part pixel counts as a hit when it lies within that distance of target ink; a placement is scored by the F1 of those two rates and must explain at least a tenth of the target. A rare sign decomposes when 80 percent of its ink is explained with 70 percent precision. Two controls: the same fit with 55 random rare signs as templates, run three times, and a positive control fitting Barthel's own variant drawings of the basic signs with the basic templates, which ought to be explained by their own sign. The test was run at tolerances of two pixels and one pixel on a 48-pixel canvas.
+
+![Decomposition coverage](docs/img/decomposition.png)
+
+| Tolerance | Template set | Share of rare signs decomposing | Positive control at threshold | Variants matching their own sign first |
+|---|---|---|---|---|
+| 2 px | 55 most frequent signs | 77% | 100% | 33% |
+| 2 px | Random rare signs, three runs | 76% to 79% | | |
+| 1 px | 55 most frequent signs | 29% | 64% | 42% |
+| 1 px | Random rare signs, three runs | 22% to 27% | | |
+
+**The frequent signs explain the rare ones no better than random rare signs do.** At two pixels of tolerance almost everything decomposes, whichever 55 shapes serve as parts: the matcher is permissive enough to build any thin drawing from three pieces. At one pixel the rate drops to a third and the frequent set leads the random sets by about five points, which is the shared stroke vocabulary the shape-similarity section already showed, not composition from a basic inventory. A genuine compound system would put the frequent set far ahead of random shapes at every tolerance.
+
+**What the positive control says about the method.** At two pixels every variant of a basic sign is explained by the basic set, but only a third by its own sign first; at one pixel two thirds reach the threshold and 42 percent match themselves first. The matcher sees shapes but not identity well: a continuous shape space where many signs resemble many others, which is the same picture as section 9. That limits what any pixel-level method can say here, and a stroke-graph matcher would be the next step if the question is to be pressed further.
+
+**Consequence for the inventory.** Nothing in the drawings supports collapsing Barthel's 649 head signs toward 52 by treating the rare ones as compounds of the frequent ones. Section 8's conclusion stands: as drawn, the head-sign inventory is far too large for a syllabary, and if a small basic inventory exists it is not recoverable from shape by this route.
+
+> **Caveat.** A first version of this test scored placements by rigid pixel overlap and failed its positive control outright, at 42 percent coverage for a sign on its own variants. The tolerant score fixed that and exposed the opposite problem, so both tolerances are reported. The 2-pixel outputs are kept in out/ with a _tol2 suffix.
+
+## 13. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -262,7 +286,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 13. What it means and what it does not
+## 14. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -276,9 +300,9 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **What is the stacking order?** Chains of the small signs in the order 4, 2, 1, 9 could be a numeral system or an affix sequence. Counting how often each chain length occurs, and where in a list entry it falls, would separate the two.
 - **What does 380.1 do?** It never repeats and it separates word-length items. Whether its own attachments, 3 on G and K, 52 on N, correlate with the entries around it is testable.
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
-- **Do compounds decompose?** If Pozdniakov is right, most of the 600 rare head signs are built from a few dozen elements. A shape decomposition that matches sub-parts of drawings against the frequent signs would test that directly.
+- **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 14. Method, data, reproducibility
+## 15. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -310,6 +334,7 @@ python scripts/fetch_signs.py
 python scripts/sign_shapes.py
 python scripts/genre_entropy.py
 python scripts/collocations.py
+python scripts/decompose.py --tol 1    # about a minute per pass on 16 cores, 5 passes
 python scripts/charts.py
 ```
 
@@ -327,7 +352,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | fetch_signs.py, sign_shapes.py | Catalogue drawings, similarity, look-alike classes, contact sheet |
 | genre_entropy.py | Vocabulary similarity of sides, clusters, 2-D map coordinates; unigram and conditional entropy per layer |
 | collocations.py | Sign pairs and triples scored by log-likelihood ratio and PMI, spread across sides, stroke chains and their hosts |
-| charts.py | The seven charts in docs/img |
+| decompose.py | Tolerant template decomposition of rare signs into frequent ones, parallel, with random and positive controls; options --tol, --limit, --controls, --basic, --workers |
+| charts.py | The eight charts in docs/img |
 
 ### Conventions
 
