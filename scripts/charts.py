@@ -477,4 +477,29 @@ if (out / "tracings_planning.csv").exists():
     ax.grid(axis="y", visible=False)
     finish(fig, ax, "Do glyphs narrow toward the end of a line?",
            "Slope of width, relative to the line's median, against position along the line; sides with at least four aligned lines", "planning.png")
+# 18 periodicity of four sides ----------------------------------------------
+if (out / "untyped_autocorr.csv").exists():
+    rows = read("untyped_autocorr.csv")
+    picks = [("Aa", "Tahua side a, untyped"), ("Bv", "Aruku Kurenga verso, untyped"), ("Hv", "Great Santiago verso, copied text"), ("Gr", "Small Santiago recto, delimited list")]
+    fig, axes = plt.subplots(2, 2, figsize=(10, 6), sharex=True, sharey=True)
+    for ax, (side, label) in zip(axes.ravel(), picks):
+        pts = [r for r in rows if r["side"] == side]
+        lags = [int(r["lag"]) for r in pts]; z = [float(r["z"]) for r in pts]
+        ax.bar(lags, z, width=0.8, color=[C[0] if v >= 3 else "#c3c2b7" for v in z])
+        ax.axhline(3, color=AXIS, lw=1)
+        best = max(range(len(z)), key=lambda i: z[i])
+        ax.text(lags[best] + 1.2, z[best], f"lag {lags[best]}", va="center", color=INK2, fontsize=9)
+        ax.set_title(label, pad=6, fontsize=10.5)
+        ax.grid(axis="x", visible=False); ax.tick_params(length=0)
+    for ax in axes[1]:
+        ax.set_xlabel("Distance between two positions, in signs")
+    for ax in axes[:, 0]:
+        ax.set_ylabel("z-score of same-sign recurrence")
+    fig.suptitle("Signs recur at short fixed distances on every side; no side has a verse-length period", x=0.02, ha="left",
+                 fontsize=13, fontweight="semibold", color=INK, y=1.02)
+    fig.text(0.02, 0.955, "How often the sign at one position equals the sign a fixed distance later, against 200 shuffles; bars above z 3 in colour",
+             color=INK2, fontsize=9.5)
+    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.savefig(img / "periodicity.png", bbox_inches="tight", pad_inches=0.25)
+    plt.close(fig)
 print("charts written to", img)

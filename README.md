@@ -84,9 +84,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 23. [A decipherment attempt, and why it cannot work yet](#23-a-decipherment-attempt-and-why-it-cannot-work-yet)
 24. [Attachments as particles](#24-attachments-as-particles)
 25. [The glyphs as carved](#25-the-glyphs-as-carved)
-26. [Charts](#26-charts)
-27. [What it means and what it does not](#27-what-it-means-and-what-it-does-not)
-28. [Method, data, reproducibility](#28-method-data-reproducibility)
+26. [The untyped sides](#26-the-untyped-sides)
+27. [Charts](#27-charts)
+28. [What it means and what it does not](#28-what-it-means-and-what-it-does-not)
+29. [Method, data, reproducibility](#29-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -625,7 +626,7 @@ One row per side with at least 40 legible units. "Parallel elsewhere" is the sha
 | Sb | Great Washington | 304 | 0% |  | 2 | 1% |  | Hr (0.62) |  | isolated, with refrains |
 | Ta | Honolulu 1 | 110 | 0% |  |  | 29% |  | Ia (0.53) |  | triadic, marked by sign 76 |
 
-Read as a whole, the corpus has five kinds of text and one residue. Nine sides are copies within two families. Five carry delimited lists, one of them the Mamari side that also holds the calendar. Two are the triadic texts marked by sign 76. Three isolated texts carry their own refrains, Keiti's recto among them. Twelve sides, including both sides of Tahua, the largest tablet, remain isolated and untyped: nothing they contain recurs in the corpus at the resolution of these tests, which makes them the least understood texts and the most rewarding to look at next.
+Read as a whole, the corpus has five kinds of text and one residue. Nine sides are copies within two families. Five carry delimited lists, one of them the Mamari side that also holds the calendar. Two are the triadic texts marked by sign 76. Three isolated texts carry their own refrains, Keiti's recto among them. Twelve sides, including both sides of Tahua, the largest tablet, remain isolated and untyped: nothing they contain recurs in the corpus at the resolution of these tests. Section 26 examines them and finds ordinary texts in the common idiom that were never copied, not a hidden genre.
 
 ### The signs
 
@@ -840,7 +841,36 @@ The odd and even columns are shown because they prompted a test, reported below,
 
 > **Caveat.** Everything here is measured on Barthel's tracings, which are drawings after photographs and rubbings; proportions are presumably faithful but a tracer's hand is between us and the wood. Segmentation by count alignment is wrong wherever glyphs touch, and the quality flag is coarse. The positional analysis pools lines of different lengths, and the parity split has few lines per side; both slopes and their split should be re-derived from photographs before anyone builds on them.
 
-## 26. Charts
+## 26. The untyped sides
+
+*In plain words: twelve tablet sides, Tahua's two among them, matched nothing else in the corpus and got no label in the catalogue of section 19. Are they a kind of text we have not seen, or ordinary texts that simply were never copied? We ran every side through a new battery of tests that the earlier passes could have missed, and read the twelve against the nineteen typed sides.*
+
+Four tests, on all 31 sides with at least 40 units. Periodicity: how often the sign at one position equals the sign a fixed distance later, for distances up to 60, against 200 shuffles; a peak at a distance means repeats at a fixed interval, the signature of verse. Lines: whether the transliterated lines are units of the text, measured as how far the line-initial signs depart from the side's background against random cuts. Internal repeats: the share of a side covered by runs of three signs that recur within it with one substitution allowed, against the same on the shuffled side. Affinity: mean vocabulary similarity to each typed group, from section 10's matrix. Then the profile of strokes, attachments, sign 76 and doubling, and the signs each side over-uses.
+
+![Periodicity of four sides](docs/img/periodicity.png)
+
+| Side | Units | Strongest period | z | Internal repeats, side / shuffled | Nearest group | Over-used signs |
+|---|---|---|---|---|---|---|
+| Aa, Tahua | 678 | 2 | +18 | 55% / 36% | copied H/P/Q | 4, 22, 65, 11 at 13 times their corpus rate |
+| Ab, Tahua | 659 | 2 | +11 | 76% / 66% | copied H/P/Q | 742, 741 |
+| Bv, Aruku Kurenga | 510 | 2 | +10 | 52% / 39% | copied H/P/Q | 54, 405, 320 |
+| Gv, Small Santiago | 243 | 2 | +11 | 44% / 32% | copied H/P/Q | 33 at 23 times, and sign 76 on 17% of units |
+| Ra, Small Washington | 194 | 1 | +4 | 56% / 53% | copied H/P/Q | 20, 40 |
+| Rb, Small Washington | 161 | 2 | +5 | 41% / 44% | copied H/P/Q | 680 at 22 times |
+| Da, Db, La, Ma, Nb, Oa | 44 to 106 | 1 to 3 | +4 to +7 | mixed | copied H/P/Q, Ma nearer refrains | La: 51 at 126 times; Ma and Oa: the hand 6 |
+| Typed sides, for comparison | | 1 to 6, Ta 41 | +3 to +16 | excess of 0 to 23 points | | |
+
+- **No side, typed or untyped, has a verse-length period.** Every side peaks at a distance of 1 or 2, which is doubling and the alternation device of section 5, and nothing recurs at fixed distances of 5 to 60 beyond chance. The one exception is Small Santiago's recto at distance 6, which is the rhythm of its delimited list. Whatever these texts are, they are not stanzas of fixed length.
+- **Tahua is the most alternation-heavy text in the corpus.** Its side a repeats a sign at distance 2 with a z-score of 18, above every copied text, with harmonics at 4, 6 and 8, and the signs it over-uses, 4, 22, 65 and 11, are the heads and fillers of the alternating series found on its first line in section 5. The largest tablet is built on the A-x-A-y device more thoroughly than any other object. It also shows the corpus's one hint of a longer period, a weak secondary peak at distances of 22 to 24 signs with z near 5, which is about the length of a Tahua line's third; whether that is a refrain interval is a question for a closer look at that tablet.
+- **Lines are not units of text anywhere.** No side's line-initial signs differ from its background beyond what random cuts produce; the closest are a few typed sides at p 0.05 to 0.09. The carver's line was a physical unit, not a textual one, on every object.
+- **The untyped sides are as internally repetitive as the typed ones.** Their loose internal repeats exceed the shuffled baseline by the same margins as the copied and list texts do. They are structured; the structure is simply not shared with any other object.
+- **Their vocabulary is the common one.** Eleven of twelve sit nearest the H, P, Q group by sign frequencies, which is where the bulk of the corpus sits, not near the lists, the triads or the refrains. They are not a separate genre by vocabulary; they are texts in the general idiom, each marked by its own repeated sign.
+
+**So the residue is not a hidden genre.** The twelve sides are ordinary compositions in the common vocabulary, using the common devices, each built around a sign or two of its own, and never copied. Their isolation is a fact about transmission, not about kind. Small Santiago's verso is the one with a claim to something more: a sixth of its units carry sign 76, which puts it between the general texts and the Staff, as section 14 also found.
+
+> **Caveat.** The periodicity test uses head signs and exact identity, so a refrain written with varying attachments or substituted signs would register weakly; the loose-repeat test partly covers that. The line test has few lines per side and low power. Vocabulary affinity to the H, P, Q group is expected for any text in the general idiom, since that group is the largest and most typical, and says little on its own.
+
+## 27. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -852,7 +882,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 27. What it means and what it does not
+## 28. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -868,7 +898,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows, and section 9 shows stroke-based matching does no better on these drawings. Pressing the question needs larger images of the signs than Barthel's catalogue provides.
 
-## 28. Method, data, reproducibility
+## 29. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -933,6 +963,7 @@ python scripts/fetch_tracings.py       # Barthel's tracings from Commons, at a p
 python scripts/tracings.py
 python scripts/tracings_analysis.py
 python scripts/parity_check.py
+python scripts/untyped.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -971,7 +1002,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | fetch_tracings.py, tracings.py | Barthel's tracings of 31 sides from Commons; lines and glyph instances cut and aligned to the transliteration, with a quality flag per line |
 | tracings_analysis.py | Per-sign variation, cross-side hand penalties, and glyph width along the line with end-dropping and line-parity checks |
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
-| charts.py | The seventeen charts in docs/img |
+| untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |
+| charts.py | The eighteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### How to cite
