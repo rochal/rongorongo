@@ -415,7 +415,17 @@ The Rapa Nui sample is the set of recitations Ure Vaeiko gave in 1886, printed i
 - **Doubling is in the same range.** Reduplication and immediate repeats make up about 4 percent of the Rapa Nui tokens and about 7 percent of the rongorongo units. The script doubles somewhat more than the language reduplicates, which is compatible with reduplication being written and with some doubling being something else, such as tallying.
 - **The particle layer is thinner in the script.** In the recitations the fifteen commonest words are the grammatical particles te, e, i, ki, a, no, to and a few nouns, and they carry a third of the text. The fifteen commonest units carry under a quarter. Either the script leaves particles unwritten, which early and mixed scripts commonly do, or the attached components carry them, which is what the affix test and the entropy of components suggested.
 
-> **Caveat.** This is one small sample of one genre, transcribed by ear in 1886 and OCR'd from an 1891 print. The direction of each difference is robust to the noise; the exact percentages are not. A cleaner Rapa Nui text of comparable genre would sharpen all three comparisons.
+**A second source: the lexicon.** Roussel's 1908 vocabulary, the largest early record of the language, survives in English in Churchill's 1912 book, which is public domain. Parsed from its OCR it yields 1,645 headwords after English intrusions are filtered, with a residue of a few percent the filters miss. It is a list of word types, not running text, so it measures the language's stock of words rather than their use, and the two differ in the expected way: headwords average 3.4 syllables where running-text words average 2.1, because the short particles that dominate speech are few in a dictionary and the long compound words are many. Three things it settles that the recitations could not:
+
+| | Lexicon, 1,645 headwords |
+|---|---|
+| Distinct (C)V syllables | 47, against 48 in the recitations; only *ngu* differs |
+| Headwords that are full reduplications | 16.7% |
+| Headwords of four or more syllables | 47% |
+
+The syllable count is the one that matters for section 8: an independent source built from a different genre by a different hand gives the same inventory of about 47 syllables, so the figure the syllabary argument rests on is not an artefact of one small text. The reduplication share says the language builds a sixth of its vocabulary by doubling, which is the background against which the script's doubling of signs should be read. Thomson's own word list in the 1891 report is set in two columns that the OCR interleaved and could not be recovered.
+
+> **Caveat.** This is one small sample of one genre, transcribed by ear in 1886 and OCR'd from an 1891 print. The direction of each difference is robust to the noise; the exact percentages are not. A cleaner Rapa Nui text of comparable genre would sharpen all three comparisons; the lexicon confirms the syllable inventory but cannot supply the running text that sections 13 and 23 need.
 
 ## 14. The list format against the creation chant
 
@@ -720,7 +730,7 @@ The method is the one used on Ugaritic against Hebrew. A syllable bigram model o
 
 - **The positive control fails, and that is the finding.** Given a real Rapa Nui text as unknown signs, the search recovers 5 percent of the syllables. Worse, the assignment it finds scores better than the true one by a wide margin: with 46 syllables, a model from 2,300 syllables, and a text of 1,100, there are many false assignments that read "more like Rapa Nui" than Rapa Nui does. The search is not finding truth; it is finding whatever the thin model rewards.
 - **So the sign scores mean nothing either way.** The tablets gain 0.087 over their shuffles under Rapa Nui and 0.040 under English, and forward beats reversed by 0.008. Those numbers are of the size the search produces from any structured sequence, and smaller than what it produces from real Rapa Nui, which it also gets wrong. No syllabic reading of the frequent signs can be supported or refuted by this route at this scale.
-- **What it would take.** The method works on Ugaritic because the related language, Hebrew, has a corpus of millions of words and the cipher text has thousands of distinct words to constrain the mapping. Here the language model rests on three thousand syllables of transcribed recitation and the sign corpus has fewer than three thousand pairs among its frequent signs. A Rapa Nui model from tens of thousands of syllables of the right genre is the minimum before the search could recover even a known text, and only then would its answer on the tablets be worth reading.
+- **What it would take.** The method works on Ugaritic because the related language, Hebrew, has a corpus of millions of words and the cipher text has thousands of distinct words to constrain the mapping. Here the language model rests on three thousand syllables of transcribed recitation and the sign corpus has fewer than three thousand pairs among its frequent signs. A Rapa Nui model from tens of thousands of syllables of the right genre is the minimum before the search could recover even a known text, and only then would its answer on the tablets be worth reading. A search for more public-domain Rapa Nui text turned up a large lexicon (section 13) but no further running text: Jaussen's 1894 volume is a scan of handwritten notes whose OCR is noise, Routledge's 1919 book holds no Rapa Nui passages, and Métraux's 1940 ethnology, the one rich source, is available only behind an interactive viewer and is in copyright outside the United States.
 
 The best assignment the search found is written to `out/decipher_mapping.csv` for completeness. It should not be read; it is one of many that score as well, and the positive control shows such assignments are wrong even when the language is right.
 
@@ -798,6 +808,8 @@ python scripts/collocations.py
 python scripts/decompose.py --tol 1    # about a minute per pass on 16 cores, 5 passes
 python scripts/fetch_rapanui.py        # Thomson 1891 OCR text, public domain
 python scripts/rapanui.py
+python scripts/fetch_lexicon.py        # Churchill 1912 with Roussel's vocabulary; Routledge 1919
+python scripts/lexicon.py
 python scripts/chant.py
 python scripts/staff_chain.py
 python scripts/staff_dividers.py
@@ -829,6 +841,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | collocations.py | Sign pairs and triples scored by log-likelihood ratio and PMI, spread across sides, stroke chains and their hosts |
 | decompose.py | Tolerant template decomposition of rare signs into frequent ones, parallel, with random and positive controls; options --tol, --limit, --controls, --basic, --workers |
 | fetch_rapanui.py, rapanui.py | Thomson 1891 OCR text; word length, reduplication and frequent-item comparison against rongorongo units |
+| fetch_lexicon.py, lexicon.py | Churchill 1912 and Routledge 1919 OCR; a Rapa Nui lexicon of headwords from Roussel's vocabulary, with syllable inventory, length and reduplication over types |
 | chant.py | Entry shape of the 1886 creation chant against the 380.1 lists and the sign-76 segmentation of the Staff, Gv and Ta, with a shuffled null |
 | staff_chain.py | Chaining and parent-repetition of sign-76 segments on the Staff, Gv, Ta and in the chant, against shuffled order; slot vocabularies |
 | staff_dividers.py | Stretches between the Staff's carved dividers: length, alignment with the 76 triads, openers and closers, cohesion, repeats, against random dividers |
@@ -877,6 +890,7 @@ Line ids are Barthel's: object letter, side, line (Ev04 = Keiti verso line 4). A
 - Fischer, S. R. 1997. *Rongorongo: The Easter Island Script.* Oxford.
 - CEIPP transliteration and Barthel sign catalogue: http://kohaumotu.org/rongorongo_org/
 - Jaussen, T. 1893. L'île de Pâques: historique, écriture, et répertoire des signes des tablettes ou bois d'hibiscus intelligents. *Bulletin de Géographie Historique et Descriptive.* Public domain; Metoro's readings as transcribed line by line on kohaumotu.org.
+- Churchill, W. 1912. *Easter Island: the Rapanui speech and the peopling of southeast Polynesia.* Carnegie Institution. Public domain; carries Roussel, H. 1908, Vocabulaire de la langue de l'Île-de-Pâques ou Rapanui, *Le Muséon* 9, in English. OCR text from the Internet Archive, item easterislandrapa00churrich.
 - Thomson, W. J. 1891. Te Pito te Henua, or Easter Island. Report of the U.S. National Museum for 1889. Public domain; OCR text from the Internet Archive, item cu31924105726222.
 - Barthel tracings: Wikimedia Commons files Barthel_Ev.png, Barthel_Gr.png, Barthel_Hv.png, Barthel_Ra.jpg.
 - Provenance and line counts of each object: the Wikipedia articles on the individual rongorongo texts.

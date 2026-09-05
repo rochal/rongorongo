@@ -36,6 +36,9 @@ steps += [
 if args.refetch or not (root / "data" / "rapanui" / "thomson1891_djvu.txt").exists():
     steps.append(["fetch_rapanui.py"])
 steps.append(["rapanui.py"])
+if args.refetch or not (root / "data" / "rapanui" / "sources" / "churchill1912.txt").exists():
+    steps.append(["fetch_lexicon.py"])
+steps.append(["lexicon.py"])
 steps.append(["chant.py"])
 steps.append(["staff_chain.py"])
 steps.append(["staff_dividers.py"])
