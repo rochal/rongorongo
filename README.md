@@ -75,7 +75,7 @@ Nothing here says what any sign means. What it says is what kind of thing the te
 | Was Metoro reading? | No, but consistent; a second reciter contradicts him | 17, 22 |
 | Can the frequent signs be assigned syllables statistically? | Bounded: not with any Rapa Nui corpus that exists | 23 |
 | Are the twelve isolated sides a hidden genre? | Answered no | 26 |
-| Whose hand carved which tablet? | Open; needs photographs | 25 |
+| Whose hand carved which tablet? | Open; needs photographs, and the white-filled prints defeated a first segmentation attempt | 25 |
 | What does any sign mean? | Open, and not addressed | |
 
 ## How to read this report
@@ -872,6 +872,14 @@ The odd and even columns are shown because they prompted a test, reported below,
 
 > **Caveat.** Everything here is measured on Barthel's tracings, which are drawings after photographs and rubbings; proportions are presumably faithful but a tracer's hand is between us and the wood. Segmentation by count alignment is wrong wherever glyphs touch, and the quality flag is coarse. The positional analysis pools lines of different lengths, and the parity split has few lines per side; both slopes and their split should be re-derived from photographs before anyone builds on them.
 
+### The prints: a first attempt, and why it stopped
+
+The step beyond tracings is photographs. Commons holds, for every object that has a tracing, a print in which the glyphs were filled white for legibility, mostly from Chauvet's 1935 volume, plus a few rubbings and one unretouched photograph; the Keiti photograph at the head of this report is one of them. Thirty-one were fetched and put through the section 25 pipeline with two changes: the object is first located as the largest dark region, and the lines are cut by dividing its inked extent equally and refining each cut to the nearest valley of the row profile.
+
+It did not work, and the reasons are recorded so the next attempt starts further on. The prints are not one kind of image: some show white glyphs on dark wood, others dark glyphs on a bright ground, several at a quarter of the resolution of the rest, and the paper margin, wood grain and wear inside the object all pass a brightness threshold. Only two sides produced lines that aligned by count, Keiti's verso and Aruku Kurenga's verso, and a labelled strip of Keiti's Ev4 showed that even those cuts were wrong: the count matched by coincidence and the boxes held fragments. The fidelity test that was the point of the milestone, print glyph against tracing glyph, therefore returned nothing usable: a width correlation of -0.07 and a similarity below that of unrelated signs.
+
+What it would take: per-print polarity and contrast handling; line cutting guided by registration of the print to its tracing, which already knows where every glyph is, rather than by the print's own row profile; and a checked sample of cuts before any statistic. That is a project of its own. The scripts and the fetched prints are in place for it, and no number from the prints is used anywhere in this report.
+
 ## 26. The untyped sides
 
 *In plain words: twelve tablet sides, Tahua's two among them, matched nothing else in the corpus and got no label in the catalogue of section 19. Are they a kind of text we have not seen, or ordinary texts that simply were never copied? We ran every side through a new battery of tests that the earlier passes could have missed, and read the twelve against the nineteen typed sides.*
@@ -1033,6 +1041,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | attachments.py | Concentration and density of the attached components against the Rapa Nui particle class and content words |
 | fetch_tracings.py, tracings.py | Barthel's tracings of 31 sides from Commons; lines and glyph instances cut and aligned to the transliteration, with a quality flag per line |
 | tracings_analysis.py | Per-sign variation, cross-side hand penalties, and glyph width along the line with end-dropping and line-parity checks |
+| fetch_photos.py, photos.py | The white-filled prints and rubbings from Commons, and a first segmentation attempt with a print-to-tracing fidelity check; results not usable yet, see section 25 |
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |
 | tahua_period.py | What carries Tahua's recurrence at 22 to 24 signs: driving signs, returning groups, gap stability, line positions, and side b |
