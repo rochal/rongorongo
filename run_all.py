@@ -30,6 +30,7 @@ steps += [
     ["parallels.py", "--merge", "out/allograph_merge.csv", "--suffix", "_merged"],
     ["inventory.py"],
     ["sign_shapes.py"],
+    ["stroke_shapes.py"],
     ["genre_entropy.py"],
     ["collocations.py"],
 ]

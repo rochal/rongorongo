@@ -321,6 +321,20 @@ The closest pairs, from the contact sheet the script writes:
 
 > **Caveat.** The descriptor is crude and the recall figure says so: most of Barthel's own variant pairs fall below the strict threshold, so the merge is conservative. A few classes remain doubtful, such as the ovals 22 to 24 grouped with the fish 700, whose drawing is an elongated oval. This measures similarity of Barthel's type drawings, not of the signs as carved, which vary more.
 
+### A stroke-based descriptor, tested
+
+The natural objection to a pixel descriptor on line drawings is that it compares ink where it should compare strokes. That was tried, with scikit-image's skeletonisation, in four forms: counts and histograms of the skeleton's branches, endpoints, junctions and loops; the skeleton kept as an image, blurred, with gradient histograms, which removes stroke-width differences; shape contexts, the standard matcher for handwritten symbols, on points sampled along the skeleton; and the pixel and skeleton descriptors combined. All five were calibrated on the same test, Barthel's 130 variant pairs of one sign against 6,000 random pairs of different signs.
+
+| Descriptor | Recall at the 99.5th percentile | At the 95th | Rank AUC |
+|---|---|---|---|
+| Pixel, as above | 35% | 65% | 0.82 |
+| Pixel plus skeleton | 31% | 65% | 0.82 |
+| Skeleton image | 26% | 58% | 0.81 |
+| Shape contexts | 18% | 44% | 0.78 |
+| Stroke counts and histograms | 5% | 22% | 0.69 |
+
+None beats the pixel descriptor, and the one that discards arrangement for counts is far worse. The lesson is about the drawings rather than the method: at 40 pixels a variant differs from its sign in the placement and proportion of limbs, which the silhouette already captures, not in stroke width or topology, which the skeleton isolates. A matcher that would do better needs either larger drawings or a learned similarity, and Barthel's 130 variant pairs are too few to train one. The look-alike classes, the decomposition null of section 12 and the instance variation of section 25 therefore stand on the pixel descriptor as the best available, with its 35 percent recall as the stated limit. The recall here is higher than the 22 percent quoted above because this calibration pairs drawings rather than signs; the ranking is what matters.
+
 ## 10. Genre by vocabulary, and entropy
 
 *In plain words: two questions. First, which tablets use the same vocabulary of signs, even when they do not copy each other, the way two cookbooks share words that a cookbook and a legal contract do not? Second, how much does one sign let you guess the next? In real text the previous word narrows what can follow; in a random list it does not.*
@@ -387,7 +401,7 @@ The method: take the 55 most frequent head signs as the basic set, and explain e
 
 **The frequent signs explain the rare ones no better than random rare signs do.** At two pixels of tolerance almost everything decomposes, whichever 55 shapes serve as parts: the matcher is permissive enough to build any thin drawing from three pieces. At one pixel the rate drops to a third and the frequent set leads the random sets by about five points, which is the shared stroke vocabulary the shape-similarity section already showed, not composition from a basic inventory. A genuine compound system would put the frequent set far ahead of random shapes at every tolerance.
 
-**What the positive control says about the method.** At two pixels every variant of a basic sign is explained by the basic set, but only a third by its own sign first; at one pixel two thirds reach the threshold and 42 percent match themselves first. The matcher sees shapes but not identity well: a continuous shape space where many signs resemble many others, which is the same picture as section 9. That limits what any pixel-level method can say here, and a stroke-graph matcher would be the next step if the question is to be pressed further.
+**What the positive control says about the method.** At two pixels every variant of a basic sign is explained by the basic set, but only a third by its own sign first; at one pixel two thirds reach the threshold and 42 percent match themselves first. The matcher sees shapes but not identity well: a continuous shape space where many signs resemble many others, which is the same picture as section 9. That limits what any pixel-level method can say here. Stroke-based matching was tried afterwards (section 9, last subsection) and did not improve on pixels, so the question cannot be pressed further with these drawings.
 
 **Consequence for the inventory.** Nothing in the drawings supports collapsing Barthel's 649 head signs toward 52 by treating the rare ones as compounds of the frequent ones. Section 8's conclusion stands: as drawn, the head-sign inventory is far too large for a syllabary, and if a small basic inventory exists it is not recoverable from shape by this route.
 
@@ -798,7 +812,7 @@ Barthel's tracings of 31 sides were fetched from Wikimedia Commons, cut into lin
 
 **Hands cannot be tested on tracings, and the result says so.** For every pair of sides sharing enough signs, the similarity of the same sign across the two sides was compared with its similarity within each. If different carvers drew a sign differently, the cross-side penalty would be large for some pairs and near zero for sides by one hand. It is near zero for all 160 pairs, between -0.005 and +0.056, and the copy families are no closer than unrelated sides. That is the expected result for drawings all made by one person: the hand these tracings record is Barthel's. Scribal hands need photographs.
 
-**Variation per sign is real but the descriptor can barely see it.** At this resolution a glyph is 25 to 40 pixels tall, and the shape descriptor that separated Barthel's type drawings in section 9 gives instances of one sign a similarity of 0.19 to 0.31 against 0.21 for instances of different signs. The most consistent signs as drawn, 56, 760, 608, 680 and 92, and the least, 77, 15 and 3, are listed in `out/tracings_variation.csv`, but the ranking is weak evidence. A stroke-based descriptor is the next step, as section 12 also concluded.
+**Variation per sign is real but the descriptor can barely see it.** At this resolution a glyph is 25 to 40 pixels tall, and the shape descriptor that separated Barthel's type drawings in section 9 gives instances of one sign a similarity of 0.19 to 0.31 against 0.21 for instances of different signs. The most consistent signs as drawn, 56, 760, 608, 680 and 92, and the least, 77, 15 and 3, are listed in `out/tracings_variation.csv`, but the ranking is weak evidence. A stroke-based descriptor was tried and did not improve on this one (section 9, last subsection); larger images of the glyphs, from photographs, are what the variation question needs.
 
 **Glyphs narrow along the line, on most sides.** Within each aligned line, glyph width relative to the line's median was regressed on position along the line; height was regressed the same way.
 
@@ -852,7 +866,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **What is the stacking order?** Chains of the small signs in the order 4, 2, 1, 9 could be a numeral system or an affix sequence. Counting how often each chain length occurs, and where in a list entry it falls, would separate the two.
 - **What does 380.1 do?** It never repeats and it separates word-length items. Whether its own attachments, 3 on G and K, 52 on N, correlate with the entries around it is testable.
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
-- **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
+- **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows, and section 9 shows stroke-based matching does no better on these drawings. Pressing the question needs larger images of the signs than Barthel's catalogue provides.
 
 ## 28. Method, data, reproducibility
 
@@ -893,6 +907,7 @@ python scripts/parallels.py --merge out/allograph_merge.csv --suffix _merged
 python scripts/inventory.py
 python scripts/fetch_signs.py
 python scripts/sign_shapes.py
+python scripts/stroke_shapes.py        # needs scikit-image
 python scripts/genre_entropy.py
 python scripts/collocations.py
 python scripts/decompose.py --tol 1    # about a minute per pass on 16 cores, 5 passes
@@ -934,6 +949,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | allographs.py | Substitution pairs, component swaps, merge tables |
 | inventory.py | Three inventories with coverage thresholds and Zipf slopes |
 | fetch_signs.py, sign_shapes.py | Catalogue drawings, similarity, look-alike classes, contact sheet |
+| stroke_shapes.py | Skeleton-based descriptors (stroke counts, skeleton image, shape contexts) calibrated against the pixel descriptor on Barthel's variant pairs |
 | genre_entropy.py | Vocabulary similarity of sides, clusters, 2-D map coordinates; unigram and conditional entropy per layer |
 | collocations.py | Sign pairs and triples scored by log-likelihood ratio and PMI, spread across sides, stroke chains and their hosts |
 | decompose.py | Tolerant template decomposition of rare signs into frequent ones, parallel, with random and positive controls; options --tol, --limit, --controls, --basic, --workers |
