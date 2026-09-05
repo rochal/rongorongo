@@ -40,7 +40,8 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 - **Signs keep company.** The same sign is often doubled, and certain pairs travel together across tablets, which is what words and phrases do and random marks do not.
 - **Against a real Rapa Nui text,** recorded in 1886, glyphs are shorter than words, and the script seems to leave out the small grammatical words or to hide them in the attached marks.
 - **The Santiago Staff is built of three-sign groups,** each marked by one attached sign, and the carver's own dividing marks respect those groups. But the groups do not behave like the entries of a family tree, which is what one scholar claimed they were. They look more like the lines of a long chant.
-- **The islander who chanted over the tablets in 1873 was not reading them,** but he did give each sign shape the same name almost every time, so his chant is a usable record of which signs he saw as the same.
+- **The islander who chanted over the tablets in 1873 was not reading them,** but he did give each sign shape the same name almost every time, so his chant is a usable record of which signs he saw as the same. A second islander, reciting over the same tablet thirteen years later, produced words with no relation to his.
+- **A computer cannot crack it yet, and we can say why.** The method that decoded an ancient script against a related language was tried on the commonest signs against Rapa Nui. It fails its own test: given a real Rapa Nui text disguised as signs, it cannot recover the text, because the Rapa Nui sample available is far too small to constrain the answer. Until a much larger Rapa Nui corpus exists, no statistical decipherment of the frequent signs can be trusted, ours or anyone's.
 
 Nothing here says what any sign means. What it says is what kind of thing the texts are and how they are put together, which is the ground a real decipherment would have to stand on.
 
@@ -80,9 +81,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 20. [Which findings survive a change of inventory](#20-which-findings-survive-a-change-of-inventory)
 21. [The Mamari calendar, rebuilt](#21-the-mamari-calendar-rebuilt)
 22. [Two islanders on one tablet](#22-two-islanders-on-one-tablet)
-23. [Charts](#23-charts)
-24. [What it means and what it does not](#24-what-it-means-and-what-it-does-not)
-25. [Method, data, reproducibility](#25-method-data-reproducibility)
+23. [A decipherment attempt, and why it cannot work yet](#23-a-decipherment-attempt-and-why-it-cannot-work-yet)
+24. [Charts](#24-charts)
+25. [What it means and what it does not](#25-what-it-means-and-what-it-does-not)
+26. [Method, data, reproducibility](#26-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -701,7 +703,30 @@ Thomson's report says which photograph each of Ure Vaeiko's recitations answered
 
 > **Caveat.** The measure is vocabulary overlap, which would miss two readings that agreed in meaning but not in words, and the two short songs give little to compare. The Keiti pair rests on 532 words against 1,240, enough to show an effect of the size Metoro's own consistency produces, had there been one.
 
-## 23. Charts
+## 23. A decipherment attempt, and why it cannot work yet
+
+*In plain words: this is the closest thing to a decipherment the evidence allows, done the way computers have cracked substitution ciphers and, once, an ancient script. Treat the forty commonest signs as unknown syllables and search for the assignment under which the tablets read most like Rapa Nui. The result is not a reading. It is a measurement of whether such a search could succeed at all with this much text, and the answer is no: the search cannot even recover Rapa Nui from Rapa Nui.*
+
+The method is the one used on Ugaritic against Hebrew. A syllable bigram model of Rapa Nui was built from the 1886 recitations, about 2,900 syllables in 46 types. The forty most frequent head signs, 2,593 adjacent pairs among them with copies dropped, were assigned one syllable each, no two alike, by simulated annealing to maximise the log-likelihood of the sign sequence under the model, twelve restarts of forty thousand steps. Four controls decide what the score means: the sequence shuffled, which keeps sign frequencies and destroys order; the sequence reversed; the wrong language, English letter bigrams from Thomson's own prose, on the 24 signs a 26-letter alphabet allows; and a positive control in which a genuine Rapa Nui recitation, Apai, is treated as unknown signs against a model trained on the other recitations, to see whether the search recovers the truth when the truth is there.
+
+| Condition | Log-likelihood per pair | Gain over shuffled |
+|---|---|---|
+| Real signs under Rapa Nui, 40 signs | -3.660 | +0.087 |
+| Real signs reversed, Rapa Nui | -3.667 | |
+| Real signs under Rapa Nui, 24 signs | -3.388 | +0.071 |
+| Real signs under English letters, 24 signs | -3.431 | +0.040 |
+| Positive control, Apai as unknown signs, searched | -3.523 | +0.148 |
+| Positive control, Apai under the true assignment | -3.782 | |
+
+- **The positive control fails, and that is the finding.** Given a real Rapa Nui text as unknown signs, the search recovers 5 percent of the syllables. Worse, the assignment it finds scores better than the true one by a wide margin: with 46 syllables, a model from 2,300 syllables, and a text of 1,100, there are many false assignments that read "more like Rapa Nui" than Rapa Nui does. The search is not finding truth; it is finding whatever the thin model rewards.
+- **So the sign scores mean nothing either way.** The tablets gain 0.087 over their shuffles under Rapa Nui and 0.040 under English, and forward beats reversed by 0.008. Those numbers are of the size the search produces from any structured sequence, and smaller than what it produces from real Rapa Nui, which it also gets wrong. No syllabic reading of the frequent signs can be supported or refuted by this route at this scale.
+- **What it would take.** The method works on Ugaritic because the related language, Hebrew, has a corpus of millions of words and the cipher text has thousands of distinct words to constrain the mapping. Here the language model rests on three thousand syllables of transcribed recitation and the sign corpus has fewer than three thousand pairs among its frequent signs. A Rapa Nui model from tens of thousands of syllables of the right genre is the minimum before the search could recover even a known text, and only then would its answer on the tablets be worth reading.
+
+The best assignment the search found is written to `out/decipher_mapping.csv` for completeness. It should not be read; it is one of many that score as well, and the positive control shows such assignments are wrong even when the language is right.
+
+> **Caveat.** The Rapa Nui model is in-sample for the main run, since the same recitations trained it; the positive control holds Apai out. Syllabification is (C)V by rule, so long vowels count as two syllables and OCR slips add noise. None of this changes the conclusion, which the positive control carries on its own.
+
+## 24. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -713,7 +738,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 24. What it means and what it does not
+## 25. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -729,7 +754,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 25. Method, data, reproducibility
+## 26. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -783,6 +808,7 @@ python scripts/synthesis.py
 python scripts/robustness.py
 python scripts/mamari_calendar.py
 python scripts/two_islanders.py
+python scripts/decipher.py             # about 3 minutes
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -812,6 +838,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | robustness.py | The headline measures recomputed under six candidate inventories, with a stability verdict for each |
 | mamari_calendar.py | The Mamari calendar lines classified into crescents, marker groups and other signs; runs and counts against a lunar month |
 | two_islanders.py | Vocabulary similarity between Ure Vaeiko's 1886 recitations and Metoro's 1873 chants, same-tablet pairs against the rest |
+| decipher.py | One-to-one assignment of the frequent signs to Rapa Nui syllables by annealing, with shuffled, reversed, wrong-language and positive controls |
 | charts.py | The fifteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
