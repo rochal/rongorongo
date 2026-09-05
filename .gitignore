@@ -8,3 +8,5 @@ data/corpus.json
 data/signs/html/
 data/signs/gif/
 data/signs/png/
+out/*.log
+out/_tmp/

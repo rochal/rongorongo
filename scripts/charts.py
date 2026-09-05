@@ -218,29 +218,42 @@ plt.close(fig)
 
 # 8 decomposition ------------------------------------------------------------
 if (out / "decomposition.csv").exists():
-    main = [float(r["coverage"]) for r in read("decomposition.csv")]
-    ctrl = collections.defaultdict(list)
-    for r in read("decomposition_control.csv"):
-        ctrl[r["control"]].append(float(r["coverage"]))
-    bins = np.linspace(0, 1, 21)
-    fig, ax = plt.subplots(figsize=(8, 4.6))
-    for k, (c, vals) in enumerate(sorted(ctrl.items())):
-        h, _ = np.histogram(vals, bins)
-        ax.step(bins[:-1], h / len(vals), where="post", color=C[1], lw=2, alpha=0.35 if k else 0.9,
-                label="Random rare signs as templates" if k == 0 else None)
-    h, _ = np.histogram(main, bins)
-    ax.step(bins[:-1], h / len(main), where="post", color=C[0], lw=2, label="55 most frequent signs as templates")
-    if (out / "decomposition_positive.csv").exists():
-        pos = [float(r["coverage"]) for r in read("decomposition_positive.csv")]
-        h, _ = np.histogram(pos, bins)
-        ax.step(bins[:-1], h / len(pos), where="post", color=C[2], lw=2, label="Positive control: variants of the basic signs themselves")
-    ax.axvline(0.8, color=AXIS, lw=1)
-    ax.text(0.81, ax.get_ylim()[1] * 0.92, "decomposes at 80% coverage", color=INK2, fontsize=9)
-    ax.set_xlabel("Share of a rare sign's ink explained by up to three template parts")
-    ax.set_ylabel("Share of rare signs")
+    def share(name):
+        rows = read(name)
+        return np.mean([r["decomposes"] == "True" for r in rows]) if rows else np.nan
+
+    def share_ctrl(name):
+        by = collections.defaultdict(list)
+        for r in read(name):
+            by[r["control"]].append(r["decomposes"] == "True")
+        return [np.mean(v) for _, v in sorted(by.items())]
+
+    runs = [("1 px", "decomposition.csv", "decomposition_control.csv", "decomposition_positive.csv"),
+            ("2 px", "decomposition_tol2.csv", "decomposition_control_tol2.csv", "decomposition_positive_tol2.csv")]
+    runs = [r for r in runs if (out / r[1]).exists()]
+    fig, ax = plt.subplots(figsize=(8, 4.4))
+    x = np.arange(len(runs))
+    w = 0.16
+    freq_s = [share(r[1]) for r in runs]
+    ctrl_s = [share_ctrl(r[2]) if (out / r[2]).exists() else [] for r in runs]
+    pos_s = [share(r[3]) if (out / r[3]).exists() else np.nan for r in runs]
+    ax.bar(x - 1.5 * w, freq_s, width=w - 0.02, color=C[0], label="55 most frequent signs as parts")
+    for k in range(3):
+        vals = [c[k] if len(c) > k else np.nan for c in ctrl_s]
+        ax.bar(x + (k - 0.5) * w, vals, width=w - 0.02, color=C[1], alpha=1 if k == 0 else 0.55,
+               label="Random rare signs as parts, three runs" if k == 0 else None)
+    ax.bar(x + 2.5 * w, pos_s, width=w - 0.02, color=C[2], label="Positive control: a basic sign on its own variants")
+    for i in range(len(runs)):
+        ax.text(x[i] - 1.5 * w, freq_s[i] + 0.015, f"{freq_s[i]:.0%}", ha="center", color=INK2, fontsize=9)
+        if ctrl_s[i]:
+            ax.text(x[i] + 0.5 * w, max(ctrl_s[i]) + 0.015, f"{min(ctrl_s[i]):.0%} to {max(ctrl_s[i]):.0%}", ha="center", color=INK2, fontsize=9)
+        ax.text(x[i] + 2.5 * w, pos_s[i] + 0.015, f"{pos_s[i]:.0%}", ha="center", color=INK2, fontsize=9)
+    ax.set_xticks(x); ax.set_xticklabels([f"tolerance {r[0]}" for r in runs])
+    ax.set_ylim(0, 1.12)
+    ax.set_ylabel("Share of signs reaching the decomposition threshold")
     ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
-    ax.xaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
-    ax.legend(loc="upper left")
-    finish(fig, ax, "Do the frequent signs explain the rare ones? The test cannot tell",
-           "Coverage of rare signs by frequent-sign parts, by random parts, and of basic-sign variants by their own sign", "decomposition.png")
+    ax.grid(axis="x", visible=False)
+    ax.legend(loc="upper left", fontsize=9)
+    finish(fig, ax, "Frequent signs explain rare signs no better than random ones",
+           "Up to three parts, mirrored and rescaled, on a 48 px canvas; 80% coverage and 70% precision to count", "decomposition.png")
 print("charts written to", img)
