@@ -861,7 +861,7 @@ Four tests, on all 31 sides with at least 40 units. Periodicity: how often the s
 | Typed sides, for comparison | | 1 to 6, Ta 41 | +3 to +16 | excess of 0 to 23 points | | |
 
 - **No side, typed or untyped, has a verse-length period.** Every side peaks at a distance of 1 or 2, which is doubling and the alternation device of section 5, and nothing recurs at fixed distances of 5 to 60 beyond chance. The one exception is Small Santiago's recto at distance 6, which is the rhythm of its delimited list. Whatever these texts are, they are not stanzas of fixed length.
-- **Tahua is the most alternation-heavy text in the corpus.** Its side a repeats a sign at distance 2 with a z-score of 18, above every copied text, with harmonics at 4, 6 and 8, and the signs it over-uses, 4, 22, 65 and 11, are the heads and fillers of the alternating series found on its first line in section 5. The largest tablet is built on the A-x-A-y device more thoroughly than any other object. It also shows the corpus's one hint of a longer period, a weak secondary peak at distances of 22 to 24 signs with z near 5, which is about the length of a Tahua line's third; whether that is a refrain interval is a question for a closer look at that tablet.
+- **Tahua is the most alternation-heavy text in the corpus.** Its side a repeats a sign at distance 2 with a z-score of 18, above every copied text, with harmonics at 4, 6 and 8, and the signs it over-uses, 4, 22, 65 and 11, are the heads and fillers of the alternating series found on its first line in section 5. The largest tablet is built on the A-x-A-y device more thoroughly than any other object. It also showed what looked like the corpus's one hint of a longer period, a weak secondary peak at distances of 22 to 24 signs with z near 5. A closer look, in `scripts/tahua_period.py`, resolves it: the excess is not a rhythm of the side but a single passage on line 7, where a run of about ten signs beginning 2, 80, 4, 280, 182, 48, 22, 25 recurs 22 positions later, together with a shorter repeat at 19. The signs that carry the peak recur at irregular gaps everywhere else on the side, three of thirty for the commonest, and side b shows no excess at those distances. Tahua has an internal refrain of the Keiti-recto kind on one line, not stanzas.
 - **Lines are not units of text anywhere.** No side's line-initial signs differ from its background beyond what random cuts produce; the closest are a few typed sides at p 0.05 to 0.09. The carver's line was a physical unit, not a textual one, on every object.
 - **The untyped sides are as internally repetitive as the typed ones.** Their loose internal repeats exceed the shuffled baseline by the same margins as the copied and list texts do. They are structured; the structure is simply not shared with any other object.
 - **Their vocabulary is the common one.** Eleven of twelve sit nearest the H, P, Q group by sign frequencies, which is where the bulk of the corpus sits, not near the lists, the triads or the refrains. They are not a separate genre by vocabulary; they are texts in the general idiom, each marked by its own repeated sign.
@@ -964,6 +964,7 @@ python scripts/tracings.py
 python scripts/tracings_analysis.py
 python scripts/parity_check.py
 python scripts/untyped.py
+python scripts/tahua_period.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -1003,6 +1004,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | tracings_analysis.py | Per-sign variation, cross-side hand penalties, and glyph width along the line with end-dropping and line-parity checks |
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |
+| tahua_period.py | What carries Tahua's recurrence at 22 to 24 signs: driving signs, returning groups, gap stability, line positions, and side b |
 | charts.py | The eighteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
