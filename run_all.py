@@ -43,6 +43,7 @@ if not args.fast:
     # the 2 px run first; its outputs are copied to *_tol2 before the 1 px run overwrites them
     steps += [["decompose.py", "--tol", "2"], ["__keep_tol2__"], ["decompose.py", "--tol", "1"]]
 steps.append(["charts.py"])
+steps.append(["glyphs.py"])
 
 t0 = time.time()
 for step in steps:

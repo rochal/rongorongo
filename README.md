@@ -15,7 +15,9 @@ What the Barthel transliteration of the rongorongo corpus shows about its texts 
 
 ## What rongorongo is
 
-Rongorongo is the script of Easter Island, or Rapa Nui, the Chilean island in the south-east Pacific some 3,500 kilometres from the South American coast and about as far from the nearest inhabited land in Polynesia. It survives on about two dozen wooden objects, mostly tablets, plus a staff, two breast ornaments, and a figurine, holding around 14,000 glyphs in all. The glyphs are carved in lines that alternate direction and orientation: a reader finishes one line, turns the tablet through a half turn, and reads the next. Barthel's catalogue of 1958 numbers the signs, and depending on how variants and compounds are counted the inventory runs from about fifty basic elements to several hundred.
+Rongorongo is the script of Easter Island, or Rapa Nui, the Chilean island in the south-east Pacific some 3,500 kilometres from the South American coast and about as far from the nearest inhabited land in Polynesia. It survives on about two dozen wooden objects, mostly tablets, plus a staff, two breast ornaments, and a figurine, holding around 14,000 glyphs in all. The glyphs are carved in lines that alternate direction and orientation: a reader finishes one line, turns the tablet through a half turn, and reads the next. Barthel's catalogue of 1958 numbers the signs, and depending on how variants and compounds are counted the inventory runs from about fifty basic elements to several hundred. Eight of the commonest signs, in Barthel's numbering, as he drew them:
+
+![Eight common signs](docs/img/glyphs/series.png)
 
 Europeans first recorded the script in 1864, and within a decade the islanders who might have been able to read it were gone, lost to slave raids by Peruvian ships in 1862 and the epidemics that followed. Islanders who chanted "readings" for missionaries in the 1870s and 1880s were reciting, not reading, and their chants match no tablet sign for sign. Whether rongorongo is true writing, a mnemonic aid for recitations, or something in between remains open, and no decipherment has won acceptance. The Keiti tablet in the photograph above, collected in 1870 and sent to Belgium, burned with the library of Louvain in 1914 and is known only from photographs, rubbings, and a tracing.
 
@@ -82,6 +84,10 @@ Keiti's verso has two external parallels of substance, both verified against Bar
 
 Ev4 opens with two entries separated by the 380.1 delimiter: an oval, a stroke, a forked sign, a stroke; then the turtle sign 280 twice, each followed by a stroke. Gr5, on the Small Santiago tablet, carries the same two entries in the same order as its fourth and fifth of six, with the delimiter written 380.1.3. The Small Santiago version adds sign 521 after each turtle's stroke and a third turtle; Keiti stacks sign 61 onto the last stroke of the first entry.
 
+The signs involved, from Barthel's catalogue:
+
+![Signs 88, 47, 280, 521, 61](docs/img/glyphs/ev4_entries.png)
+
 Gr5 from unit 16, Barthel's tracing:
 
 ![Gr5, shared segment](docs/img/gr5_shared.png)
@@ -113,6 +119,10 @@ Ev4                                                            | 88 1 47 1.61 | 
 
 The run 27, 77, 34, 4, 522, 700, 600, 59 appears on Keiti, on the last line of the Great Santiago verso, and on the fifth line of the Small Washington tablet, three objects in three countries. Fish 700 is followed by frigatebird 600 every time, so the pair is a slot in a formula, not a description of animals. Keiti writes the first four signs as two ligatures, 27.6 and 77.34, where the others write them separately. What precedes the run differs on each tablet, so it is a reusable unit placed in different surroundings.
 
+The eight signs of the run, from Barthel's catalogue:
+
+![The Ev6 formula](docs/img/glyphs/ev6_formula.png)
+
 Ev6:
 
 ![Ev6 shared run](docs/img/ev6_shared.png)
@@ -141,6 +151,12 @@ Ra5   illegible | 27?   77? 34  4  522    700  600  59f | 4.64       6:700
 
 The compound 380.1, a seated figure with an attached stroke, is a list delimiter on six tablets: Small Santiago 30 occurrences, Keiti 22, Small London 22, Mamari 20, Small Vienna 7, Great Washington 4. Cutting every stretch between two consecutive delimiters gives 93 entries.
 
+![Sign 380 and stroke 1](docs/img/glyphs/delimiter.png)
+
+*Sign 380 and stroke 1 as Barthel drew them separately. On the tablets the stroke is fused to the figure, written 380.1; Small Santiago and Small London add sign 3, Small Vienna adds 52:*
+
+![380, 1, 3, 52](docs/img/glyphs/list_tablets.png)
+
 | Measure | Value | Reading |
 |---|---|---|
 | Entries of 1 to 5 units | 82 of 93 | Word or name length |
@@ -163,9 +179,21 @@ A series is a run X a X b X c with the same head sign at every second position a
 
 The affix-like fillers form a small shared set. Stroke 1 follows ten different head signs on eight objects; signs 20 and 90 each follow four heads and are five and three times more frequent in these slots than in the corpus overall. The H and Q fish series share their fillers because H and Q copy each other, so Keiti's Ev7 is the only independent witness to the set.
 
+Head signs of the series named above, then the fish 710 with two of its fillers:
+
+![Signs 92, 35, 73, 6, and 710, 20, 90](docs/img/glyphs/alternation.png)
+
 ## 6. The affix test
 
 If the small signs are suffixes they should select their host on one side and be indifferent on the other. For each candidate the distribution of the sign before it and after it was compared with the corpus background by Kullback-Leibler divergence in bits, with contexts on the copying tablets down-weighted so a passage counts once. Content signs served as controls.
+
+The candidates, the simple signs below 100:
+
+![Strokes 1, 2, 3, 4, 5, 9, 20, 22, 90](docs/img/glyphs/strokes.png)
+
+The controls:
+
+![Controls 600, 700, 200, 6, 40](docs/img/glyphs/controls.png)
 
 | Sign | Left choosiness | Right choosiness | Difference | Distinct left neighbours |
 |---|---|---|---|---|
@@ -189,6 +217,10 @@ The layer is thin. The runs contain 48 substitutions in 42 distinct pairs; only 
 
 **Copies vary in attachments, not in head signs.** Scribes kept the main sign and changed what was fused to it. Sign 22 stands bare on one tablet and carries 380 on another eight times; sign 200 carries 50 in one copy and 132 in the other six times. Components 10, 50, 132, 380, 1, and 430 come and go most. Barthel's compound notation is recording a layer that copyists treated as optional.
 
+![Signs 22 and 380; 200, 50 and 132](docs/img/glyphs/copies.png)
+
+*Sign 22, which one copy writes bare and another with 380 attached; sign 200, which carries 50 in one copy and 132 in the other.*
+
 > **Caveat.** Copied passages are too few and too faithful for empirical allograph reduction to reach anywhere near 52 signs. Pozdniakov's reduction rests mainly on visual similarity, which section 9 tests directly.
 
 ## 8. The inventory
@@ -204,6 +236,10 @@ Three inventories were counted with one witness per family, so copies do not inf
 **Head signs, as Barthel numbered them, are not a syllabary.** Rapa Nui has about 55 syllables. The 55 most frequent head signs cover about 62 percent of the text and the next 600 carry the remaining third. For a reduction to roughly 52 basic signs to hold, some 600 of Barthel's numbers must be compounds or variants of those 52, and they account for over a third of all tokens.
 
 **Attached components are a compact set.** Nine cover half of all attachments; one sign, 76, is nearly a fifth of them, followed by 3, 1, 10, and 6. A small closed set attached to a large open one is the shape of a grammatical layer on a lexical one, and it is the same set the affix test singled out.
+
+The eight components most often attached to a head sign:
+
+![Attached components 76, 3, 1, 10, 6, 9, 74, 64](docs/img/glyphs/attachments.png)
 
 **Whole units have the statistics of words.** A natural-language text of about 9,000 tokens typically has around 2,000 distinct words, more than half occurring once, with a Zipf slope near one. Units come out at 2,067 distinct, 63 percent once only, slope 0.93. Neither head signs nor components separately fit that profile; the units do.
 
@@ -269,6 +305,10 @@ The entropy result says adjacency carries a modest amount of information. Colloc
 - **Stroke chains float free.** For each chain of two or more strokes, the sign immediately before it was tallied. Only one chain has a preferred host: 4 then 22 follows sign 300 in 10 of 21 cases, and that is Keiti's refrain. Every other chain follows a scatter of different signs. This agrees with the affix test: the chains have internal order but no host.
 - **Whole units collocate more sharply than head signs.** Counting ligatures as distinct, 69 unit pairs pass, and the strongest are refrain fragments with their attachments intact, such as 4.430 before 22.380, which occurs 10 times against an expectation near zero. The attachments travel with the phrase.
 
+Four of the script-wide pairs, the doubled crescent and fish, 7 before the frigatebird, the turtle before a stroke, and the opening of the Ev6 formula:
+
+![Collocation pairs](docs/img/glyphs/collocations.png)
+
 > **Caveat.** With a corpus this small a pair needs only four occurrences to be tested, so the tail of the collocation list is fragile. The 18 doublings and the handful of spread pairs with more than 10 occurrences are the robust part.
 
 ## 12. Compound decomposition
@@ -321,6 +361,10 @@ The Rapa Nui sample is the set of recitations Ure Vaeiko gave in 1886, printed i
 ## 14. The list format against the creation chant
 
 Among the recitations in Thomson's report is the one Ure Vaeiko gave for the Small Washington tablet, a creation genealogy of forty entries. Each entry names a parent, joins it with a fixed phrase to a second name, and yields a third: a three-slot formula with constant connective words. Fischer built his 1997 reading of the Santiago Staff on the claim that the Staff writes exactly this, as triads in which the first sign carries the attached sign 76 as the connective. The 380.1 lists of section 4 are the other candidate for a written genealogy. Both can be compared with the chant on shape alone.
+
+Sign 76, which marks the Staff's triads, and the three signs that most often open a stretch between its carved dividers, 90, 604 and 606:
+
+![Signs 76, 90, 604, 606](docs/img/glyphs/staff.png)
 
 The chant's forty entries were parsed from the OCR with the fixed phrase intact, and lengths counted in content words, the connective phrase and the particles excluded. The 380.1 entries were counted in content units, strokes excluded. The Staff was cut before every unit carrying sign 76, which is Fischer's segmentation, and the same cut was applied to the two texts he grouped with the Staff, Gv and Ta. Since a cut at a frequent sign yields short segments whatever the text, each 76 cut was compared with a null in which the same number of 76-bearing units is shuffled to random positions.
 
@@ -467,6 +511,7 @@ python scripts/chant.py
 python scripts/staff_chain.py
 python scripts/staff_dividers.py
 python scripts/charts.py
+python scripts/glyphs.py
 ```
 
 Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The kohaumotu site serves plain http only and its TLS certificate has expired.
@@ -489,10 +534,11 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | staff_chain.py | Chaining and parent-repetition of sign-76 segments on the Staff, Gv, Ta and in the chant, against shuffled order; slot vocabularies |
 | staff_dividers.py | Stretches between the Staff's carved dividers: length, alignment with the 76 triads, openers and closers, cohesion, repeats, against random dividers |
 | charts.py | The twelve charts in docs/img |
+| glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### Licence
 
-The scripts, this README and the generated outputs are under the MIT licence in LICENSE. The downloaded transliteration and sign catalogue are not redistributed here and remain with the CEIPP; the line crops in docs/img are from Barthel's tracings as hosted on Wikimedia Commons.
+The scripts, this README and the generated outputs are under the MIT licence in LICENSE. The downloaded transliteration and sign catalogue are not redistributed here and remain with the CEIPP; the line crops in docs/img are from Barthel's tracings as hosted on Wikimedia Commons, and the small glyph strips in docs/img/glyphs are cut from Barthel's catalogue drawings as reproduced on kohaumotu.org, included as quotations for the purpose of commentary.
 
 ### Conventions
 
