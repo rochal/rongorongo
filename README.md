@@ -83,9 +83,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 22. [Two islanders on one tablet](#22-two-islanders-on-one-tablet)
 23. [A decipherment attempt, and why it cannot work yet](#23-a-decipherment-attempt-and-why-it-cannot-work-yet)
 24. [Attachments as particles](#24-attachments-as-particles)
-25. [Charts](#25-charts)
-26. [What it means and what it does not](#26-what-it-means-and-what-it-does-not)
-27. [Method, data, reproducibility](#27-method-data-reproducibility)
+25. [The glyphs as carved](#25-the-glyphs-as-carved)
+26. [Charts](#26-charts)
+27. [What it means and what it does not](#27-what-it-means-and-what-it-does-not)
+28. [Method, data, reproducibility](#28-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -781,7 +782,49 @@ Four classes of item were profiled the same way: the Rapa Nui particles, a close
 
 > **Caveat.** The particle list is a linguist's closed class applied to OCR'd text; a few Rapa Nui words are both particle and content word depending on use, and were counted as particles throughout. The attachment profile is Barthel's, and section 7 showed copies vary in exactly this layer, so its tail is inflated by variant spellings of the same mark.
 
-## 25. Charts
+## 25. The glyphs as carved
+
+*In plain words: everything so far used Barthel's numbers for the signs. Here the drawings themselves are cut into individual glyphs, ten thousand of them, each labelled with its transliteration, so that questions about the signs as physical marks can be asked: how much one sign varies from tablet to tablet, whether different tablets were carved by different hands, and whether carvers ran out of room toward the ends of lines.*
+
+Barthel's tracings of 31 sides were fetched from Wikimedia Commons, cut into lines by their ink bands, and each line cut into glyphs by connected components, with stacked or fused parts merged. The glyphs of a line were then aligned to its transliterated units by count, merging the narrowest gaps or splitting the widest blobs where the counts disagreed; a line needing more than a quarter of its units adjusted is marked unreliable. Keiti's verso aligned on every line and the result was checked by eye against section 3. The instances are not in the repository, since the drawings are Barthel's; the table of their positions and labels is.
+
+| | |
+|---|---|
+| Tracings on Commons | 31 sides; the small objects F verso, M, O, U to Z have none |
+| Instances cut | 10,145 on 29 sides |
+| On lines aligned within tolerance | 8,039 on 28 sides |
+| Sides aligning on most lines | Keiti both sides, Tahua, the Staff, H, P, Q, Aruku Kurenga, Small Washington |
+| Sides too small to segment well | Mamari verso, Small Santiago recto, Honolulu, the Vienna and London tablets |
+
+**Hands cannot be tested on tracings, and the result says so.** For every pair of sides sharing enough signs, the similarity of the same sign across the two sides was compared with its similarity within each. If different carvers drew a sign differently, the cross-side penalty would be large for some pairs and near zero for sides by one hand. It is near zero for all 160 pairs, between -0.005 and +0.056, and the copy families are no closer than unrelated sides. That is the expected result for drawings all made by one person: the hand these tracings record is Barthel's. Scribal hands need photographs.
+
+**Variation per sign is real but the descriptor can barely see it.** At this resolution a glyph is 25 to 40 pixels tall, and the shape descriptor that separated Barthel's type drawings in section 9 gives instances of one sign a similarity of 0.19 to 0.31 against 0.21 for instances of different signs. The most consistent signs as drawn, 56, 760, 608, 680 and 92, and the least, 77, 15 and 3, are listed in `out/tracings_variation.csv`, but the ranking is weak evidence. A stroke-based descriptor is the next step, as section 12 also concluded.
+
+**Glyphs narrow along the line, on most sides.** Within each aligned line, glyph width relative to the line's median was regressed on position along the line; height was regressed the same way.
+
+![Do glyphs narrow toward the end of a line?](docs/img/planning.png)
+
+| Side | Lines | Width slope | Same with line ends dropped | Odd lines | Even lines | Height slope |
+|---|---|---|---|---|---|---|
+| Hr | 9 | -0.25 | -0.37 | -0.87 | +0.50 | -0.04 |
+| Pr | 10 | -0.24 | -0.15 | -0.46 | -0.01 | 0.00 |
+| Qr | 7 | -0.22 | -0.18 | -0.70 | +0.16 | -0.03 |
+| Br | 8 | -0.21 | -0.31 | -0.37 | -0.03 | -0.05 |
+| Pv | 9 | -0.19 | -0.28 | -0.09 | -0.26 | +0.03 |
+| I, the Staff | 14 | -0.17 | -0.17 | -0.09 | -0.26 | -0.04 |
+| Bv | 9 | -0.15 | -0.18 | -0.11 | -0.17 | -0.06 |
+| Aa | 7 | +0.01 | +0.01 | +0.12 | -0.07 | +0.01 |
+| Hv | 10 | -0.04 | -0.05 | -0.01 | -0.07 | +0.03 |
+| Ev | 8 | +0.17 | +0.31 | +0.01 | +0.34 | +0.01 |
+| Gv | 7 | +0.23 | +0.45 | +0.26 | +0.20 | -0.08 |
+
+- **Width narrows, height does not.** On the H, P, Q rectos, Aruku Kurenga, the Staff and several others, glyphs at the end of a line are a fifth to a third narrower than at its start, and the effect survives dropping the two glyphs at each end. Height slopes are near zero everywhere. Squeezing sideways to fit a fixed text into a fixed line is the natural reading, which fits the copied texts, where the content of each line was given in advance.
+- **On the three copied rectos the narrowing sits on the odd-numbered lines.** Hr, Qr and Pr narrow strongly on lines 1, 3, 5 and hardly at all, or the reverse, on lines 2, 4, 6. Barthel drew every line in reading orientation, so a carver who compressed toward one physical end of the tablet would show opposite signs on alternate lines, and a carver who compressed toward the end of each line's text would show the same sign on both. Neither pattern is what appears: one parity compresses and the other does not. Whatever produced it, it is shared by three copies of one text and not by their versos, so it belongs to the layout of that text rather than to a carver's habit.
+- **Keiti's verso and Small Santiago's verso do the opposite.** Glyphs widen along the line on both, and on Ev the widening sits on the even lines. Those are the list text and the untyped verso, not copies of anything.
+
+> **Caveat.** Everything here is measured on Barthel's tracings, which are drawings after photographs and rubbings; proportions are presumably faithful but a tracer's hand is between us and the wood. Segmentation by count alignment is wrong wherever glyphs touch, and the quality flag is coarse. The positional analysis pools lines of different lengths, and the parity split has few lines per side; both slopes and their split should be re-derived from photographs before anyone builds on them.
+
+## 26. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -793,7 +836,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 26. What it means and what it does not
+## 27. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -809,7 +852,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 27. Method, data, reproducibility
+## 28. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -869,6 +912,9 @@ python scripts/calendar_names.py       # needs data/rapanui/nights.txt, the thir
 python scripts/two_islanders.py
 python scripts/decipher.py             # about 3 minutes
 python scripts/attachments.py
+python scripts/fetch_tracings.py       # Barthel's tracings from Commons, at a polite pace
+python scripts/tracings.py
+python scripts/tracings_analysis.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -903,7 +949,9 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | two_islanders.py | Vocabulary similarity between Ure Vaeiko's 1886 recitations and Metoro's 1873 chants, same-tablet pairs against the rest |
 | decipher.py | One-to-one assignment of the frequent signs to Rapa Nui syllables by annealing, with shuffled, reversed, wrong-language and positive controls |
 | attachments.py | Concentration and density of the attached components against the Rapa Nui particle class and content words |
-| charts.py | The fifteen charts in docs/img |
+| fetch_tracings.py, tracings.py | Barthel's tracings of 31 sides from Commons; lines and glyph instances cut and aligned to the transliteration, with a quality flag per line |
+| tracings_analysis.py | Per-sign variation, cross-side hand penalties, and glyph width along the line with end-dropping and line-parity checks |
+| charts.py | The seventeen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### How to cite
@@ -944,5 +992,5 @@ Line ids are Barthel's: object letter, side, line (Ev04 = Keiti verso line 4). A
 - Métraux, A. 1940. *Ethnology of Easter Island.* Bernice P. Bishop Museum Bulletin 160. Public domain in the United States (HathiTrust full view), in copyright elsewhere; page scans were saved by hand and OCR'd with Tesseract, and neither the scans nor the extracted text are in the repository, only their statistics.
 - Churchill, W. 1912. *Easter Island: the Rapanui speech and the peopling of southeast Polynesia.* Carnegie Institution. Public domain; carries Roussel, H. 1908, Vocabulaire de la langue de l'Île-de-Pâques ou Rapanui, *Le Muséon* 9, in English. OCR text from the Internet Archive, item easterislandrapa00churrich.
 - Thomson, W. J. 1891. Te Pito te Henua, or Easter Island. Report of the U.S. National Museum for 1889. Public domain; OCR text from the Internet Archive, item cu31924105726222.
-- Barthel tracings: Wikimedia Commons files Barthel_Ev.png, Barthel_Gr.png, Barthel_Hv.png, Barthel_Ra.jpg.
+- Barthel tracings: Wikimedia Commons files Barthel_<side>.png for 31 sides (Barthel_Ra.jpg, Barthel_I.png for the Staff), fetched through the Commons API at rendered size.
 - Provenance and line counts of each object: the Wikipedia articles on the individual rongorongo texts.

@@ -457,4 +457,24 @@ if (out / "attachments_profiles.csv").exists():
     fig.tight_layout(rect=(0, 0, 1, 0.92))
     fig.savefig(img / "attachments.png", bbox_inches="tight", pad_inches=0.25)
     plt.close(fig)
+# 17 line planning ----------------------------------------------------------
+if (out / "tracings_planning.csv").exists():
+    rows = [r for r in read("tracings_planning.csv") if int(r["lines"]) >= 4]
+    rows.sort(key=lambda r: float(r["width_slope"]))
+    fig, ax = plt.subplots(figsize=(8, 0.4 * len(rows) + 1.8))
+    y = np.arange(len(rows))
+    vals = [float(r["width_slope"]) for r in rows]
+    ax.barh(y, vals, height=0.6, color=[C[1] if v < 0 else C[0] for v in vals])
+    for i, r in enumerate(rows):
+        v = vals[i]
+        ax.text(v + (0.01 if v >= 0 else -0.01), y[i], f"{r['lines']} lines, {r['instances']} glyphs", va="center",
+                ha="left" if v >= 0 else "right", color=INK2, fontsize=8.5)
+    ax.axvline(0, color=AXIS, lw=1)
+    ax.set_yticks(y); ax.set_yticklabels([r["side"] for r in rows]); ax.invert_yaxis()
+    lim = max(abs(v) for v in vals) * 1.6
+    ax.set_xlim(-lim, lim)
+    ax.set_xlabel("Change in relative glyph width from the start of a line to its end")
+    ax.grid(axis="y", visible=False)
+    finish(fig, ax, "Do glyphs narrow toward the end of a line?",
+           "Slope of width, relative to the line's median, against position along the line; sides with at least four aligned lines", "planning.png")
 print("charts written to", img)
