@@ -448,7 +448,7 @@ if (out / "attachments_profiles.csv").exists():
         ax.set_title(title, pad=8, fontsize=10.5)
         ax.grid(axis="y", visible=False); ax.tick_params(length=0)
     from matplotlib.patches import Patch
-    axes[2].legend(handles=[Patch(color=C[0], label="Rapa Nui, running text"), Patch(color=C[1], label="Rongorongo, one witness per family")],
+    axes[0].legend(handles=[Patch(color=C[0], label="Rapa Nui, running text"), Patch(color=C[1], label="Rongorongo, one witness per family")],
                    loc="lower right", fontsize=8.5)
     fig.suptitle("The attached components are shaped like a particle class, not like a vocabulary", x=0.02, ha="left",
                  fontsize=13, fontweight="semibold", color=INK, y=1.06)
