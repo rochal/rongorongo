@@ -256,4 +256,27 @@ if (out / "decomposition.csv").exists():
     ax.legend(loc="upper left", fontsize=9)
     finish(fig, ax, "Frequent signs explain rare signs no better than random ones",
            "Up to three parts, mirrored and rescaled, on a 48 px canvas; 80% coverage and 70% precision to count", "decomposition.png")
+# 9 Rapa Nui comparison -----------------------------------------------------
+if (out / "rapanui_lengths.csv").exists():
+    rows = read("rapanui_lengths.csv")
+    k = np.array([int(r["length"]) for r in rows])
+    rn = np.array([float(r["rapanui_word_share"]) for r in rows])
+    rr = np.array([float(r["rongorongo_unit_share"]) for r in rows])
+    fig, ax = plt.subplots(figsize=(8, 4.4))
+    w = 0.36
+    ax.bar(k - w / 2, rn, width=w - 0.03, color=C[0], label="Rapa Nui words, length in syllables")
+    ax.bar(k + w / 2, rr, width=w - 0.03, color=C[1], label="Rongorongo units, length in components")
+    for i in range(len(k)):
+        if rn[i] >= 0.02:
+            ax.text(k[i] - w / 2, rn[i] + 0.01, f"{rn[i]:.0%}", ha="center", color=INK2, fontsize=9)
+        if rr[i] >= 0.02:
+            ax.text(k[i] + w / 2, rr[i] + 0.01, f"{rr[i]:.0%}", ha="center", color=INK2, fontsize=9)
+    ax.set_xticks(k); ax.set_xlabel("Length")
+    ax.set_ylabel("Share of tokens")
+    ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+    ax.set_ylim(0, max(rn.max(), rr.max()) * 1.18)
+    ax.grid(axis="x", visible=False)
+    ax.legend(loc="upper right")
+    finish(fig, ax, "Word length against unit length",
+           "Rapa Nui recitations of 1886 (Thomson 1891) against the rongorongo corpus, one witness per family", "rapanui_lengths.png")
 print("charts written to", img)

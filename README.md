@@ -27,9 +27,10 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 10. [Genre by vocabulary, and entropy](#10-genre-by-vocabulary-and-entropy)
 11. [A collocation lexicon](#11-a-collocation-lexicon)
 12. [Compound decomposition](#12-compound-decomposition)
-13. [Charts](#13-charts)
-14. [What it means and what it does not](#14-what-it-means-and-what-it-does-not)
-15. [Method, data, reproducibility](#15-method-data-reproducibility)
+13. [Units against Rapa Nui words](#13-units-against-rapa-nui-words)
+14. [Charts](#14-charts)
+15. [What it means and what it does not](#15-what-it-means-and-what-it-does-not)
+16. [Method, data, reproducibility](#16-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -274,7 +275,31 @@ The method: take the 55 most frequent head signs as the basic set, and explain e
 
 > **Caveat.** A first version of this test scored placements by rigid pixel overlap and failed its positive control outright, at 42 percent coverage for a sign on its own variants. The tolerant score fixed that and exposed the opposite problem, so both tolerances are reported. The 2-pixel outputs are kept in out/ with a _tol2 suffix.
 
-## 13. Charts
+## 13. Units against Rapa Nui words
+
+Section 8 found that whole units have the statistics of words. That gives a prediction that needs no reading: if units are words in Rapa Nui, their length distribution should resemble Rapa Nui word length, their doubling rate should resemble Rapa Nui reduplication, and the most frequent units should be short the way particles are.
+
+The Rapa Nui sample is the set of recitations Ure Vaeiko gave in 1886, printed in Rapa Nui in Thomson's 1891 Smithsonian report, which is public domain. The OCR text from the Internet Archive was cut to the Rapa Nui passages preceding each English translation and cleaned to tokens made of Rapa Nui letters only: 1,365 word tokens, 491 distinct, from five recitations. Word length is counted in syllables, which in Rapa Nui equals the number of vowels. OCR noise remains and long vowels count as two syllables, so the Rapa Nui lengths are slightly inflated.
+
+![Word length against unit length](docs/img/rapanui_lengths.png)
+
+| | Rapa Nui words | Rongorongo units |
+|---|---|---|
+| Length 1 | 31% | 69% |
+| Length 2 | 42% | 27% |
+| Length 3 or more | 27% | 4% |
+| Mean length | 2.13 syllables | 1.36 components |
+| Doubling, inside the item or immediate repeat | 3.8% | 6.8% |
+| Share of tokens in the fifteen most frequent items | 34% | 23% |
+| Mean length of those fifteen | 1.7 syllables | 1.0 components |
+
+- **Components are not syllables.** If each component wrote one syllable and each unit one word, the two length distributions would match. They do not: two thirds of units are a single sign, while less than a third of Rapa Nui words are monosyllables, and units of three or more components are rare where three-syllable words are common. A single sign must on average carry more than one syllable, which is the logographic side of a mixed script, not a syllabary.
+- **Doubling is in the same range.** Reduplication and immediate repeats make up about 4 percent of the Rapa Nui tokens and about 7 percent of the rongorongo units. The script doubles somewhat more than the language reduplicates, which is compatible with reduplication being written and with some doubling being something else, such as tallying.
+- **The particle layer is thinner in the script.** In the recitations the fifteen commonest words are the grammatical particles te, e, i, ki, a, no, to and a few nouns, and they carry a third of the text. The fifteen commonest units carry under a quarter. Either the script leaves particles unwritten, which early and mixed scripts commonly do, or the attached components carry them, which is what the affix test and the entropy of components suggested.
+
+> **Caveat.** This is one small sample of one genre, transcribed by ear in 1886 and OCR'd from an 1891 print. The direction of each difference is robust to the noise; the exact percentages are not. A cleaner Rapa Nui text of comparable genre would sharpen all three comparisons.
+
+## 14. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -286,7 +311,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 14. What it means and what it does not
+## 15. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -296,13 +321,13 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 
 ### Open questions and next tests
 
-- **Are units words?** Compare the distribution of unit length in components with Rapa Nui word length in syllables, and the most frequent units with Rapa Nui's frequent particles. Nineteenth-century chants and genealogies match the genre and are free to use.
+- **Are units words?** Section 13 compares them with the 1886 recitations: units are shorter than words and the particle layer is thinner, which points to logographic signs with particles either unwritten or carried by attachments. A cleaner and larger Rapa Nui sample would sharpen this.
 - **What is the stacking order?** Chains of the small signs in the order 4, 2, 1, 9 could be a numeral system or an affix sequence. Counting how often each chain length occurs, and where in a list entry it falls, would separate the two.
 - **What does 380.1 do?** It never repeats and it separates word-length items. Whether its own attachments, 3 on G and K, 52 on N, correlate with the entries around it is testable.
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 15. Method, data, reproducibility
+## 16. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -318,6 +343,15 @@ out/                generated CSV and Markdown reports
 ```
 
 ### Run
+
+Everything, in order, with data fetched on first use:
+
+```bash
+pip install -r requirements.txt
+python run_all.py            # add --fast to skip the five-minute decomposition test
+```
+
+Or step by step:
 
 ```bash
 python scripts/fetch_corpus.py                 # only to refresh data/html
@@ -335,6 +369,8 @@ python scripts/sign_shapes.py
 python scripts/genre_entropy.py
 python scripts/collocations.py
 python scripts/decompose.py --tol 1    # about a minute per pass on 16 cores, 5 passes
+python scripts/fetch_rapanui.py        # Thomson 1891 OCR text, public domain
+python scripts/rapanui.py
 python scripts/charts.py
 ```
 
@@ -353,7 +389,12 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | genre_entropy.py | Vocabulary similarity of sides, clusters, 2-D map coordinates; unigram and conditional entropy per layer |
 | collocations.py | Sign pairs and triples scored by log-likelihood ratio and PMI, spread across sides, stroke chains and their hosts |
 | decompose.py | Tolerant template decomposition of rare signs into frequent ones, parallel, with random and positive controls; options --tol, --limit, --controls, --basic, --workers |
-| charts.py | The eight charts in docs/img |
+| fetch_rapanui.py, rapanui.py | Thomson 1891 OCR text; word length, reduplication and frequent-item comparison against rongorongo units |
+| charts.py | The nine charts in docs/img |
+
+### Licence
+
+The scripts, this README and the generated outputs are under the MIT licence in LICENSE. The downloaded transliteration and sign catalogue are not redistributed here and remain with the CEIPP; the line crops in docs/img are from Barthel's tracings as hosted on Wikimedia Commons.
 
 ### Conventions
 
@@ -366,5 +407,6 @@ Line ids are Barthel's: object letter, side, line (Ev04 = Keiti verso line 4). A
 - Horley, P. 2005. Allographic variations and statistical analysis of the rongorongo corpus. *Rapa Nui Journal* 19.
 - Fischer, S. R. 1997. *Rongorongo: The Easter Island Script.* Oxford.
 - CEIPP transliteration and Barthel sign catalogue: http://kohaumotu.org/rongorongo_org/
+- Thomson, W. J. 1891. Te Pito te Henua, or Easter Island. Report of the U.S. National Museum for 1889. Public domain; OCR text from the Internet Archive, item cu31924105726222.
 - Barthel tracings: Wikimedia Commons files Barthel_Ev.png, Barthel_Gr.png, Barthel_Hv.png, Barthel_Ra.jpg.
 - Provenance and line counts of each object: the Wikipedia articles on the individual rongorongo texts.
