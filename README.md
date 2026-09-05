@@ -818,8 +818,10 @@ Barthel's tracings of 31 sides were fetched from Wikimedia Commons, cut into lin
 | Ev | 8 | +0.17 | +0.31 | +0.01 | +0.34 | +0.01 |
 | Gv | 7 | +0.23 | +0.45 | +0.26 | +0.20 | -0.08 |
 
+The odd and even columns are shown because they prompted a test, reported below, not because they carry a result.
+
 - **Width narrows, height does not.** On the H, P, Q rectos, Aruku Kurenga, the Staff and several others, glyphs at the end of a line are a fifth to a third narrower than at its start, and the effect survives dropping the two glyphs at each end. Height slopes are near zero everywhere. Squeezing sideways to fit a fixed text into a fixed line is the natural reading, which fits the copied texts, where the content of each line was given in advance.
-- **On the three copied rectos the narrowing sits on the odd-numbered lines.** Hr, Qr and Pr narrow strongly on lines 1, 3, 5 and hardly at all, or the reverse, on lines 2, 4, 6. Barthel drew every line in reading orientation, so a carver who compressed toward one physical end of the tablet would show opposite signs on alternate lines, and a carver who compressed toward the end of each line's text would show the same sign on both. Neither pattern is what appears: one parity compresses and the other does not. Whatever produced it, it is shared by three copies of one text and not by their versos, so it belongs to the layout of that text rather than to a carver's habit.
+- **An odd-line pattern appeared and did not survive testing.** On the three copied rectos the narrowing looked concentrated on the odd-numbered lines, which would have been interesting, since Barthel drew every line in reading orientation and a physical squeeze toward one end of the tablet would show opposite slopes on alternate lines. A permutation test regrouping each side's lines at random gives the observed odd-minus-even difference or larger in 10 percent of trials for Hr and more often everywhere else, with four or five lines per group; twelve of nineteen sides lean the same way, which is what chance gives. The split is recorded in `out/parity_check.md` and treated as noise. The narrowing itself, pooled over all lines, stands.
 - **Keiti's verso and Small Santiago's verso do the opposite.** Glyphs widen along the line on both, and on Ev the widening sits on the even lines. Those are the list text and the untyped verso, not copies of anything.
 
 > **Caveat.** Everything here is measured on Barthel's tracings, which are drawings after photographs and rubbings; proportions are presumably faithful but a tracer's hand is between us and the wood. Segmentation by count alignment is wrong wherever glyphs touch, and the quality flag is coarse. The positional analysis pools lines of different lengths, and the parity split has few lines per side; both slopes and their split should be re-derived from photographs before anyone builds on them.
@@ -915,6 +917,7 @@ python scripts/attachments.py
 python scripts/fetch_tracings.py       # Barthel's tracings from Commons, at a polite pace
 python scripts/tracings.py
 python scripts/tracings_analysis.py
+python scripts/parity_check.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -951,6 +954,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | attachments.py | Concentration and density of the attached components against the Rapa Nui particle class and content words |
 | fetch_tracings.py, tracings.py | Barthel's tracings of 31 sides from Commons; lines and glyph instances cut and aligned to the transliteration, with a quality flag per line |
 | tracings_analysis.py | Per-sign variation, cross-side hand penalties, and glyph width along the line with end-dropping and line-parity checks |
+| parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | charts.py | The seventeen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 

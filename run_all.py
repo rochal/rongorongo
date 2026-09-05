@@ -59,7 +59,7 @@ if not args.fast:
 steps.append(["attachments.py"])
 if args.refetch or not (root / "data" / "tracings").exists():
     steps.append(["fetch_tracings.py"])       # slow: Commons rate-limits, about a file every few seconds
-steps += [["tracings.py"], ["tracings_analysis.py"]]
+steps += [["tracings.py"], ["tracings_analysis.py"], ["parity_check.py"]]
 if not args.fast:
     # the 2 px run first; its outputs are copied to *_tol2 before the 1 px run overwrites them
     steps += [["decompose.py", "--tol", "2"], ["__keep_tol2__"], ["decompose.py", "--tol", "1"]]
