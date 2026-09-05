@@ -78,9 +78,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 18. [Three witnesses for merging signs](#18-three-witnesses-for-merging-signs)
 19. [A catalogue of texts and signs](#19-a-catalogue-of-texts-and-signs)
 20. [Which findings survive a change of inventory](#20-which-findings-survive-a-change-of-inventory)
-21. [Charts](#21-charts)
-22. [What it means and what it does not](#22-what-it-means-and-what-it-does-not)
-23. [Method, data, reproducibility](#23-method-data-reproducibility)
+21. [The Mamari calendar, rebuilt](#21-the-mamari-calendar-rebuilt)
+22. [Charts](#22-charts)
+23. [What it means and what it does not](#23-what-it-means-and-what-it-does-not)
+24. [Method, data, reproducibility](#24-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -639,7 +640,45 @@ The six inventories: Barthel's numbering; the three copy-substitution merges; th
 
 > **Caveat.** The list measures here are computed one witness per family, so the 380.1 entry count is 73 rather than the 93 of section 4, which included the London copies. The measures are unaffected by every inventory because none of the proposed merges touches sign 380.
 
-## 21. Charts
+## 21. The Mamari calendar, rebuilt
+
+*In plain words: one short passage of rongorongo is accepted by specialists as a lunar calendar, on the Mamari tablet, because it is full of crescent signs. Here we rebuilt its structure from the transcription alone, without assuming that reading, and then asked whether the counts fit a month of the moon.*
+
+Lines Ca6 to Ca9 of Mamari hold 118 units. Each was classified by rule: a crescent if it contains sign 40; a marker if it lies inside the recurring group that opens with 390.41 and closes with the unit containing 711; other if neither. The sequence was then cut into crescent runs separated by marker groups.
+
+The crescent and the marker group's signs, from Barthel's catalogue:
+
+![Sign 40; signs 390, 378, 41, 670, 8, 78, 711](docs/img/glyphs/calendar.png)
+
+![The Mamari calendar as a sequence](docs/img/calendar.png)
+
+| Marker group | Line | Head signs |
+|---|---|---|
+| 1 | Ca6 | 390.41, 315, 41, 670, 8.78.711 |
+| 2 | Ca6 | 390.41, 375, 41, and no tail |
+| 3, 4, 6, 7, 8 | Ca7, Ca8 | 390.41, 378, 41, 670, 8.78.711 |
+| 5 | Ca7 | the same, with 600 fused onto the opening sign |
+
+| Run | Crescents | Other signs inside the run |
+|---|---|---|
+| 1 | 2 | 30 |
+| 2 | 6 | |
+| 3 | 3 | 59 |
+| 4 | 2 | 143, 152 |
+| 5 | 5 | |
+| 6 | 3 | |
+| 7 | 5 | 600 |
+
+- **The structure reproduces without assuming it.** Eight marker groups, five of them identical in their head signs, frame seven runs of crescents: 2, 6, 3, 2, 5, 3, 5. That is a regular, repeated framing device around a counted sign, which is what a calendar looks like and what nothing else in the corpus looks like.
+- **The count is close to a month but not equal to it.** Twenty-six crescents lie between the first and last groups, and two more follow the last, 28 in all. A synodic month is 29.5 days and Polynesian calendars name 29 or 30 nights. Five other signs stand inside the runs; if some of them stand for nights too, as Guy proposed for certain of them, the count reaches 30. The rebuild cannot decide that; it can say the arithmetic leaves room for exactly such a reading and not much more.
+- **The runs are not the moon's quarters.** A quartered month would give runs near 7. These run 2 to 6, and the cumulative counts 2, 8, 11, 13, 18, 21, 26 do not fall on quarters. Whatever the marker groups mark, it is finer than phases, or it is not phases.
+- **Two marker groups are defective in the same way twice.** Group 1 replaces 378 with 315 and group 2 has no tail; both are on Ca6, where the calendar begins. Whether that is a preamble, a scribal slip, or a different kind of marker is beyond what counts can say.
+
+The calendar is the one passage where a reading and our structure can be compared, and they agree: an accepted reading predicts a repeated frame around counted crescents summing near a month, and that is what the transcription contains. It also sets the scale of what "reading" means here. Knowing that these are nights does not tell us what the marker groups say, and their six signs, apart from the fish 670, appear elsewhere in the corpus in contexts that have nothing to do with the moon.
+
+> **Caveat.** The classification rule was written after looking at the lines, so it is a formalisation of what is visible, not a discovery. The night names of the Rapa Nui month are not in Thomson's report under any spelling found, so the count could be checked only against the month's length, not against a named list.
+
+## 22. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -651,7 +690,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 22. What it means and what it does not
+## 23. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -667,7 +706,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 23. Method, data, reproducibility
+## 24. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -719,6 +758,7 @@ python scripts/metoro.py
 python scripts/metoro_merge.py
 python scripts/synthesis.py
 python scripts/robustness.py
+python scripts/mamari_calendar.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -746,7 +786,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | metoro_merge.py | Sign pairs proposed by Metoro's words, checked against shape and copy substitutions, and tested by rerunning the parallel map against random frequency-matched merges |
 | synthesis.py | The typology of texts (one row per side) and the sign dossier (one row per sign), gathered from every other table |
 | robustness.py | The headline measures recomputed under six candidate inventories, with a stability verdict for each |
-| charts.py | The fourteen charts in docs/img |
+| mamari_calendar.py | The Mamari calendar lines classified into crescents, marker groups and other signs; runs and counts against a lunar month |
+| charts.py | The fifteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### How to cite

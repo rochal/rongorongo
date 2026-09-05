@@ -396,4 +396,32 @@ if (out / "metoro_merge_tests.csv").exists():
     ax.grid(axis="y", visible=False)
     finish(fig, ax, "Which merges make more text align?",
            "Strict parallel map after merging sign pairs proposed by each witness; orange is the chance level for merging frequent signs", "merge_witnesses.png")
+# 15 calendar sequence ------------------------------------------------------
+if (out / "calendar_sequence.csv").exists():
+    rows = read("calendar_sequence.csv")
+    lines = []
+    for r in rows:
+        if not lines or lines[-1][0] != r["line"]:
+            lines.append((r["line"], []))
+        lines[-1][1].append(r)
+    fig, ax = plt.subplots(figsize=(10, 0.9 * len(lines) + 1.6))
+    colors = {"crescent": C[0], "marker": C[1], "other": C[2]}
+    for yi, (lid, us) in enumerate(lines):
+        y = len(lines) - 1 - yi
+        for xi, r in enumerate(us):
+            ax.add_patch(plt.Rectangle((xi, y - 0.35), 0.9, 0.7, color=colors[r["class"]], linewidth=0))
+            if r["marker_group"]:
+                ax.text(xi + 0.45, y + 0.42, f"M{r['marker_group']}", ha="center", va="bottom", fontsize=7.5, color=INK2)
+        ax.text(-0.6, y, lid, ha="right", va="center", fontsize=10, color=INK)
+    ax.set_xlim(-2.5, max(len(us) for _, us in lines) + 0.5)
+    ax.set_ylim(-0.7, len(lines) - 0.2)
+    ax.set_yticks([]); ax.set_xticks([])
+    ax.grid(False)
+    for s in ax.spines.values():
+        s.set_visible(False)
+    from matplotlib.patches import Patch
+    ax.legend(handles=[Patch(color=C[0], label="Crescent, sign 40"), Patch(color=C[1], label="Marker group, 390.41 … 711"),
+                       Patch(color=C[2], label="Other sign")], loc="lower right", ncol=1, fontsize=9, frameon=False)
+    finish(fig, ax, "The Mamari calendar as a sequence",
+           "Each block is one unit in reading order; marker groups are numbered where they begin", "calendar.png")
 print("charts written to", img)
