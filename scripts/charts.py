@@ -190,4 +190,29 @@ for s in ax.spines.values():
 ax.plot([-0.5, 3.5, 3.5, -0.5, -0.5], [-0.5, -0.5, 3.5, 3.5, -0.5], color=INK, lw=1.2)
 finish(fig, ax, "Adjacent strokes keep a fixed order",
        "Free stroke pairs, first sign by row, second by column. Boxed: 4, 2, 1, 9, where above the diagonal wins", "stroke_order.png")
+# 7 collocations ------------------------------------------------------------
+rows = [r for r in read("collocation_pairs.csv") if r["collocation"] == "True"]
+for r in rows:
+    r["G2"], r["count"], r["sides"] = float(r["G2"]), int(r["count"]), int(r["sides"])
+wide = sorted([r for r in rows if r["sides"] >= 3], key=lambda r: -r["G2"])[:18]
+local = sorted([r for r in rows if r["sides"] < 3], key=lambda r: -r["G2"])[:18]
+fig, axes = plt.subplots(1, 2, figsize=(10, 6.2), sharex=False)
+for ax, data, title, col in [(axes[0], wide, "Spread over 3 or more sides", C[0]), (axes[1], local, "Confined to 1 or 2 sides", C[1])]:
+    y = np.arange(len(data))
+    ax.barh(y, [r["G2"] for r in data], height=0.62, color=col)
+    ax.set_yticks(y)
+    ax.set_yticklabels([f"{int(r['a'])} → {int(r['b'])}" if r['a'].isdigit() and r['b'].isdigit() else f"{r['a']} → {r['b']}" for r in data])
+    ax.invert_yaxis()
+    for i, r in enumerate(data):
+        ax.text(r["G2"] + 1.5, i, f"×{r['count']}, {r['sides']} side{'s' if r['sides'] > 1 else ''}", va="center", color=INK2, fontsize=8)
+    ax.set_xlim(0, max(r["G2"] for r in data) * 1.45)
+    ax.set_xlabel("Log-likelihood ratio G²")
+    ax.set_title(title, pad=8, fontsize=11)
+    ax.grid(axis="y", visible=False)
+    ax.tick_params(length=0)
+fig.suptitle("Sign pairs that stick together", x=0.02, ha="left", fontsize=13, fontweight="semibold", color=INK, y=1.02)
+fig.text(0.02, 0.975, "Adjacent head-sign pairs seen 4+ times, one witness per family; label gives count and the number of sides", color=INK2, fontsize=9.5)
+fig.tight_layout(rect=(0, 0, 1, 0.95))
+fig.savefig(img / "collocations.png", bbox_inches="tight", pad_inches=0.25)
+plt.close(fig)
 print("charts written to", img)

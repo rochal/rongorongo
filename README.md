@@ -25,9 +25,10 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 8. [The inventory](#8-the-inventory)
 9. [Shape similarity of the signs](#9-shape-similarity-of-the-signs)
 10. [Genre by vocabulary, and entropy](#10-genre-by-vocabulary-and-entropy)
-11. [Charts](#11-charts)
-12. [What it means and what it does not](#12-what-it-means-and-what-it-does-not)
-13. [Method, data, reproducibility](#13-method-data-reproducibility)
+11. [A collocation lexicon](#11-a-collocation-lexicon)
+12. [Charts](#12-charts)
+13. [What it means and what it does not](#13-what-it-means-and-what-it-does-not)
+14. [Method, data, reproducibility](#14-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -235,7 +236,21 @@ Adjacency carries a consistent quarter to half a bit per token at every vocabula
 
 > **Caveat.** Conditional entropy on a finite sample sits below the unigram entropy even for random order, because rare pairs are never observed. The shuffled column is the fair baseline, not H1. Published entropy comparisons across scripts use varied conventions, so these values should be compared with others only after matching the method.
 
-## 11. Charts
+## 11. A collocation lexicon
+
+The entropy result says adjacency carries a modest amount of information. Collocations are where it sits. Every adjacent head-sign pair seen at least four times, one witness per family, was scored with the log-likelihood ratio, and a pair counts as a collocation at p below 0.001. Of 301 candidate pairs, 73 pass. The number of sides a pair occurs on separates two kinds: a pair confined to one or two sides is a refrain inside a text, a pair spread over three or more is a habit of the script. There are 37 of the first kind and 36 of the second.
+
+![Sign pairs that stick together](docs/img/collocations.png)
+
+- **Doubling is the commonest collocation in the script.** Of the 37 spread collocations, 18 are a sign followed by itself: crescent 40 on 7 sides, fish 700 on 11, and 48, 79, 67, 300, 605, 91, 607, 95, 200, 381, 63, plus the stroke chains 2, 5, 20, 22, and 90 doubled. Rapa Nui, like all Polynesian languages, uses reduplication as a productive grammatical device, so a script that doubles signs this often is at least consistent with writing that language. It is also consistent with tallying, so this is a lead, not a result.
+- **A few non-doubled pairs are genuine script-wide habits.** Sign 7 before the frigatebird 600 on 10 sides, 80 before stroke 4 on 3 sides and 14 times, 27 before 77 on 4 sides, which is the opening of the Ev6 formula, turtle 280 before stroke 1 on 10 sides, and stroke 1 before the delimiter 380 on 7 sides, the closing-stroke pattern from the lists.
+- **The local collocations are the two refrains we already knew.** Mamari's calendar sequence 390, 378, 41, 670, 8 and Keiti's recto refrain 300, 4, 22 account for most of them, along with a few triple repeats confined to single texts.
+- **Stroke chains float free.** For each chain of two or more strokes, the sign immediately before it was tallied. Only one chain has a preferred host: 4 then 22 follows sign 300 in 10 of 21 cases, and that is Keiti's refrain. Every other chain follows a scatter of different signs. This agrees with the affix test: the chains have internal order but no host.
+- **Whole units collocate more sharply than head signs.** Counting ligatures as distinct, 69 unit pairs pass, and the strongest are refrain fragments with their attachments intact, such as 4.430 before 22.380, which occurs 10 times against an expectation near zero. The attachments travel with the phrase.
+
+> **Caveat.** With a corpus this small a pair needs only four occurrences to be tested, so the tail of the collocation list is fragile. The 18 doublings and the handful of spread pairs with more than 10 occurrences are the robust part.
+
+## 12. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -247,7 +262,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 12. What it means and what it does not
+## 13. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -263,7 +278,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** If Pozdniakov is right, most of the 600 rare head signs are built from a few dozen elements. A shape decomposition that matches sub-parts of drawings against the frequent signs would test that directly.
 
-## 13. Method, data, reproducibility
+## 14. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -294,6 +309,7 @@ python scripts/inventory.py
 python scripts/fetch_signs.py
 python scripts/sign_shapes.py
 python scripts/genre_entropy.py
+python scripts/collocations.py
 python scripts/charts.py
 ```
 
@@ -310,7 +326,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | inventory.py | Three inventories with coverage thresholds and Zipf slopes |
 | fetch_signs.py, sign_shapes.py | Catalogue drawings, similarity, look-alike classes, contact sheet |
 | genre_entropy.py | Vocabulary similarity of sides, clusters, 2-D map coordinates; unigram and conditional entropy per layer |
-| charts.py | The six charts in docs/img |
+| collocations.py | Sign pairs and triples scored by log-likelihood ratio and PMI, spread across sides, stroke chains and their hosts |
+| charts.py | The seven charts in docs/img |
 
 ### Conventions
 
