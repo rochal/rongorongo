@@ -13,6 +13,12 @@ What the Barthel transliteration of the rongorongo corpus shows about its texts 
 
 *The verso of the Keiti tablet, eight lines, Ev1 at the top. Photographed in Papeete in the early 1880s, some thirty years before the tablet was destroyed at Louvain in 1914; this print has the glyphs filled white for legibility. Public domain, via Wikimedia Commons.*
 
+## What rongorongo is
+
+Rongorongo is the script of Easter Island, or Rapa Nui, the Chilean island in the south-east Pacific some 3,500 kilometres from the South American coast and about as far from the nearest inhabited land in Polynesia. It survives on about two dozen wooden objects, mostly tablets, plus a staff, two breast ornaments, and a figurine, holding around 14,000 glyphs in all. The glyphs are carved in lines that alternate direction and orientation: a reader finishes one line, turns the tablet through a half turn, and reads the next. Barthel's catalogue of 1958 numbers the signs, and depending on how variants and compounds are counted the inventory runs from about fifty basic elements to several hundred.
+
+Europeans first recorded the script in 1864, and within a decade the islanders who might have been able to read it were gone, lost to slave raids by Peruvian ships in 1862 and the epidemics that followed. Islanders who chanted "readings" for missionaries in the 1870s and 1880s were reciting, not reading, and their chants match no tablet sign for sign. Whether rongorongo is true writing, a mnemonic aid for recitations, or something in between remains open, and no decipherment has won acceptance. The Keiti tablet in the photograph above, collected in 1870 and sent to Belgium, burned with the library of Louvain in 1914 and is known only from photographs, rubbings, and a tracing.
+
 ## About this project
 
 I am Piotr Rochala, a software engineer from Poland with a long-standing fascination for ancient cultures and the scripts they left behind. I am not a linguist, an archaeologist, or a Pacific specialist, and this repository makes no claim to a decipherment. What it offers is the thing a software engineer can bring to a hundred-year-old problem: a reproducible pipeline over the published data, with every measurement scripted, every result paired with a control or a null, and every caveat stated where the number is. The corpus and the sign catalogue are Barthel's and the CEIPP's; the tracings are Barthel's; the Rapa Nui text is Thomson's. My contribution is the questions, the code, and the discipline of not guessing at meaning.
