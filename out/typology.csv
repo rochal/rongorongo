@@ -1,0 +1,42 @@
+side,object,lines,units,illegible,family,parallel_strict_pct,parallel_fuzzy_pct,internal_repeats,delimiters_380_1,list_entries,alternating_series,units_with_76_pct,carved_dividers,crescent_40_pct,vocab_neighbour,metoro,type
+Aa,Tahua,8,678,2,none,0,4,2,0,0,4,0,0,0,Ab (0.51),yes,isolated
+Ab,Tahua,8,659,7,none,0,4,1,0,0,2,0,0,2,Ra (0.62),yes,isolated
+Br,Aruku Kurenga,10,437,3,none,1,2,3,0,0,5,1,0,1,Er (0.55),yes,"isolated, with refrains"
+Bv,Aruku Kurenga,12,510,6,none,1,4,0,0,0,1,1,0,1,Hr (0.61),yes,isolated
+Ca,Mamari,14,396,4,none,0,1,16,8,6,2,0,0,8,Cb (0.61),yes,"calendar-like, crescent runs, with lists"
+Cb,Mamari,14,363,11,none,0,0,1,12,11,2,0,0,3,Ca (0.61),yes,delimited list
+Da,Échancrée,8,106,11,none,0,3,0,0,0,0,0,0,0,Hv (0.49),,isolated
+Db,Échancrée,6,73,12,none,0,0,0,0,0,0,0,0,1,Ab (0.48),,isolated
+Er,Keiti,9,338,4,none,0,3,12,0,0,5,1,0,4,Br (0.55),yes,"isolated, with refrains"
+Ev,Keiti,8,309,3,none,4,7,0,22,20,4,0,0,1,Na (0.63),yes,delimited list
+Fa,Chauvet fragment,6,35,6,none,0,0,0,0,0,0,0,0,3,,,too short to type
+Fb,Chauvet fragment,5,15,3,none,0,0,0,0,0,0,0,0,0,,,too short to type
+Gr,Small Santiago,8,239,4,Gr/Kr/Kv,29,37,3,30,29,3,1,0,0,Kv (0.67),,"copied text, Small Santiago group"
+Gv,Small Santiago,8,243,5,none,0,0,0,0,0,1,18,0,2,Hv (0.47),,isolated
+Hr,Great Santiago,12,586,1,Hr/Pr/Qr,42,53,0,0,0,3,1,0,1,Qr (0.84),,"copied text, Great Santiago group"
+Hv,Great Santiago,12,632,4,Hv/Pv/Qv,20,29,0,0,0,6,0,0,1,Pv (0.75),,"copied text, Great Santiago group"
+Ia,Santiago Staff,14,1619,30,none,0,0,0,0,0,0,35,97,0,Ta (0.53),,"triadic, marked by sign 76"
+Ja,Reimiro 1,1,1,0,none,0,0,0,0,0,0,0,0,0,,,too short to type
+Kr,Small London,5,82,10,Gr/Kr/Kv,49,57,0,10,9,2,0,0,1,Gr (0.65),,"copied text, Small Santiago group"
+Kv,Small London,5,62,1,Gr/Kr/Kv,27,41,0,12,11,1,0,0,0,Gr (0.67),,"copied text, Small Santiago group"
+La,Reimiro 2,1,44,0,none,0,0,0,0,0,1,0,0,0,Hv (0.16),,isolated
+Ma,Great Vienna,9,48,16,none,0,6,0,0,0,1,0,0,0,Oa (0.42),,isolated
+Na,Small Vienna,5,97,11,none,5,5,0,7,5,2,0,0,0,Ev (0.63),,delimited list
+Nb,Small Vienna,5,65,12,none,0,0,0,0,0,1,2,0,2,Bv (0.28),,isolated
+Oa,Berlin,7,78,24,none,0,0,0,0,0,0,0,0,4,Ab (0.43),,isolated
+Pr,Great St Petersburg,11,605,2,Hr/Pr/Qr,24,34,0,0,0,1,1,0,1,Hr (0.83),,"copied text, Great Santiago group"
+Pv,Great St Petersburg,11,556,3,Hv/Pv/Qv,24,37,0,0,0,4,0,0,1,Hv (0.75),,"copied text, Great Santiago group"
+Qr,Small St Petersburg,9,369,7,Hr/Pr/Qr,47,61,0,0,0,2,2,0,1,Hr (0.84),,"copied text, Great Santiago group"
+Qv,Small St Petersburg,9,331,22,Hv/Pv/Qv,26,36,0,1,0,2,0,0,1,Pv (0.68),,"copied text, Great Santiago group"
+Ra,Small Washington,8,194,17,none,6,14,0,0,0,0,0,0,5,Ab (0.62),,isolated
+Rb,Small Washington,9,161,17,none,0,2,0,0,0,1,0,0,2,Hr (0.53),,isolated
+Sa,Great Washington,8,280,27,none,0,3,0,4,2,3,0,0,0,Ev (0.61),,delimited list
+Sb,Great Washington,9,304,32,none,0,0,3,0,0,2,1,0,1,Hr (0.62),,"isolated, with refrains"
+Ta,Honolulu 1,11,110,25,none,0,0,0,0,0,0,29,0,0,Ia (0.53),,"triadic, marked by sign 76"
+Ua,Honolulu 2,4,20,7,none,0,0,0,0,0,0,0,0,5,,,too short to type
+Va,Honolulu 3,1,20,0,none,0,0,0,0,0,0,0,0,0,,,too short to type
+Wa,Honolulu 4,1,1,0,none,0,0,0,0,0,0,0,0,0,,,too short to type
+Xa,Tangata manu,7,24,11,none,0,0,0,0,0,0,0,0,4,,,too short to type
+Ya,Paris snuffbox,1,1,0,none,0,0,0,0,0,0,0,0,0,,,too short to type
+Yb,Paris snuffbox,1,1,0,none,0,0,0,0,0,0,0,0,0,,,too short to type
+Za,Poike,1,1,0,none,0,0,0,0,0,0,0,0,0,,,too short to type

@@ -76,9 +76,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 16. [The carved dividers](#16-the-carved-dividers)
 17. [Metoro's readings](#17-metoros-readings)
 18. [Three witnesses for merging signs](#18-three-witnesses-for-merging-signs)
-19. [Charts](#19-charts)
-20. [What it means and what it does not](#20-what-it-means-and-what-it-does-not)
-21. [Method, data, reproducibility](#21-method-data-reproducibility)
+19. [A catalogue of texts and signs](#19-a-catalogue-of-texts-and-signs)
+20. [Charts](#20-charts)
+21. [What it means and what it does not](#21-what-it-means-and-what-it-does-not)
+22. [Method, data, reproducibility](#22-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -551,7 +552,66 @@ Metoro's chant proposes a pair when two signs, each chanted at least eight times
 
 > **Caveat.** The parallel-map gain is a coarse yardstick, since a merge can be right and add no runs, or wrong and add several by chance; the random control bounds only the second. Metoro's chant covers about a third of the corpus and its word alignment is statistical, so a pair he never chanted, or chanted rarely, cannot appear here at all.
 
-## 19. Charts
+## 19. A catalogue of texts and signs
+
+*In plain words: the eighteen sections above each say something about particular tablets and particular signs, but scattered across many tables. Here it is gathered into two reference lists, one row per text and one row per sign, so that anyone can look up what is known about a given tablet side or a given glyph in one place.*
+
+### The texts
+
+One row per side with at least 40 legible units. "Parallel elsewhere" is the share of the side's signs inside a passage found on another tablet under the fuzzy setting. "380.1" counts the list delimiter; "series" counts alternating runs; "dividers" counts the carved marks, which only the Staff has. "Closest vocabulary" is the side whose sign frequencies are most alike, with the similarity. The type label is a rule applied to the row, in this order: a copied family, then sign 76 on more than a quarter of units, then crescent runs with internal repeats, then four or more delimiters, then internal repeats, else isolated. The full table with every column is `out/typology.csv`.
+
+| side | object | units | parallel elsewhere | 380.1 | series | units with 76 | dividers | closest vocabulary | Metoro | type |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Aa | Tahua | 678 | 4% |  | 4 | 0% |  | Ab (0.51) | yes | isolated |
+| Ab | Tahua | 659 | 4% |  | 2 | 0% |  | Ra (0.62) | yes | isolated |
+| Br | Aruku Kurenga | 437 | 2% |  | 5 | 1% |  | Er (0.55) | yes | isolated, with refrains |
+| Bv | Aruku Kurenga | 510 | 4% |  | 1 | 1% |  | Hr (0.61) | yes | isolated |
+| Ca | Mamari | 396 | 1% | 8 | 2 | 0% |  | Cb (0.61) | yes | calendar-like, crescent runs, with lists |
+| Cb | Mamari | 363 | 0% | 12 | 2 | 0% |  | Ca (0.61) | yes | delimited list |
+| Da | Échancrée | 106 | 3% |  |  | 0% |  | Hv (0.49) |  | isolated |
+| Db | Échancrée | 73 | 0% |  |  | 0% |  | Ab (0.48) |  | isolated |
+| Er | Keiti | 338 | 3% |  | 5 | 1% |  | Br (0.55) | yes | isolated, with refrains |
+| Ev | Keiti | 309 | 7% | 22 | 4 | 0% |  | Na (0.63) | yes | delimited list |
+| Gr | Small Santiago | 239 | 37% | 30 | 3 | 1% |  | Kv (0.67) |  | copied text, Small Santiago group |
+| Gv | Small Santiago | 243 | 0% |  | 1 | 18% |  | Hv (0.47) |  | isolated |
+| Hr | Great Santiago | 586 | 53% |  | 3 | 1% |  | Qr (0.84) |  | copied text, Great Santiago group |
+| Hv | Great Santiago | 632 | 29% |  | 6 | 0% |  | Pv (0.75) |  | copied text, Great Santiago group |
+| Ia | Santiago Staff | 1619 | 0% |  |  | 35% | 97 | Ta (0.53) |  | triadic, marked by sign 76 |
+| Kr | Small London | 82 | 57% | 10 | 2 | 0% |  | Gr (0.65) |  | copied text, Small Santiago group |
+| Kv | Small London | 62 | 41% | 12 | 1 | 0% |  | Gr (0.67) |  | copied text, Small Santiago group |
+| La | Reimiro 2 | 44 | 0% |  | 1 | 0% |  | Hv (0.16) |  | isolated |
+| Ma | Great Vienna | 48 | 6% |  | 1 | 0% |  | Oa (0.42) |  | isolated |
+| Na | Small Vienna | 97 | 5% | 7 | 2 | 0% |  | Ev (0.63) |  | delimited list |
+| Nb | Small Vienna | 65 | 0% |  | 1 | 2% |  | Bv (0.28) |  | isolated |
+| Oa | Berlin | 78 | 0% |  |  | 0% |  | Ab (0.43) |  | isolated |
+| Pr | Great St Petersburg | 605 | 34% |  | 1 | 1% |  | Hr (0.83) |  | copied text, Great Santiago group |
+| Pv | Great St Petersburg | 556 | 37% |  | 4 | 0% |  | Hv (0.75) |  | copied text, Great Santiago group |
+| Qr | Small St Petersburg | 369 | 61% |  | 2 | 2% |  | Hr (0.84) |  | copied text, Great Santiago group |
+| Qv | Small St Petersburg | 331 | 36% | 1 | 2 | 0% |  | Pv (0.68) |  | copied text, Great Santiago group |
+| Ra | Small Washington | 194 | 14% |  |  | 0% |  | Ab (0.62) |  | isolated |
+| Rb | Small Washington | 161 | 2% |  | 1 | 0% |  | Hr (0.53) |  | isolated |
+| Sa | Great Washington | 280 | 3% | 4 | 3 | 0% |  | Ev (0.61) |  | delimited list |
+| Sb | Great Washington | 304 | 0% |  | 2 | 1% |  | Hr (0.62) |  | isolated, with refrains |
+| Ta | Honolulu 1 | 110 | 0% |  |  | 29% |  | Ia (0.53) |  | triadic, marked by sign 76 |
+
+Read as a whole, the corpus has five kinds of text and one residue. Nine sides are copies within two families. Five carry delimited lists, one of them the Mamari side that also holds the calendar. Two are the triadic texts marked by sign 76. Three isolated texts carry their own refrains, Keiti's recto among them. Twelve sides, including both sides of Tahua, the largest tablet, remain isolated and untyped: nothing they contain recurs in the corpus at the resolution of these tests, which makes them the least understood texts and the most rewarding to look at next.
+
+### The signs
+
+One row per head sign with at least 20 tokens, 104 signs in all, in `out/sign_dossier.csv`. For each: frequency and Barthel series, how often it stands bare, which components attach to it and which heads it attaches to, its strongest neighbours before and after, its shape look-alikes, Metoro's word and consistency, the signs copyists swapped it with, and its roles as alternation head, list member, and Staff triad slot. The six commonest signs, in a selection of columns:
+
+| Sign | Tokens | Bare | Top attachments | Attaches to | Before it | After it | Shape neighbours | Metoro | Copies swap with | Staff slots first/middle/last |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 432 | 64% | 6, 9, 62 | 380, 260, 62 | 280, 88, 62 | 9, 380, 7 | 73, 65 | *henua* 0.70 | 4, 25, 66 | 6/3/4 |
+| 2 | 361 | 82% | 10, 76, 3 | 10, 595, 200 | 2 | 2, 595, 34 | 83, 20 | *inoino* 0.40 | | 7/3/9 |
+| 4 | 291 | 53% | 64, 430, 600 | 600, 4, 400 | 80, 81, 300 | 22, 760 | 10, 62 | *hokohuki* 0.35 | 1, 290 | 0/5/0 |
+| 600 | 233 | 74% | 4, 76, 7 | 4, 1, 200 | 7 | | 690, 610 | *manu* 0.40 | 78, 400 | 2/12/20 |
+| 22 | 219 | 72% | 380, 243, 10 | 200, 300, 61 | 15, 4, 22 | 203, 22, 25 | 24, 23 | *hokohuki* 0.38 | | 2/0/0 |
+| 700 | 215 | 75% | 76, 10, 3 | 6, 10, 605 | 700 | 700 | 710, 23 | *ika* 0.43 | | 12/7/15 |
+
+The dossier makes some contradictions visible that the sections did not. Stroke 1 is the most frequent sign, stands bare two times in three, attaches to the list delimiter 380 more than to anything else, and is what Metoro called *henua*, land, with the highest consistency of any common sign; a sign that is at once the commonest filler and the most firmly named is not what either the affix test or the picture-naming view alone would predict. The frigatebird 600 sits in the last slot of a Staff triad ten times more often than in the first, which no other common sign does, so the triads have at least one positional preference after all. Sign 4 attaches to 64 in 54 of its 291 occurrences and to nothing else nearly as often, which makes 4.64 a candidate unit of its own.
+
+## 20. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -563,7 +623,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 20. What it means and what it does not
+## 21. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -579,7 +639,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 21. Method, data, reproducibility
+## 22. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -629,6 +689,7 @@ python scripts/staff_dividers.py
 python scripts/fetch_metoro.py         # Metoro's readings, Jaussen 1893, public domain
 python scripts/metoro.py
 python scripts/metoro_merge.py
+python scripts/synthesis.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -654,6 +715,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | staff_dividers.py | Stretches between the Staff's carved dividers: length, alignment with the 76 triads, openers and closers, cohesion, repeats, against random dividers |
 | fetch_metoro.py, metoro.py | Metoro's 1873 readings line by line; word alignment to Barthel's signs, consistency against shuffled line pairing, words per series |
 | metoro_merge.py | Sign pairs proposed by Metoro's words, checked against shape and copy substitutions, and tested by rerunning the parallel map against random frequency-matched merges |
+| synthesis.py | The typology of texts (one row per side) and the sign dossier (one row per sign), gathered from every other table |
 | charts.py | The fourteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
