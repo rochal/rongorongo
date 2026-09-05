@@ -279,4 +279,24 @@ if (out / "rapanui_lengths.csv").exists():
     ax.legend(loc="upper right")
     finish(fig, ax, "Word length against unit length",
            "Rapa Nui recitations of 1886 (Thomson 1891) against the rongorongo corpus, one witness per family", "rapanui_lengths.png")
+# 10 chant comparison -------------------------------------------------------
+if (out / "chant_lengths.csv").exists():
+    rows = {r["series"]: r for r in read("chant_lengths.csv")}
+    pick = [("chant entries, content words", "Creation chant entries, content words", C[0]),
+            ("380.1 entries, content units", "380.1 list entries, content units", C[1]),
+            ("Staff segments at 76", "Santiago Staff cut at sign 76, units", C[2])]
+    k = np.arange(1, 10)
+    fig, ax = plt.subplots(figsize=(8, 4.4))
+    w = 0.27
+    for i, (key, label, col) in enumerate(pick):
+        r = rows[key]
+        vals = np.array([float(r[f"len_{j}"]) for j in k])
+        ax.bar(k + (i - 1) * w, vals, width=w - 0.03, color=col, label=f"{label} (n = {r['n']})")
+    ax.set_xticks(k); ax.set_xlabel("Entry or segment length")
+    ax.set_ylabel("Share of entries")
+    ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+    ax.grid(axis="x", visible=False)
+    ax.legend(loc="upper right", fontsize=9)
+    finish(fig, ax, "Does either written list have the shape of the chant?",
+           "Genealogy entries of 1886 against the 380.1 lists and Fischer's Staff triads; fixed phrase, strokes and dividers excluded", "chant_lengths.png")
 print("charts written to", img)

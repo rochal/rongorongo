@@ -28,9 +28,10 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 11. [A collocation lexicon](#11-a-collocation-lexicon)
 12. [Compound decomposition](#12-compound-decomposition)
 13. [Units against Rapa Nui words](#13-units-against-rapa-nui-words)
-14. [Charts](#14-charts)
-15. [What it means and what it does not](#15-what-it-means-and-what-it-does-not)
-16. [Method, data, reproducibility](#16-method-data-reproducibility)
+14. [The list format against the creation chant](#14-the-list-format-against-the-creation-chant)
+15. [Charts](#15-charts)
+16. [What it means and what it does not](#16-what-it-means-and-what-it-does-not)
+17. [Method, data, reproducibility](#17-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -299,7 +300,31 @@ The Rapa Nui sample is the set of recitations Ure Vaeiko gave in 1886, printed i
 
 > **Caveat.** This is one small sample of one genre, transcribed by ear in 1886 and OCR'd from an 1891 print. The direction of each difference is robust to the noise; the exact percentages are not. A cleaner Rapa Nui text of comparable genre would sharpen all three comparisons.
 
-## 14. Charts
+## 14. The list format against the creation chant
+
+Among the recitations in Thomson's report is the one Ure Vaeiko gave for the Small Washington tablet, a creation genealogy of forty entries. Each entry names a parent, joins it with a fixed phrase to a second name, and yields a third: a three-slot formula with constant connective words. Fischer built his 1997 reading of the Santiago Staff on the claim that the Staff writes exactly this, as triads in which the first sign carries the attached sign 76 as the connective. The 380.1 lists of section 4 are the other candidate for a written genealogy. Both can be compared with the chant on shape alone.
+
+The chant's forty entries were parsed from the OCR with the fixed phrase intact, and lengths counted in content words, the connective phrase and the particles excluded. The 380.1 entries were counted in content units, strokes excluded. The Staff was cut before every unit carrying sign 76, which is Fischer's segmentation, and the same cut was applied to the two texts he grouped with the Staff, Gv and Ta. Since a cut at a frequent sign yields short segments whatever the text, each 76 cut was compared with a null in which the same number of 76-bearing units is shuffled to random positions.
+
+![Does either written list have the shape of the chant?](docs/img/chant_lengths.png)
+
+| Series | n | Median length | Exactly 3 | 2 to 4 | Shuffled null, exactly 3 |
+|---|---|---|---|---|---|
+| Chant entries | 40 | 3 | 72% | 85% | |
+| 380.1 entries, content units | 93 | 2 | 15% | 55% | |
+| Staff cut at sign 76 | 555 | 3 | 56% | 82% | 15% |
+| Gv cut at sign 76 | 40 | 4 | 25% | 57% | 12% |
+| Ta cut at sign 76 | 30 | 3 | 23% | 57% | 15% |
+
+- **The Staff has the chant's shape; the 380.1 lists do not.** Cut at sign 76, the Staff falls into segments of exactly three units 56 percent of the time and of two to four units 82 percent of the time, against 72 and 85 percent for the chant. Shuffling the positions of the 76 units drops the three-unit share to 15 percent, so the regularity is in the text, not in the density of the sign. The 380.1 lists, by contrast, have a median entry of two content units and no preference for three.
+- **The Staff is triadic beyond doubt; what the triads say is another matter.** This is structural support for the first half of Fischer's claim, that the Staff is built of three-part units marked by sign 76 and that their shape matches a Rapa Nui creation genealogy. It says nothing about his second half, that each triad reads as one being copulating with another to produce a third. Any three-slot formula would give the same shape, and the shape is also that of a tally of three items or a line of a chant with a fixed refrain.
+- **Gv and Ta are triadic, but weakly.** Both beat their nulls, at 25 and 23 percent against 12 and 15, but fall well short of the Staff. Fischer grouped them with the Staff on the strength of sign 76; the shape supports a relation without making them the same kind of text.
+- **The two written list formats are different genres.** The 380.1 lists have short, mostly unique entries and one delimiter; the Staff has three-unit segments marked by an attached sign and grouped, by its own carved dividers, into stretches of a median nine units, or about three triads. If one of them is a genealogy in the chant's form, it is the Staff.
+- **Recurrence points the same way.** In the chant 30 percent of entries share a name with another, mostly the parent repeated over consecutive entries. In the 380.1 lists 13 percent of entries repeat another entry's content exactly.
+
+> **Caveat.** The chant is one recitation, taken down by ear in 1886 from a man who may have been improvising for a visitor; its shape is at least a Rapa Nui recitation's shape, whatever its relation to the tablet it was recited for. The 76 cut was defined by Fischer with the chant in mind, so the match is a test of his segmentation rather than a discovery independent of it; the shuffled null is what makes the match evidential.
+
+## 15. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -311,13 +336,13 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 15. What it means and what it does not
+## 16. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
 What the evidence supports is a genre-level and layer-level description. The texts are recited formulaic material: copied sets on H, P, and Q, a condensed copy on K, delimited lists whose items are mostly unique, refrains and alternating series. Within a text, three layers behave differently. The head sign is the open, content-bearing class. The attached component is a small closed class that copyists treated as optional and that carries whatever host selectivity exists. The compound unit is the word-sized thing. This picture is consistent with the mixed logo-syllabic reading most specialists favour, and it argues against both the picture-reading and the pure-cipher framings.
 
-What is probably known already: the families, the 380.1 lists, and the size of Barthel's inventory. What is worth checking against the literature: the negative affix result for free strokes, the fixed stacking order 4, 2, 1, 9, the finding that copies vary in attachments rather than head signs, the word-like statistics of whole units, and the result that shape merging alone cannot reach a syllabary-sized inventory.
+What is probably known already: the families, the 380.1 lists, and the size of Barthel's inventory. What is worth checking against the literature: the negative affix result for free strokes, the fixed stacking order 4, 2, 1, 9, the finding that copies vary in attachments rather than head signs, the word-like statistics of whole units, the result that shape merging alone cannot reach a syllabary-sized inventory, and the shuffled-null test showing the Staff's sign-76 triads are a real structure with the shape of the 1886 creation chant while the 380.1 lists are not.
 
 ### Open questions and next tests
 
@@ -327,7 +352,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 16. Method, data, reproducibility
+## 17. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -371,6 +396,7 @@ python scripts/collocations.py
 python scripts/decompose.py --tol 1    # about a minute per pass on 16 cores, 5 passes
 python scripts/fetch_rapanui.py        # Thomson 1891 OCR text, public domain
 python scripts/rapanui.py
+python scripts/chant.py
 python scripts/charts.py
 ```
 
@@ -390,7 +416,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | collocations.py | Sign pairs and triples scored by log-likelihood ratio and PMI, spread across sides, stroke chains and their hosts |
 | decompose.py | Tolerant template decomposition of rare signs into frequent ones, parallel, with random and positive controls; options --tol, --limit, --controls, --basic, --workers |
 | fetch_rapanui.py, rapanui.py | Thomson 1891 OCR text; word length, reduplication and frequent-item comparison against rongorongo units |
-| charts.py | The nine charts in docs/img |
+| chant.py | Entry shape of the 1886 creation chant against the 380.1 lists and the sign-76 segmentation of the Staff, Gv and Ta, with a shuffled null |
+| charts.py | The ten charts in docs/img |
 
 ### Licence
 
