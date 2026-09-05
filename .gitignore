@@ -17,3 +17,4 @@ data/rapanui/sources/
 data/metraux/
 data/rapanui/_*
 data/tracings/
+data/*.log
