@@ -937,7 +937,7 @@ python scripts/charts.py
 python scripts/glyphs.py
 ```
 
-Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The kohaumotu site serves plain http only and its TLS certificate has expired.
+Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-image, as listed in requirements.txt, and Tesseract for the Métraux page scans. The kohaumotu site serves plain http only and its TLS certificate has expired.
 
 | Script | Produces |
 |---|---|
