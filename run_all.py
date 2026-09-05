@@ -44,6 +44,7 @@ if args.refetch or not (root / "data" / "metoro" / "html").exists():
 steps.append(["metoro.py"])
 steps.append(["metoro_merge.py"])
 steps.append(["synthesis.py"])
+steps.append(["robustness.py"])
 if not args.fast:
     # the 2 px run first; its outputs are copied to *_tol2 before the 1 px run overwrites them
     steps += [["decompose.py", "--tol", "2"], ["__keep_tol2__"], ["decompose.py", "--tol", "1"]]

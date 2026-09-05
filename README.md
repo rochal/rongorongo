@@ -77,9 +77,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 17. [Metoro's readings](#17-metoros-readings)
 18. [Three witnesses for merging signs](#18-three-witnesses-for-merging-signs)
 19. [A catalogue of texts and signs](#19-a-catalogue-of-texts-and-signs)
-20. [Charts](#20-charts)
-21. [What it means and what it does not](#21-what-it-means-and-what-it-does-not)
-22. [Method, data, reproducibility](#22-method-data-reproducibility)
+20. [Which findings survive a change of inventory](#20-which-findings-survive-a-change-of-inventory)
+21. [Charts](#21-charts)
+22. [What it means and what it does not](#22-what-it-means-and-what-it-does-not)
+23. [Method, data, reproducibility](#23-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -247,7 +248,7 @@ The controls:
 
 **The free-standing strokes fail.** No candidate shows the one-sided pattern. Strokes 1 and 2 are the least choosy signs in the corpus on both sides, which is how a very common syllable or a general particle behaves, not a host-selective affix. Signs 20 and 90 are choosy toward specific partners, the fish signs and sign 80, which is the alternating passages again rather than a general rule.
 
-**Two things survive.** When strokes stand side by side their order is fixed: 2 before 1 in 18 cases against 8, 4 before 2 in 17 against 7, 1 before 9 in 10 against none, 2 before 3 in 5 against none. That gives a chain 4, 2, 1, 9, which is what affix chains and numeral systems both produce. And the fused components are host-selective in exactly the way free strokes are not: sign 3 is bound in 404 of 433 occurrences, sign 9 in 142 of 194, and bound stroke 1 attaches to sign 380 in 107 of 430 cases. If anything here is an affix, it is the small sign fused into a larger one.
+**Two things survive.** When strokes stand side by side their order is fixed: 2 before 1 in 18 cases against 8, 4 before 2 in 17 against 7, 1 before 9 in 10 against none, 2 before 3 in 5 against none. That gives a chain 4, 2, 1, 9, which is what affix chains and numeral systems both produce. Section 20 shows the 2-before-1 preference holds under every candidate inventory, while the 4-before-2 preference weakens to 1.8 to 1 if signs 4 and 22 are merged, as two witnesses in section 18 suggest they should be. And the fused components are host-selective in exactly the way free strokes are not: sign 3 is bound in 404 of 433 occurrences, sign 9 in 142 of 194, and bound stroke 1 attaches to sign 380 in 107 of 430 cases. If anything here is an affix, it is the small sign fused into a larger one.
 
 ## 7. Allographs and how copies differ
 
@@ -611,7 +612,34 @@ One row per head sign with at least 20 tokens, 104 signs in all, in `out/sign_do
 
 The dossier makes some contradictions visible that the sections did not. Stroke 1 is the most frequent sign, stands bare two times in three, attaches to the list delimiter 380 more than to anything else, and is what Metoro called *henua*, land, with the highest consistency of any common sign; a sign that is at once the commonest filler and the most firmly named is not what either the affix test or the picture-naming view alone would predict. The frigatebird 600 sits in the last slot of a Staff triad ten times more often than in the first, which no other common sign does, so the triads have at least one positional preference after all. Sign 4 attaches to 64 in 54 of its 291 occurrences and to nothing else nearly as often, which makes 4.64 a candidate unit of its own.
 
-## 20. Charts
+## 20. Which findings survive a change of inventory
+
+*In plain words: several of the results depend on treating Barthel's numbers as the true list of signs, and sections 7, 9, 17 and 18 each proposed merging some of them. So every headline measure was recomputed under six different sign lists, from Barthel's as is to a union of every proposed merge. A finding that barely moves is one that does not depend on who is right about the inventory.*
+
+The six inventories: Barthel's numbering; the three copy-substitution merges; the loose shape merge of twenty pairs; Metoro's four pairs; the two pairs backed by two witnesses; and the union of all of them, 23 merges. Stable means every change from Barthel's numbering stays within 10 percent; moves, within 25; inventory-dependent, beyond that.
+
+| Measure | Barthel | Copies | Shape | Metoro | Consensus | Union | Max change | Verdict |
+|---|---|---|---|---|---|---|---|---|
+| Copy families | 3 | 3 | 3 | 3 | 3 | 3 | 0% | stable |
+| Shared runs, strict | 134 | 145 | 167 | 145 | 137 | 170 | 27% | rises with merging, as it must |
+| Distinct heads | 649 | 646 | 629 | 645 | 647 | 626 | 4% | stable |
+| Heads for 90% of tokens | 223 | 220 | 204 | 219 | 221 | 201 | 10% | stable |
+| Adjacency gain, bits | 0.29 | 0.30 | 0.29 | 0.28 | 0.29 | 0.29 | 4% | stable |
+| Doubling share | 5.6% | 5.6% | 5.8% | 6.1% | 6.0% | 6.2% | 11% | moves, upward only |
+| Collocations | 73 | 75 | 75 | 72 | 72 | 72 | 3% | stable |
+| Order 2 before 1, ratio | 2.17 | 2.17 | 2.17 | 2.17 | 2.17 | 2.17 | 0% | stable |
+| Order 4 before 2, ratio | 2.75 | 2.75 | 2.75 | 1.76 | 1.76 | 1.76 | 36% | inventory-dependent |
+| Staff segments of exactly 3 | 56% | 56% | 56% | 56% | 56% | 56% | 0% | stable |
+| Distinct units | 2,067 | 2,061 | 2,032 | 2,048 | 2,052 | 2,015 | 3% | stable |
+| Unit hapax share | 64% | 64% | 64% | 63% | 64% | 64% | 0% | stable |
+
+- **The families, the inventory size, the entropy, the collocations, the unit statistics and the Staff triads do not depend on the inventory.** The same three copy families appear under all six lists. The head inventory stays above 620 signs and the number needed for 90 percent of the text above 200 under every merge, so the syllabary argument of section 8 is safe. The word-like unit statistics and the Staff's triadic share do not move at all.
+- **One claim needs qualifying.** The stacking order of section 6 rests on two ratios. Stroke 2 before 1 holds at 2.2 to 1 under every inventory. Stroke 4 before 2 holds at 2.8 to 1 under Barthel, copies and shape, but drops to 1.8 to 1 once Metoro's merge of 4 with 22 is applied, because 22 sits after 2 as often as before it. The order is real but its strength for sign 4 depends on whether 4 and 22 are one sign, which two witnesses say they are. The section 6 text now says so.
+- **Two measures rise with merging by construction.** Shared runs must increase when signs are merged, and doubling rises because merged neighbours become identical; both are shown for completeness, not as findings.
+
+> **Caveat.** The list measures here are computed one witness per family, so the 380.1 entry count is 73 rather than the 93 of section 4, which included the London copies. The measures are unaffected by every inventory because none of the proposed merges touches sign 380.
+
+## 21. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -623,7 +651,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 21. What it means and what it does not
+## 22. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -639,7 +667,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 22. Method, data, reproducibility
+## 23. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -690,6 +718,7 @@ python scripts/fetch_metoro.py         # Metoro's readings, Jaussen 1893, public
 python scripts/metoro.py
 python scripts/metoro_merge.py
 python scripts/synthesis.py
+python scripts/robustness.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -716,6 +745,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | fetch_metoro.py, metoro.py | Metoro's 1873 readings line by line; word alignment to Barthel's signs, consistency against shuffled line pairing, words per series |
 | metoro_merge.py | Sign pairs proposed by Metoro's words, checked against shape and copy substitutions, and tested by rerunning the parallel map against random frequency-matched merges |
 | synthesis.py | The typology of texts (one row per side) and the sign dossier (one row per sign), gathered from every other table |
+| robustness.py | The headline measures recomputed under six candidate inventories, with a stability verdict for each |
 | charts.py | The fourteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
