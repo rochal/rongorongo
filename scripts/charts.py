@@ -332,4 +332,24 @@ if (out / "staff_chain.csv").exists():
     fig.tight_layout(rect=(0, 0, 1, 0.92))
     fig.savefig(img / "staff_chain.png", bbox_inches="tight", pad_inches=0.25)
     plt.close(fig)
+# 12 divider stretches ------------------------------------------------------
+if (out / "staff_stretches.csv").exists():
+    rows = read("staff_stretches.csv")
+    tri = np.array([int(r["triads_76"]) for r in rows])
+    cats = list(range(1, 13)) + ["13+"]
+    counts = [int((tri == k).sum()) for k in range(1, 13)] + [int((tri >= 13).sum())]
+    fig, ax = plt.subplots(figsize=(8, 4.2))
+    x = np.arange(len(cats))
+    ax.bar(x, np.array(counts) / len(tri), width=0.7, color=C[0])
+    for i, c in enumerate(counts):
+        if c:
+            ax.text(x[i], c / len(tri) + 0.006, str(c), ha="center", color=INK2, fontsize=9)
+    ax.set_xticks(x); ax.set_xticklabels([str(c) for c in cats])
+    ax.set_xlabel("Sign-76 triads between two carved dividers")
+    ax.set_ylabel("Share of the 95 stretches")
+    ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+    ax.grid(axis="x", visible=False)
+    finish(fig, ax, "The carved dividers cut the Staff at triad boundaries, but not at regular intervals",
+           "95% of stretches open on a 76-bearing unit against 34% for random dividers; 55% hold one to three triads, the longest holds 55",
+           "staff_dividers.png")
 print("charts written to", img)

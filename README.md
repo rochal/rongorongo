@@ -23,7 +23,7 @@ Europeans first recorded the script in 1864, and within a decade the islanders w
 
 I am Piotr Rochala, a software engineer from Poland with a long-standing fascination for ancient cultures and the scripts they left behind. I am not a linguist, an archaeologist, or a Pacific specialist, and this repository makes no claim to a decipherment. What it offers is the thing a software engineer can bring to a hundred-year-old problem: a reproducible pipeline over the published data, with every measurement scripted, every result paired with a control or a null, and every caveat stated where the number is. The corpus and the sign catalogue are Barthel's and the CEIPP's; the tracings are Barthel's; the Rapa Nui text is Thomson's. My contribution is the questions, the code, and the discipline of not guessing at meaning.
 
-The work started with a single photograph of the Keiti tablet and the question of what could be said about it without reading it. It grew into the sixteen analyses below. Where a result is likely already known to specialists I say so; where I think it may be new I say that too, and I would be glad to be corrected on either. Issues and pull requests are welcome, and so is a message from anyone who works on this material.
+The work started with a single photograph of the Keiti tablet and the question of what could be said about it without reading it. It grew into the analyses below. Where a result is likely already known to specialists I say so; where I think it may be new I say that too, and I would be glad to be corrected on either. Issues and pull requests are welcome, and so is a message from anyone who works on this material.
 
 Rongorongo is undeciphered and this report does not change that. It records nine structural results obtained by scripting over the published numerical transliteration and Barthel's sign catalogue, each with its evidence and its caveat, so that they can be checked against the literature and built on. Every result is reproducible from the scripts in this repository.
 
@@ -46,9 +46,10 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 13. [Units against Rapa Nui words](#13-units-against-rapa-nui-words)
 14. [The list format against the creation chant](#14-the-list-format-against-the-creation-chant)
 15. [Do the triads chain?](#15-do-the-triads-chain)
-16. [Charts](#16-charts)
-17. [What it means and what it does not](#17-what-it-means-and-what-it-does-not)
-18. [Method, data, reproducibility](#18-method-data-reproducibility)
+16. [The carved dividers](#16-the-carved-dividers)
+17. [Charts](#17-charts)
+18. [What it means and what it does not](#18-what-it-means-and-what-it-does-not)
+19. [Method, data, reproducibility](#19-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -365,7 +366,32 @@ For each segment the first and last head signs were taken, and three shares meas
 
 > **Caveat.** The chain measure compares head signs only, so a lineage written with changing attachments would be caught, but one written with different signs for the same name would not. The chant sample is one recitation of forty entries, which is enough to show parent repetition and too little to rule out chaining in other genealogies.
 
-## 16. Charts
+## 16. The carved dividers
+
+The Santiago Staff is the one object whose carver marked divisions in the text: 96 vertical strokes, coded 999 in the CEIPP file, cutting the 1,620 legible units into 95 complete stretches. Sections 14 and 15 established that the Staff is built of three-unit segments marked by sign 76. The question here is what the carver's own divisions group.
+
+Each measure is compared with a null that keeps the number of dividers and places them at random among the units.
+
+![The carved dividers cut the Staff at triad boundaries](docs/img/staff_dividers.png)
+
+| Measure | Observed | Random dividers |
+|---|---|---|
+| Stretches opening on a 76-bearing unit | 95% | 34% |
+| Stretches holding exactly three triads | 17% | 10%, p 0.02 |
+| Stretches holding one to three triads | 55% | |
+| Length variation, coefficient of variation | 1.30 | 0.96 |
+| Stretch sequences that recur | 0 of 95 | |
+
+- **The dividers respect the triads.** Ninety-five percent of stretches begin with a 76-bearing unit, which is where a triad begins, against 34 percent if the dividers fell at random. The carver was dividing the text at the same joints that sign 76 marks. That makes the triad structure of section 14 a feature the writer was conscious of, not an artefact of the segmentation rule.
+- **The stretches are not verses of fixed length.** They run from a single triad to 55, more variable than random placement would give, with a preference for one to three triads that accounts for over half of them. Whatever a stretch is, it is a unit of content, not of metre.
+- **A few signs like to open a stretch.** Sign 90 opens 15 of the 95, two and a half times its share of the Staff, and the bird signs 604 and 606 open nine between them at four to five times their share. Nothing similarly marked closes a stretch. A preferred opener is what a formula or a heading looks like.
+- **Stretches are not cohesive and never repeat.** Triads inside a stretch share a first sign no more often than triads across a divider, and no stretch's sign sequence occurs twice. The dividers group triads without making the groups internally uniform or formulaic.
+
+Put together with the previous two sections: the Staff is a long text of three-unit segments, marked by an attached sign and punctuated by the carver into groups of variable size that tend to open with a few particular signs, whose segments neither repeat nor chain. That is the profile of a continuous composition with a fixed line structure, punctuated into sections, rather than of a genealogy or a tally. What the lines say remains as unknown as before.
+
+> **Caveat.** Sign 999 is the CEIPP's code for the divider; if any were missed in transliteration the stretch lengths shift, though the alignment result would only strengthen. Partial stretches at the ends of lines are dropped.
+
+## 17. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -377,7 +403,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 17. What it means and what it does not
+## 18. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -393,7 +419,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 18. Method, data, reproducibility
+## 19. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -439,6 +465,7 @@ python scripts/fetch_rapanui.py        # Thomson 1891 OCR text, public domain
 python scripts/rapanui.py
 python scripts/chant.py
 python scripts/staff_chain.py
+python scripts/staff_dividers.py
 python scripts/charts.py
 ```
 
@@ -460,7 +487,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | fetch_rapanui.py, rapanui.py | Thomson 1891 OCR text; word length, reduplication and frequent-item comparison against rongorongo units |
 | chant.py | Entry shape of the 1886 creation chant against the 380.1 lists and the sign-76 segmentation of the Staff, Gv and Ta, with a shuffled null |
 | staff_chain.py | Chaining and parent-repetition of sign-76 segments on the Staff, Gv, Ta and in the chant, against shuffled order; slot vocabularies |
-| charts.py | The eleven charts in docs/img |
+| staff_dividers.py | Stretches between the Staff's carved dividers: length, alignment with the 76 triads, openers and closers, cohesion, repeats, against random dividers |
+| charts.py | The twelve charts in docs/img |
 
 ### Licence
 
