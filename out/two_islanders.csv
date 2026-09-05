@@ -1,0 +1,21 @@
+ure_text,ure_words,ure_tablet,metoro_tablet,metoro_words,same_tablet,cosine
+Apai,532,E,A,2766,False,0.1980
+Apai,532,E,B,2473,False,0.1794
+Apai,532,E,C,1386,False,0.1707
+Apai,532,E,E,1240,True,0.1194
+"Atua Matariri, second half",105,R,A,2766,False,0.0329
+"Atua Matariri, second half",105,R,B,2473,False,0.0246
+"Atua Matariri, second half",105,R,C,1386,False,0.0367
+"Atua Matariri, second half",105,R,E,1240,False,0.0325
+Eaha to ran ariiki kete,234,S,A,2766,False,0.0158
+Eaha to ran ariiki kete,234,S,B,2473,False,0.0321
+Eaha to ran ariiki kete,234,S,C,1386,False,0.0218
+Eaha to ran ariiki kete,234,S,E,1240,False,0.0226
+"Ka ihi uiga, dirge",41,D,A,2766,False,0.0597
+"Ka ihi uiga, dirge",41,D,B,2473,False,0.1092
+"Ka ihi uiga, dirge",41,D,C,1386,False,0.0262
+"Ka ihi uiga, dirge",41,D,E,1240,False,0.0478
+"Ate-a-renga, love song",55,C,A,2766,False,0.0549
+"Ate-a-renga, love song",55,C,B,2473,False,0.0428
+"Ate-a-renga, love song",55,C,C,1386,True,0.0286
+"Ate-a-renga, love song",55,C,E,1240,False,0.0267

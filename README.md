@@ -79,9 +79,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 19. [A catalogue of texts and signs](#19-a-catalogue-of-texts-and-signs)
 20. [Which findings survive a change of inventory](#20-which-findings-survive-a-change-of-inventory)
 21. [The Mamari calendar, rebuilt](#21-the-mamari-calendar-rebuilt)
-22. [Charts](#22-charts)
-23. [What it means and what it does not](#23-what-it-means-and-what-it-does-not)
-24. [Method, data, reproducibility](#24-method-data-reproducibility)
+22. [Two islanders on one tablet](#22-two-islanders-on-one-tablet)
+23. [Charts](#23-charts)
+24. [What it means and what it does not](#24-what-it-means-and-what-it-does-not)
+25. [Method, data, reproducibility](#25-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -678,7 +679,29 @@ The calendar is the one passage where a reading and our structure can be compare
 
 > **Caveat.** The classification rule was written after looking at the lines, so it is a formalisation of what is visible, not a discovery. The night names of the Rapa Nui month are not in Thomson's report under any spelling found, so the count could be checked only against the month's length, not against a named list.
 
-## 22. Charts
+## 22. Two islanders on one tablet
+
+*In plain words: two different islanders recited over the same tablets thirteen years apart, Metoro in 1873 over the originals and Ure Vaeiko in 1886 over photographs. If either of them was drawing on anything in the tablet beyond the look of the signs, their words for the same tablet should resemble each other more than their words for different tablets. We measured that.*
+
+Thomson's report says which photograph each of Ure Vaeiko's recitations answered: "Apai" was given for Keiti and the love song "Ate-a-renga" for Mamari, both tablets Metoro had chanted over for Jaussen. Ure's texts are continuous, not divided by sign, so the comparison is by vocabulary: the cosine similarity of content-word frequencies, particles stripped, between each of Ure's five texts and each of Metoro's four chants. The two same-tablet pairs are then ranked among the eighteen pairs that are not the same tablet.
+
+| Ure's text | Words | For tablet | Metoro on Tahua | on Aruku Kurenga | on Mamari | on Keiti |
+|---|---|---|---|---|---|---|
+| Apai | 532 | Keiti | 0.198 | 0.179 | 0.171 | **0.119** |
+| Atua Matariri, second half | 105 | Small Washington | 0.033 | 0.025 | 0.037 | 0.033 |
+| Eaha to ran ariiki kete | 234 | Great Washington | 0.016 | 0.032 | 0.022 | 0.023 |
+| Ka ihi uiga, dirge | 41 | Échancrée | 0.060 | 0.109 | 0.026 | 0.048 |
+| Ate-a-renga, love song | 55 | Mamari | 0.055 | 0.043 | **0.029** | 0.027 |
+
+- **No tablet-specific agreement.** Ure's Keiti recitation resembles Metoro's Keiti chant less than it resembles Metoro's chants for the other three tablets, and the love song for Mamari resembles Metoro's Mamari chant less than it resembles his Tahua chant. Neither same-tablet pair ranks above the pairs that share no tablet: p 0.17 for Keiti, 0.67 for Mamari.
+- **What the two men share is ordinary Rapa Nui.** The words common to Ure's Apai and Metoro's Keiti chant are *rei*, *mata*, *mai*, *koe*, *ika*, *tea*, *oho*, *vai*: everyday vocabulary that both used on every tablet. A quarter of Ure's Keiti words occur somewhere in Metoro's Keiti chant, and a third occur in Metoro's Tahua chant, which is simply the longer text.
+- **Apai is a different kind of text altogether.** Metoro produced one to two words per sign, tied to the sign in front of him. Ure produced a narrative with roads, a land, and named people, and Thomson's own note says stretches of the tablet were skipped as "ancient language". Its resemblance to Metoro is the resemblance of any Rapa Nui recitation to any other.
+
+**What this closes.** Section 17 showed Metoro named sign shapes consistently. This section shows that consistency was his own: a second islander, given the same tablet, produced words with no measurable relation to Metoro's. Whatever the two men were doing, they were not reading the same text off the same signs. It also settles a smaller point: Ure's recitations cannot serve as readings of the tablets they were given for, since the one for Keiti is no closer to Keiti's signs, by way of Metoro's naming of them, than to any other tablet's.
+
+> **Caveat.** The measure is vocabulary overlap, which would miss two readings that agreed in meaning but not in words, and the two short songs give little to compare. The Keiti pair rests on 532 words against 1,240, enough to show an effect of the size Metoro's own consistency produces, had there been one.
+
+## 23. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -690,7 +713,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 23. What it means and what it does not
+## 24. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -706,7 +729,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 24. Method, data, reproducibility
+## 25. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -759,6 +782,7 @@ python scripts/metoro_merge.py
 python scripts/synthesis.py
 python scripts/robustness.py
 python scripts/mamari_calendar.py
+python scripts/two_islanders.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -787,6 +811,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | synthesis.py | The typology of texts (one row per side) and the sign dossier (one row per sign), gathered from every other table |
 | robustness.py | The headline measures recomputed under six candidate inventories, with a stability verdict for each |
 | mamari_calendar.py | The Mamari calendar lines classified into crescents, marker groups and other signs; runs and counts against a lunar month |
+| two_islanders.py | Vocabulary similarity between Ure Vaeiko's 1886 recitations and Metoro's 1873 chants, same-tablet pairs against the rest |
 | charts.py | The fifteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
