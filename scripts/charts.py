@@ -326,10 +326,10 @@ if (out / "staff_chain.csv").exists():
         ax.tick_params(length=0)
     axes[0].legend(loc="upper left", fontsize=9)
     fig.suptitle("Do the sign-76 triads chain like a genealogy? Only the chant repeats its parents", x=0.02, ha="left",
-                 fontsize=13, fontweight="semibold", color=INK, y=1.03)
-    fig.text(0.02, 0.965, "Share of segments, observed against the mean of 500 shuffles of segment order; p = share of shuffles at or above the observation",
+                 fontsize=13, fontweight="semibold", color=INK, y=1.06)
+    fig.text(0.02, 0.975, "Share of segments, observed against the mean of 500 shuffles of segment order; p = share of shuffles at or above the observation",
              color=INK2, fontsize=9.5)
-    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
     fig.savefig(img / "staff_chain.png", bbox_inches="tight", pad_inches=0.25)
     plt.close(fig)
 print("charts written to", img)
