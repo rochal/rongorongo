@@ -299,4 +299,37 @@ if (out / "chant_lengths.csv").exists():
     ax.legend(loc="upper right", fontsize=9)
     finish(fig, ax, "Does either written list have the shape of the chant?",
            "Genealogy entries of 1886 against the 380.1 lists and Fischer's Staff triads; fixed phrase, strokes and dividers excluded", "chant_lengths.png")
+# 11 chaining test ----------------------------------------------------------
+if (out / "staff_chain.csv").exists():
+    rows = read("staff_chain.csv")
+    texts = ["chant", "Staff", "Gv", "Ta"]
+    labels = {"chant": "Chant", "Staff": "Staff", "Gv": "Gv", "Ta": "Ta"}
+    measures = [("last reappears as a later first", "Last unit returns as a later first"),
+                ("last equals next first", "Last unit equals the next first"),
+                ("consecutive same first", "Consecutive segments share a first")]
+    fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.9))
+    for ax, (key, title) in zip(axes, measures):
+        obs = [float(next(r["observed"] for r in rows if r["text"] == t and r["measure"] == key)) for t in texts]
+        nul = [float(next(r["null_mean"] for r in rows if r["text"] == t and r["measure"] == key)) for t in texts]
+        pv = [float(next(r["p"] for r in rows if r["text"] == t and r["measure"] == key)) for t in texts]
+        x = np.arange(len(texts)); w = 0.36
+        ax.bar(x - w / 2, obs, width=w - 0.03, color=C[0], label="Observed")
+        ax.bar(x + w / 2, nul, width=w - 0.03, color=C[1], label="Shuffled order")
+        top = max(max(obs), max(nul), 0.01)
+        for i in range(len(texts)):
+            ax.text(x[i], max(obs[i], nul[i]) + top * 0.04, f"p {pv[i]:.2f}", ha="center", color=INK2, fontsize=8.5)
+        ax.set_xticks(x); ax.set_xticklabels([labels[t] for t in texts])
+        ax.set_ylim(0, top * 1.3)
+        ax.yaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+        ax.set_title(title, pad=8, fontsize=10.5)
+        ax.grid(axis="x", visible=False)
+        ax.tick_params(length=0)
+    axes[0].legend(loc="upper left", fontsize=9)
+    fig.suptitle("Do the sign-76 triads chain like a genealogy? Only the chant repeats its parents", x=0.02, ha="left",
+                 fontsize=13, fontweight="semibold", color=INK, y=1.03)
+    fig.text(0.02, 0.965, "Share of segments, observed against the mean of 500 shuffles of segment order; p = share of shuffles at or above the observation",
+             color=INK2, fontsize=9.5)
+    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.savefig(img / "staff_chain.png", bbox_inches="tight", pad_inches=0.25)
+    plt.close(fig)
 print("charts written to", img)

@@ -1,0 +1,13 @@
+text,segments,measure,observed,null_mean,p
+chant,40,last reappears as a later first,0.0000,0.0000,1.000
+chant,40,last equals next first,0.0000,0.0000,1.000
+chant,40,consecutive same first,0.1282,0.0099,0.000
+Staff,555,last reappears as a later first,0.6180,0.6358,0.896
+Staff,555,last equals next first,0.0271,0.0222,0.232
+Staff,555,consecutive same first,0.0379,0.0381,0.540
+Gv,40,last reappears as a later first,0.1000,0.1792,0.946
+Gv,40,last equals next first,0.0256,0.0102,0.350
+Gv,40,consecutive same first,0.0513,0.0191,0.172
+Ta,30,last reappears as a later first,0.1000,0.1123,0.862
+Ta,30,last equals next first,0.0690,0.0153,0.054
+Ta,30,consecutive same first,0.0345,0.0360,0.690
