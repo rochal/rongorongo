@@ -24,8 +24,10 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 7. [Allographs and how copies differ](#7-allographs-and-how-copies-differ)
 8. [The inventory](#8-the-inventory)
 9. [Shape similarity of the signs](#9-shape-similarity-of-the-signs)
-10. [What it means and what it does not](#10-what-it-means-and-what-it-does-not)
-11. [Method, data, reproducibility](#11-method-data-reproducibility)
+10. [Genre by vocabulary, and entropy](#10-genre-by-vocabulary-and-entropy)
+11. [Charts](#11-charts)
+12. [What it means and what it does not](#12-what-it-means-and-what-it-does-not)
+13. [Method, data, reproducibility](#13-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -208,7 +210,44 @@ The closest pairs, from the contact sheet the script writes:
 
 > **Caveat.** The descriptor is crude and the recall figure says so: most of Barthel's own variant pairs fall below the strict threshold, so the merge is conservative. A few classes remain doubtful, such as the ovals 22 to 24 grouped with the fish 700, whose drawing is an elongated oval. This measures similarity of Barthel's type drawings, not of the signs as carved, which vary more.
 
-## 10. What it means and what it does not
+## 10. Genre by vocabulary, and entropy
+
+Copying groups texts that share passages. A second grouping asks which texts share a vocabulary, whether or not they share passages. Each side with at least 40 units is profiled by the head signs it favours relative to the corpus, tf-idf weighted, and sides are compared by cosine similarity. Thirty-one sides qualify.
+
+![Sides mapped by the signs they favour](docs/img/genre_map.png)
+
+- **The copied families are also vocabulary families**, which is a sanity check: Hr with Qr at 0.84, Hv with Pv at 0.75, Gr with Kv at 0.67.
+- **Keiti's verso keeps company with the other list tablets.** Its nearest neighbours by vocabulary are Small Vienna side a and Great Washington side a, with Small London verso close behind, none of which copy it. The 380.1 lists share a vocabulary as well as a format.
+- **Keiti's recto belongs elsewhere.** Its nearest neighbour is the recto of Aruku Kurenga, and its own verso ranks only fourth. Small Santiago and Small Vienna have sides even less alike, at ranks 19 and 25 of 30, so several objects carry two texts of different kinds. Tahua, Mamari, and Great Santiago have sides that resemble each other.
+- **The Santiago Staff and the Honolulu tablet stand apart together.** Their vocabularies resemble each other at 0.53 and nothing else above 0.38. That matches Fischer's grouping of the two, made on other grounds.
+
+Entropy asks how much a sign is predicted by the sign before it. For each layer the unigram entropy and the conditional entropy given the previous token are computed one witness per family, and the same for the tokens shuffled, which keeps the frequencies and destroys the order. The difference is the information carried by adjacency.
+
+| Layer | Tokens | H1 | H2 as written | H2 shuffled | Adjacency gain, bits |
+|---|---|---|---|---|---|
+| Head signs | 8,569 | 7.49 | 4.60 | 4.89 | 0.29 |
+| Whole units | 8,569 | 9.10 | 3.49 | 3.74 | 0.25 |
+| Components | 11,666 | 7.29 | 4.75 | 5.20 | 0.45 |
+
+![How much the previous sign predicts the next](docs/img/entropy_curve.png)
+
+Adjacency carries a consistent quarter to half a bit per token at every vocabulary size tested, so the order of signs is not random. The gain is modest, which fits texts dominated by lists of distinct items, where the previous item says little about the next. Components show the largest gain because a compound's parts follow each other in a fixed way, which is the ligature layer again.
+
+> **Caveat.** Conditional entropy on a finite sample sits below the unigram entropy even for random order, because rare pairs are never observed. The shuffled column is the fair baseline, not H1. Published entropy comparisons across scripts use varied conventions, so these values should be compared with others only after matching the method.
+
+## 11. Charts
+
+All charts are produced by `scripts/charts.py` from the tables in `out/`.
+
+![Three inventories, three shapes](docs/img/rank_frequency.png)
+
+![How much of each text is found elsewhere](docs/img/parallel_coverage.png)
+
+![No stroke sign behaves like a suffix](docs/img/affix_test.png)
+
+![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
+
+## 12. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -224,7 +263,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** If Pozdniakov is right, most of the 600 rare head signs are built from a few dozen elements. A shape decomposition that matches sub-parts of drawings against the frequent signs would test that directly.
 
-## 11. Method, data, reproducibility
+## 13. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -254,9 +293,11 @@ python scripts/parallels.py --merge out/allograph_merge.csv --suffix _merged
 python scripts/inventory.py
 python scripts/fetch_signs.py
 python scripts/sign_shapes.py
+python scripts/genre_entropy.py
+python scripts/charts.py
 ```
 
-Requires Python 3.10 or later with numpy and Pillow. The kohaumotu site serves plain http only and its TLS certificate has expired.
+Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The kohaumotu site serves plain http only and its TLS certificate has expired.
 
 | Script | Produces |
 |---|---|
@@ -268,6 +309,8 @@ Requires Python 3.10 or later with numpy and Pillow. The kohaumotu site serves p
 | allographs.py | Substitution pairs, component swaps, merge tables |
 | inventory.py | Three inventories with coverage thresholds and Zipf slopes |
 | fetch_signs.py, sign_shapes.py | Catalogue drawings, similarity, look-alike classes, contact sheet |
+| genre_entropy.py | Vocabulary similarity of sides, clusters, 2-D map coordinates; unigram and conditional entropy per layer |
+| charts.py | The six charts in docs/img |
 
 ### Conventions
 
