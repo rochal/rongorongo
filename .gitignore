@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# downloaded third-party data; re-create with scripts/fetch_corpus.py and scripts/fetch_signs.py
+data/html/
+data/corpus.json
+data/signs/html/
+data/signs/gif/
+data/signs/png/
