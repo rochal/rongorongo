@@ -606,6 +606,25 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | charts.py | The thirteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
+### How to cite
+
+The repository carries a citation file, so GitHub's "Cite this repository" button gives the reference in APA and BibTeX. Cite the tagged version you used, since the analyses change between versions:
+
+> Rochala, P. (2026). *Structure Without Reading: a reproducible structural analysis of the rongorongo corpus* (Version 1.0.0) [Software and working report]. https://github.com/rochal/rongorongo
+
+```bibtex
+@software{rochala2026rongorongo,
+  author  = {Rochala, Piotr},
+  title   = {Structure Without Reading: a reproducible structural analysis of the rongorongo corpus},
+  year    = {2026},
+  version = {1.0.0},
+  url     = {https://github.com/rochal/rongorongo},
+  note    = {Software and working report}
+}
+```
+
+To cite one result, name the section, for example "section 15, chaining test", and the version. The data behind every figure is in `out/`, and the script that produced it is named in the table above, so a claim can be checked against the exact numbers rather than the prose.
+
 ### Licence
 
 The scripts, this README and the generated outputs are under the MIT licence in LICENSE. The downloaded transliteration and sign catalogue are not redistributed here and remain with the CEIPP; the line crops in docs/img are from Barthel's tracings as hosted on Wikimedia Commons, and the small glyph strips in docs/img/glyphs are cut from Barthel's catalogue drawings as reproduced on kohaumotu.org, included as quotations for the purpose of commentary.

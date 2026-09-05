@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Structure Without Reading: a reproducible structural analysis of the rongorongo corpus"
+type: software
+authors:
+  - family-names: Rochala
+    given-names: Piotr
+version: 1.0.0
+date-released: 2026-09-06
+repository-code: "https://github.com/rochal/rongorongo"
+url: "https://github.com/rochal/rongorongo"
+license: MIT
+keywords:
+  - rongorongo
+  - Easter Island
+  - Rapa Nui
+  - undeciphered scripts
+  - corpus analysis
+  - digital humanities
+abstract: >-
+  Scripts, generated tables and a working report analysing the rongorongo
+  corpus of Easter Island for structure without assigning meaning to any
+  sign. Uses the CEIPP numerical transliteration of Barthel's corpus, Barthel's
+  sign catalogue, Thomson's 1891 recitations and Jaussen's 1893 record of
+  Metoro's chanted readings. Covers parallel passages and text families,
+  delimited lists, alternating series, an affix test for the stroke signs,
+  allograph mining, sign inventories, shape similarity, genre clustering,
+  sequence entropy, collocations, compound decomposition, comparison with
+  Rapa Nui word statistics and the 1886 creation chant, the structure of the
+  Santiago Staff, and the consistency of Metoro's readings, each result with
+  a control or a shuffled null.
