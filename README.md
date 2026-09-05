@@ -31,6 +31,16 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 
 **In one paragraph.** The corpus divides into three families of copied texts and a majority of isolated ones; Keiti's verso is isolated but borrows two list entries from the Small Santiago tablet and one eight-sign formula shared by three tablets. The 380.1-delimited lists are a corpus-wide format whose entries are mostly unique and word-length. Alternating series are two devices, not one. The free-standing stroke signs fail a test for suffix behaviour but chain in a fixed order, and the affix-like behaviour lives in fused components instead. Copies of a text vary in those attached components far more than in head signs. Counted by head sign the inventory is far too large for a syllabary; counted by whole compound unit it has the statistics of words. Merging signs by drawn shape shrinks the head inventory by a quarter, not by the order of magnitude a syllabary would need.
 
+## How to read this report
+
+Each section opens with a paragraph in italics that says in plain words what was asked and how. The rest of the section gives the evidence. A few terms recur throughout:
+
+- **Signs and their numbers.** Thomas Barthel numbered every glyph in 1958, and specialists refer to signs by those numbers. Sign 600 is a frigatebird, 700 a fish, 200 a seated figure, 1 a plain stroke. The numbers are labels, not meanings.
+- **Units, heads, and attachments.** Scribes often fused two or more signs into one glyph. Barthel writes such a compound with dots, 380.1 for sign 380 with stroke 1 attached. In this report the whole compound is a *unit*, its first sign is the *head*, and the rest are *attachments*. Most comparisons use heads only, so that a sign written with or without a small extra mark still counts as the same sign.
+- **Line names.** Each object has a letter and each line a number: Ev4 is the fourth line on the verso of tablet E, Keiti; Gr5 is line 5 on the recto of G, Small Santiago.
+- **One witness per family.** Three tablets copy each other and a fourth copies a fifth. Where counting would otherwise count the same text several times, the copies are dropped.
+- **Nulls and p values.** Many results are compared with a *null*: the same measurement on the data with its order shuffled, or with a sign placed at random, repeated hundreds of times. If the real text scores no better than the shuffled versions, the pattern is chance. The p value is the share of shuffles that scored at least as high as the real text; a p of 0.02 means two shuffles in a hundred did.
+
 ## Contents
 
 1. [Keiti's verso against Barthel](#1-keitis-verso-against-barthel)
@@ -55,6 +65,8 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 
 ## 1. Keiti's verso against Barthel
 
+*In plain words: before analysing anything, we checked that the photograph, the standard drawing, and the sign-by-sign transcription all agree on which line is which and where the damage is. Everything after this rests on the transcription, not on our reading of the photograph.*
+
 Tablet E, Keiti, was destroyed in the burning of Louvain in 1914 and survives as photographs, rubbings, and Barthel's 1958 tracing. The photograph that started this work shows the verso, eight lines, Ev1 at the top. Alignment with Barthel's tracing and with the CEIPP transliteration confirmed the orientation from the opening signs of Ev1, and confirmed that the three signs Barthel marked illegible on the verso all fall on Ev1, where the photograph shows holes.
 
 A first reading from the photograph alone got the glyph classes right and the specifics mostly wrong, which is the expected result at roughly 30 pixels per glyph. Everything below rests on the transliteration, not on the photograph.
@@ -63,7 +75,9 @@ Three features of the verso set the agenda for the rest of the report: the compo
 
 ## 2. Parallel passages and families
 
-Every maximal run of signs shared between two places in the corpus was collected, comparing only the first component of each unit so that ligature differences do not break a match. Two settings were run: strict, five or more signs with no substitution, and fuzzy, four or more with one substitution allowed inside the run.
+*In plain words: we looked for stretches of text that appear on more than one tablet, the way you would spot a paragraph copied between two documents. A stretch counts when at least five signs in a row match, or four with one allowed to differ. Tablets that share many such stretches are copies of one another; we call those groups families.*
+
+The whole corpus was searched for runs of signs that occur in two places, whether on two different objects or twice on one. A run is extended as far as the two places keep matching, so each is the longest shared stretch at that spot. Only the head sign of each unit is compared, so a sign written with an extra attached mark in one copy still matches. Two settings were run: strict, five or more signs with no difference allowed, and fuzzy, four or more signs with one substitution allowed inside the run.
 
 | Setting | Shared runs | Families | Hr and Qr, covered signs | Share of Qr with a parallel | Share of Keiti verso |
 |---|---|---|---|---|---|
@@ -77,6 +91,8 @@ Everything else is nearly isolated. Tahua, Aruku Kurenga, Mamari, the Santiago S
 > **Caveat.** These families are known to specialists; Pozdniakov and Horley catalogued the H, P, Q group and the G, K relation by hand alignment. Rediscovering them from scratch is a check on the data and method, not a new result. The isolation of the other texts holds only at the granularity tested; looser alignments may connect them.
 
 ## 3. Two plates: what Keiti shares
+
+*In plain words: these are the two passages the Keiti tablet shares with other tablets, shown in the drawings so the match can be seen with the eye and not just counted.*
 
 Keiti's verso has two external parallels of substance, both verified against Barthel's drawings glyph for glyph.
 
@@ -149,6 +165,8 @@ Ra5   illegible | 27?   77? 34  4  522    700  600  59f | 4.64       6:700
 
 ## 4. The 380.1 lists
 
+*In plain words: on several tablets one particular sign turns up again and again, always separating short groups of one to five signs, the way commas separate items in a list. We cut the text at that sign and looked at what lies between the cuts, and whether the same items appear on more than one tablet.*
+
 The compound 380.1, a seated figure with an attached stroke, is a list delimiter on six tablets: Small Santiago 30 occurrences, Keiti 22, Small London 22, Mamari 20, Small Vienna 7, Great Washington 4. Cutting every stretch between two consecutive delimiters gives 93 entries.
 
 ![Sign 380 and stroke 1](docs/img/glyphs/delimiter.png)
@@ -170,6 +188,8 @@ The format is formulaic and the content mostly is not. That is what lists of dis
 
 ## 5. Alternating series
 
+*In plain words: sometimes one sign repeats with a single different sign between each repeat, in the pattern A x A y A z. We found every such run in the corpus and asked what the in-between signs are. It turns out there are two kinds: runs where the in-between signs are simple strokes, and runs where they are complex signs that look like list items.*
+
 A series is a run X a X b X c with the same head sign at every second position and one unit between. With at least three heads, and bare strokes excluded as heads, the corpus holds 61 such series on 14 objects. Classifying by what fills the gaps splits them into two devices.
 
 | Kind | Series | Fillers | Examples |
@@ -184,6 +204,8 @@ Head signs of the series named above, then the fish 710 with two of its fillers:
 ![Signs 92, 35, 73, 6, and 710, 20, 90](docs/img/glyphs/alternation.png)
 
 ## 6. The affix test
+
+*In plain words: the simplest signs, single strokes, are so common that they might be grammatical endings, like the -s and -ed of English. An ending is fussy about what it attaches to and indifferent to what comes after. We measured that fussiness for each stroke, with ordinary picture signs as a comparison, and also checked whether strokes standing next to each other keep a fixed order.*
 
 If the small signs are suffixes they should select their host on one side and be indifferent on the other. For each candidate the distribution of the sign before it and after it was compared with the corpus background by Kullback-Leibler divergence in bits, with contexts on the copying tablets down-weighted so a passage counts once. Content signs served as controls.
 
@@ -211,6 +233,8 @@ The controls:
 
 ## 7. Allographs and how copies differ
 
+*In plain words: when the same passage exists on two tablets, the places where the two copies differ show which signs the scribes treated as interchangeable, like two spellings of one word. We collected those differences and asked whether merging such signs changes any earlier result.*
+
 The fuzzy parallel runs align copies with one sign swapped. Each swap is a pair of signs in the same slot of the same passage, and recurring pairs are candidate allographs, variant spellings of one sign. This is the mechanism by which Pozdniakov reduced Barthel's inventory.
 
 The layer is thin. The runs contain 48 substitutions in 42 distinct pairs; only three recur in separate passages, 8 with 551, 316 with 356, and 400 with 430, and 17 one-off pairs sit in the same Barthel series and are plausible look-alikes. Merging was tested by rerunning the strict parallel map: the three recurring pairs raise shared runs from 134 to 145; adding the 17 look-alikes raises them to 165 and lifts Great Santiago's covered share from 42 to 46 percent. The families do not change and no isolated text connects to anything.
@@ -224,6 +248,8 @@ The layer is thin. The runs contain 48 substitutions in 42 distinct pairs; only 
 > **Caveat.** Copied passages are too few and too faithful for empirical allograph reduction to reach anywhere near 52 signs. Pozdniakov's reduction rests mainly on visual similarity, which section 9 tests directly.
 
 ## 8. The inventory
+
+*In plain words: how many different signs are there, and how is the text spread across them? A system that spells sounds, like an alphabet or a syllabary, needs few signs, all used often. A system that draws words needs many signs, most of them rare. We counted three ways: main signs alone, attached marks alone, and whole compounds.*
 
 Three inventories were counted with one witness per family, so copies do not inflate the numbers: head signs, the first component of every unit; attached components, everything fused onto a head; and whole units as written.
 
@@ -249,6 +275,8 @@ Barthel's series confirm the split: the geometric signs below 100 are 139 distin
 
 ## 9. Shape similarity of the signs
 
+*In plain words: Barthel gave separate numbers to signs that may be the same sign drawn a little differently. We compared the drawings of all six hundred signs by shape to see how many of his numbers collapse into look-alike groups, and whether that brings the count anywhere near the fifty-odd signs a syllabary would need.*
+
 Barthel's catalogue drawings, 601 signs and 713 drawings including the variants he drew for 112 of them, were fetched from kohaumotu and compared by shape. Each drawing is normalised to a 40 pixel square and described by a lightly blurred silhouette and by gradient-orientation histograms over a five by five grid; similarity is the cosine of the descriptors, best of direct and mirrored, penalised for aspect-ratio mismatch.
 
 Barthel's own variant pairs are the ground truth. The threshold was set where only one unrelated pair in 200 passes, and at that setting it recovers 22 percent of the genuine variant pairs. Classes are cliques: a sign joins only if it passes against every current member. A first attempt with single linkage chained the whole catalogue into one class, which is a warning about how continuous the shape space is.
@@ -269,6 +297,8 @@ The closest pairs, from the contact sheet the script writes:
 > **Caveat.** The descriptor is crude and the recall figure says so: most of Barthel's own variant pairs fall below the strict threshold, so the merge is conservative. A few classes remain doubtful, such as the ovals 22 to 24 grouped with the fish 700, whose drawing is an elongated oval. This measures similarity of Barthel's type drawings, not of the signs as carved, which vary more.
 
 ## 10. Genre by vocabulary, and entropy
+
+*In plain words: two questions. First, which tablets use the same vocabulary of signs, even when they do not copy each other, the way two cookbooks share words that a cookbook and a legal contract do not? Second, how much does one sign let you guess the next? In real text the previous word narrows what can follow; in a random list it does not.*
 
 Copying groups texts that share passages. A second grouping asks which texts share a vocabulary, whether or not they share passages. Each side with at least 40 units is profiled by the head signs it favours relative to the corpus, tf-idf weighted, and sides are compared by cosine similarity. Thirty-one sides qualify.
 
@@ -295,6 +325,8 @@ Adjacency carries a consistent quarter to half a bit per token at every vocabula
 
 ## 11. A collocation lexicon
 
+*In plain words: which pairs of signs sit next to each other far more often than chance would put them there, the way "New" and "York" do in English? Pairs found on many tablets are habits of the script; pairs found on one tablet only are that tablet's refrain.*
+
 The entropy result says adjacency carries a modest amount of information. Collocations are where it sits. Every adjacent head-sign pair seen at least four times, one witness per family, was scored with the log-likelihood ratio, and a pair counts as a collocation at p below 0.001. Of 301 candidate pairs, 73 pass. The number of sides a pair occurs on separates two kinds: a pair confined to one or two sides is a refrain inside a text, a pair spread over three or more is a habit of the script. There are 37 of the first kind and 36 of the second.
 
 ![Sign pairs that stick together](docs/img/collocations.png)
@@ -312,6 +344,8 @@ Four of the script-wide pairs, the doubled crescent and fish, 7 before the friga
 > **Caveat.** With a corpus this small a pair needs only four occurrences to be tested, so the tail of the collocation list is fragile. The 18 doublings and the handful of spread pairs with more than 10 occurrences are the robust part.
 
 ## 12. Compound decomposition
+
+*In plain words: are the rare, complicated signs just combinations of the common simple ones, like letters making words? We tried to rebuild each rare drawing out of pieces of the fifty-five commonest drawings, and checked whether that works any better than rebuilding it out of random other drawings. It does not.*
 
 The largest open question from section 8 is whether the 600 rare head signs are compounds of a few dozen basic ones, which is what Pozdniakov's reduction to about 52 signs requires. This section tests it directly on Barthel's drawings, with controls in both directions.
 
@@ -336,6 +370,8 @@ The method: take the 55 most frequent head signs as the basic set, and explain e
 
 ## 13. Units against Rapa Nui words
 
+*In plain words: if each compound glyph stands for a word of the Rapa Nui language, then glyphs should be about as long as Rapa Nui words, and the commonest glyphs should be the short little words a language uses most, like "the" and "of". We checked against a Rapa Nui text recorded in 1886, the only free one of the right kind.*
+
 Section 8 found that whole units have the statistics of words. That gives a prediction that needs no reading: if units are words in Rapa Nui, their length distribution should resemble Rapa Nui word length, their doubling rate should resemble Rapa Nui reduplication, and the most frequent units should be short the way particles are.
 
 The Rapa Nui sample is the set of recitations Ure Vaeiko gave in 1886, printed in Rapa Nui in Thomson's 1891 Smithsonian report, which is public domain. The OCR text from the Internet Archive was cut to the Rapa Nui passages preceding each English translation and cleaned to tokens made of Rapa Nui letters only: 1,365 word tokens, 491 distinct, from five recitations. Word length is counted in syllables, which in Rapa Nui equals the number of vowels. OCR noise remains and long vowels count as two syllables, so the Rapa Nui lengths are slightly inflated.
@@ -359,6 +395,8 @@ The Rapa Nui sample is the set of recitations Ure Vaeiko gave in 1886, printed i
 > **Caveat.** This is one small sample of one genre, transcribed by ear in 1886 and OCR'd from an 1891 print. The direction of each difference is robust to the noise; the exact percentages are not. A cleaner Rapa Nui text of comparable genre would sharpen all three comparisons.
 
 ## 14. The list format against the creation chant
+
+*In plain words: an islander in 1886 recited a creation chant for a tablet, and the chant is a list of forty entries, each naming two beings that produce a third. One scholar has argued that the Santiago Staff writes exactly such three-part entries. We compared the shape of the chant's entries with the shape of the Staff's groups and with the lists of section 4, without reading any of them.*
 
 Among the recitations in Thomson's report is the one Ure Vaeiko gave for the Small Washington tablet, a creation genealogy of forty entries. Each entry names a parent, joins it with a fixed phrase to a second name, and yields a third: a three-slot formula with constant connective words. Fischer built his 1997 reading of the Santiago Staff on the claim that the Staff writes exactly this, as triads in which the first sign carries the attached sign 76 as the connective. The 380.1 lists of section 4 are the other candidate for a written genealogy. Both can be compared with the chant on shape alone.
 
@@ -388,6 +426,8 @@ The chant's forty entries were parsed from the OCR with the fixed phrase intact,
 
 ## 15. Do the triads chain?
 
+*In plain words: in a family tree, the child in one entry becomes the parent in a later one, and one parent often has several entries in a row. If the Staff's three-part groups are a genealogy, they should behave that way. We checked whether they do, and whether the chant does.*
+
 Section 14 showed that the Staff is made of three-unit segments marked by sign 76, shaped like the entries of the 1886 creation chant. A genealogy is more than a row of triads, though: its entries chain, with the offspring of one returning as the parent of a later one, and a parent is often repeated over consecutive entries. Fischer's reading predicts both for the Staff. Both are countable.
 
 For each segment the first and last head signs were taken, and three shares measured: how often a segment's last unit reappears as the first unit of any later segment, how often it equals the very next segment's first unit, and how often consecutive segments share a first unit. Each was compared with the mean over 500 shuffles of segment order, which keeps every segment intact and destroys only the sequence. The chant was measured the same way from its parsed entries.
@@ -411,6 +451,8 @@ For each segment the first and last head signs were taken, and three shares meas
 > **Caveat.** The chain measure compares head signs only, so a lineage written with changing attachments would be caught, but one written with different signs for the same name would not. The chant sample is one recitation of forty entries, which is enough to show parent repetition and too little to rule out chaining in other genealogies.
 
 ## 16. The carved dividers
+
+*In plain words: the person who carved the Staff also cut small marks into it at intervals, the only punctuation anywhere in the corpus. We asked whether those marks line up with the three-part groups, how much text they enclose, and whether the enclosed stretches begin or end with particular signs.*
 
 The Santiago Staff is the one object whose carver marked divisions in the text: 96 vertical strokes, coded 999 in the CEIPP file, cutting the 1,620 legible units into 95 complete stretches. Sections 14 and 15 established that the Staff is built of three-unit segments marked by sign 76. The question here is what the carver's own divisions group.
 
