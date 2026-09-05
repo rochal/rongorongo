@@ -1,0 +1,108 @@
+sign,occurrences,top_word,p_top,entropy_bits,second_word,p_second
+001,209,henua,0.698,1.54,tagata,0.167
+002,194,inoino,0.400,2.25,maitaki,0.379
+004,155,hokohuki,0.350,3.26,ragi,0.113
+022,113,hokohuki,0.381,3.00,henua,0.168
+600,79,manu,0.397,3.13,rere manu,0.145
+040,79,marama,0.569,2.11,ika,0.158
+005,77,hau tea,0.808,1.17,ragi,0.087
+300,61,tagata,0.098,4.64,oho,0.098
+700,58,ika,0.430,2.58,manu,0.164
+380,56,kiore,0.425,2.10,henua,0.314
+006,55,rima,0.431,2.58,maro,0.214
+200,50,henua,0.644,1.87,koia,0.105
+670,49,moe,0.319,3.72,koia ra,0.165
+008,44,haha,0.153,4.71,ihe ihe tau,0.115
+007,43,rei,0.632,1.88,tagata,0.191
+063,43,rere toki,0.294,3.70,toki,0.291
+430,40,moa,0.285,3.47,vai,0.125
+003,40,maro,0.221,3.74,vero,0.157
+095,36,huaga,0.248,4.09,nuku,0.160
+060,34,oho vae,0.499,2.65,manu,0.169
+050,34,maitaki,0.392,2.60,henua,0.227
+009,32,ragi,0.394,4.34,manu gao takoa,0.042
+091,32,henua,0.394,3.05,tagata oho,0.127
+053,30,ua,0.334,2.68,manu,0.200
+400,30,manu,0.447,1.95,tagata,0.375
+010,30,manu rere,0.267,3.09,kava,0.254
+280,29,henua,0.328,3.18,ika,0.139
+025,29,ragi,0.143,5.18,tapamea,0.095
+020,28,to ragi,0.122,5.14,to ihe,0.085
+066,28,rere manu,0.100,5.27,to hatu,0.056
+290,27,haga,0.118,3.86,ruku manu,0.115
+755,27,ariki,0.340,3.43,hoea,0.088
+041,27,marama,0.625,2.07,vai,0.147
+522,26,ariki,0.619,2.15,henua,0.135
+048,25,mauga,0.380,3.15,ihe tau,0.126
+044,25,rere manu,0.188,3.61,maro,0.159
+070,25,vai,0.279,4.32,moko,0.134
+739,25,maro,0.247,3.83,matariki,0.171
+741,24,vaha,0.103,5.23,gagata,0.074
+306,24,haha,0.378,2.81,ika,0.303
+067,23,tu niu,0.188,3.66,niu,0.182
+059,23,rima oho,0.090,5.12,ha,0.049
+381,23,kiore,0.188,4.27,marama,0.168
+760,23,moko,0.498,2.09,rau hei,0.287
+065,22,to maro,0.354,2.46,tagata oho,0.238
+745,20,to manu,0.138,4.59,tagata ui,0.114
+385,19,moe,0.100,5.16,to huki,0.049
+254,19,tapamea,0.384,3.54,manu ui,0.115
+607,18,manu rere,0.092,5.64,haha kai,0.037
+208,18,tona henua,0.341,3.43,mua kia,0.122
+605,18,maro,0.495,2.89,tagata,0.117
+073,18,to,0.098,5.26,mai tae rutu pahu,0.048
+027,18,kikiu,0.313,3.31,haga tere,0.179
+011,17,to ihe,0.301,3.04,rere manu,0.186
+631,17,ua roa,0.379,2.95,manu,0.166
+079,17,heu,0.277,3.41,vai ura,0.122
+730,17,nuku,0.109,4.84,atua mago,0.071
+450,16,moe goe,0.076,4.56,reva ika,0.070
+205,16,koia ra,0.191,3.92,tupu,0.144
+092,16,takaure,0.255,4.07,hokohuki,0.151
+080,15,pipiri hetu,0.304,4.14,maharoga,0.149
+017,15,kotia,0.540,2.10,rere,0.168
+326,15,rere tagata,0.233,4.09,koia,0.150
+22,14,toa tauuru,0.069,5.88,tapamea,0.062
+630,14,koe ra,0.190,3.72,rere vao,0.162
+660,14,manu rere hau tea,0.178,3.85,manu rere,0.126
+203,14,rere toki,0.080,4.81,tagata oho era,0.066
+047,14,vai,0.155,3.63,inoino erua,0.146
+206,13,kiore,0.765,1.40,vai,0.078
+320,12,tagata noho,0.100,5.07,to maro,0.084
+093,12,atua mago,0.140,4.55,nuku,0.133
+360,12,vae,0.121,5.26,tagata mau,0.075
+305,12,ariki,0.182,4.99,noho ragi,0.104
+770,12,kea,0.111,4.23,vaha,0.108
+330,12,rere uta,0.039,5.06,uta toki,0.031
+384,11,tuu,0.312,3.48,tagata,0.262
+207,11,koia ra,0.446,2.34,maro,0.208
+069,11,haga,0.468,2.51,hipu,0.140
+074,11,oho,0.335,2.18,hua,0.301
+046,11,haga maro,0.679,1.77,vero,0.157
+034,11,kihikihi,0.196,4.05,hakaraoa,0.095
+420,10,raua,0.113,5.06,pepe,0.112
+386,10,ragi,0.288,3.94,to henua,0.191
+099,10,maro,0.271,3.00,kahi,0.236
+086,10,vero,0.379,3.23,honu kau,0.126
+390,10,ahi rima aueue,0.344,3.07,tagata marama,0.262
+405,10,manu rere,0.152,4.98,mau,0.093
+068,10,to kava,0.365,2.95,haaati kava,0.208
+301,9,to henua,0.217,5.11,ahine poopouo,0.144
+65,9,toa tauuru,0.076,5.81,uhi tapamea,0.055
+144,9,to heke,0.234,3.11,tapamea,0.212
+256,9,tui ika,0.055,5.41,maharoga,0.038
+049,9,pu niu,0.365,3.60,haga,0.060
+045,9,to huki,0.233,3.87,hua,0.182
+077,9,kava,0.538,1.65,oho,0.325
+054,9,rere ragi,0.170,5.17,tagata kai,0.115
+204,9,garu,0.272,3.46,kava,0.089
+445,8,tuhuga,0.146,5.06,tagata moe,0.135
+680,8,kia tui ika,0.185,5.00,manu kake rua,0.128
+470,8,toona mea,0.236,3.05,haga,0.182
+608,8,ahi,0.394,2.49,hokohuki,0.198
+064,8,tagata tua ivi,0.074,4.80,manu rere hau tea,0.074
+016,8,amo henua,0.160,4.60,tuu toga,0.110
+021,8,ihe hoi atu,0.290,2.80,to ika,0.271
+019,8,mama mamae,0.205,4.38,ihe mama,0.096
+061,8,tagata oho,0.186,3.14,noho,0.168
+062,8,reva ika,0.188,4.16,tagata moko,0.083

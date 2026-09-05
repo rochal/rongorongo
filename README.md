@@ -59,9 +59,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 14. [The list format against the creation chant](#14-the-list-format-against-the-creation-chant)
 15. [Do the triads chain?](#15-do-the-triads-chain)
 16. [The carved dividers](#16-the-carved-dividers)
-17. [Charts](#17-charts)
-18. [What it means and what it does not](#18-what-it-means-and-what-it-does-not)
-19. [Method, data, reproducibility](#19-method-data-reproducibility)
+17. [Metoro's readings](#17-metoros-readings)
+18. [Charts](#18-charts)
+19. [What it means and what it does not](#19-what-it-means-and-what-it-does-not)
+20. [Method, data, reproducibility](#20-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -477,7 +478,31 @@ Put together with the previous two sections: the Staff is a long text of three-u
 
 > **Caveat.** Sign 999 is the CEIPP's code for the divider; if any were missed in transliteration the stretch lengths shift, though the alignment result would only strengthen. Partial stretches at the ends of lines are dropped.
 
-## 17. Charts
+## 17. Metoro's readings
+
+*In plain words: in 1873 an islander named Metoro chanted over four tablets for Bishop Jaussen, who wrote down what he said for each sign. Nobody thinks he was reading, but the record can be tested: did he say the same word for the same sign each time? If so, his chant encodes sign identities, whatever else it does or does not encode.*
+
+Jaussen's notebook, published in 1893, gives Metoro's words sign by sign, one word group per sign, for Tahua, Aruku Kurenga, Mamari, and Keiti. Metoro divided the text into signs differently from Barthel, so the groups cannot simply be paired with the units: 83 lines give 3,690 Barthel units against 4,200 word groups. Instead each line was treated as a sentence pair and a word-alignment model of the kind used in early machine translation estimated, for every sign, the distribution of words Metoro said for it. A sign's consistency is the probability of its single most likely word. The null keeps every line's words but pairs them with the wrong lines of the same tablet, so any consistency above it comes from the signs actually in front of him.
+
+![Metoro's consistency](docs/img/metoro.png)
+
+| | Weighted mean probability of a sign's top word |
+|---|---|
+| Observed | 0.36 |
+| Lines paired at random within each tablet, 20 shuffles | 0.21 |
+
+- **Metoro was consistent.** Across signs seen eight or more times, the most likely word accounts for 36 percent of what he said, against 21 percent when his lines are paired with the wrong signs. For the commonest signs the figures are far higher: stroke 1 is *henua*, land, 70 percent of the time; sign 5 is *hau tea* 81 percent; the crescent 40 is *marama*, moon, 57 percent; sign 7 is *rei* 63 percent; sign 522 is *ariki*, chief, 62 percent.
+- **He named what the signs look like.** The frigatebird 600 is *manu*, bird; the fish 700 is *ika*, fish; the hand 6 is *rima*, hand; the crescent is the moon; the seated figure 380 is *kiore*, rat, and the 300-series figures are *tagata*, man. This is Métraux's reading of Metoro, that he was describing the pictures, and here it is with numbers: his vocabulary tracks Barthel's pictorial series.
+- **His consistency was highest on the simplest signs.** The strokes and the crescent, which carry no obvious picture, got the most fixed words of all. Whatever *henua* and *hau tea* meant to him for a stroke, he held to them across four tablets and thousands of signs.
+- **What this does and does not license.** A consistent labelling of sign shapes is not a reading, and Metoro's words for a sign say nothing about what a scribe meant by it. But the consistency makes his chant usable for one thing: as an independent, nineteenth-century judgment of which glyphs are the same sign. Where Metoro said the same word for two of Barthel's numbers, that is evidence for merging them, from a witness who had never seen Barthel's catalogue.
+
+The eight signs named above, in Barthel's drawings, in the order stroke 1, 5, crescent 40, frigatebird 600, fish 700, hand 6, seated figure 380, and 522:
+
+![Signs 1, 5, 40, 600, 700, 6, 380, 522](docs/img/glyphs/metoro.png)
+
+> **Caveat.** The alignment model assumes Metoro's word for a sign does not depend on its neighbours, which is false for a chant with grammar. Particles were stripped from his word groups so that *te henua* and *henua* count as one word. Guy showed that Metoro read the second sides of Mamari and Keiti in a disordered way; those lines are included, which can only lower the measured consistency.
+
+## 18. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -489,13 +514,13 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 18. What it means and what it does not
+## 19. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
 What the evidence supports is a genre-level and layer-level description. The texts are recited formulaic material: copied sets on H, P, and Q, a condensed copy on K, delimited lists whose items are mostly unique, refrains and alternating series. Within a text, three layers behave differently. The head sign is the open, content-bearing class. The attached component is a small closed class that copyists treated as optional and that carries whatever host selectivity exists. The compound unit is the word-sized thing. This picture is consistent with the mixed logo-syllabic reading most specialists favour, and it argues against both the picture-reading and the pure-cipher framings.
 
-What is probably known already: the families, the 380.1 lists, and the size of Barthel's inventory. What is worth checking against the literature: the negative affix result for free strokes, the fixed stacking order 4, 2, 1, 9, the finding that copies vary in attachments rather than head signs, the word-like statistics of whole units, the result that shape merging alone cannot reach a syllabary-sized inventory, the shuffled-null test showing the Staff's sign-76 triads are a real structure with the shape of the 1886 creation chant while the 380.1 lists are not, and the finding that those triads neither chain nor repeat parents nor keep separate slot vocabularies, which the genealogical reading predicts.
+What is probably known already: the families, the 380.1 lists, and the size of Barthel's inventory. What is worth checking against the literature: the negative affix result for free strokes, the fixed stacking order 4, 2, 1, 9, the finding that copies vary in attachments rather than head signs, the word-like statistics of whole units, the result that shape merging alone cannot reach a syllabary-sized inventory, the shuffled-null test showing the Staff's sign-76 triads are a real structure with the shape of the 1886 creation chant while the 380.1 lists are not, the finding that those triads neither chain nor repeat parents nor keep separate slot vocabularies, which the genealogical reading predicts, and the measurement that Metoro's 1873 chant names signs consistently against a shuffled null, with a vocabulary that tracks what the signs depict.
 
 ### Open questions and next tests
 
@@ -505,7 +530,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 19. Method, data, reproducibility
+## 20. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -552,6 +577,8 @@ python scripts/rapanui.py
 python scripts/chant.py
 python scripts/staff_chain.py
 python scripts/staff_dividers.py
+python scripts/fetch_metoro.py         # Metoro's readings, Jaussen 1893, public domain
+python scripts/metoro.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -575,7 +602,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | chant.py | Entry shape of the 1886 creation chant against the 380.1 lists and the sign-76 segmentation of the Staff, Gv and Ta, with a shuffled null |
 | staff_chain.py | Chaining and parent-repetition of sign-76 segments on the Staff, Gv, Ta and in the chant, against shuffled order; slot vocabularies |
 | staff_dividers.py | Stretches between the Staff's carved dividers: length, alignment with the 76 triads, openers and closers, cohesion, repeats, against random dividers |
-| charts.py | The twelve charts in docs/img |
+| fetch_metoro.py, metoro.py | Metoro's 1873 readings line by line; word alignment to Barthel's signs, consistency against shuffled line pairing, words per series |
+| charts.py | The thirteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### Licence
@@ -593,6 +621,7 @@ Line ids are Barthel's: object letter, side, line (Ev04 = Keiti verso line 4). A
 - Horley, P. 2005. Allographic variations and statistical analysis of the rongorongo corpus. *Rapa Nui Journal* 19.
 - Fischer, S. R. 1997. *Rongorongo: The Easter Island Script.* Oxford.
 - CEIPP transliteration and Barthel sign catalogue: http://kohaumotu.org/rongorongo_org/
+- Jaussen, T. 1893. L'île de Pâques: historique, écriture, et répertoire des signes des tablettes ou bois d'hibiscus intelligents. *Bulletin de Géographie Historique et Descriptive.* Public domain; Metoro's readings as transcribed line by line on kohaumotu.org.
 - Thomson, W. J. 1891. Te Pito te Henua, or Easter Island. Report of the U.S. National Museum for 1889. Public domain; OCR text from the Internet Archive, item cu31924105726222.
 - Barthel tracings: Wikimedia Commons files Barthel_Ev.png, Barthel_Gr.png, Barthel_Hv.png, Barthel_Ra.jpg.
 - Provenance and line counts of each object: the Wikipedia articles on the individual rongorongo texts.

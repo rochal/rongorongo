@@ -352,4 +352,27 @@ if (out / "staff_stretches.csv").exists():
     finish(fig, ax, "The carved dividers cut the Staff at triad boundaries, but not at regular intervals",
            "95% of stretches open on a 76-bearing unit against 34% for random dividers; 55% hold one to three triads, the longest holds 55",
            "staff_dividers.png")
+# 13 Metoro consistency ----------------------------------------------------
+if (out / "metoro_signs.csv").exists():
+    rows = sorted(read("metoro_signs.csv"), key=lambda r: -int(r["occurrences"]))[:24]
+    null_mean = None
+    for line in open(out / "metoro.md", encoding="utf-8"):
+        m = re.search(r"\*\*([\d.]+)\*\* observed, \*\*([\d.]+)\*\* when", line)
+        if m:
+            null_mean = float(m.group(2))
+    fig, ax = plt.subplots(figsize=(8, 0.3 * len(rows) + 1.8))
+    y = np.arange(len(rows))
+    ax.barh(y, [float(r["p_top"]) for r in rows], height=0.62, color=C[0])
+    for i, r in enumerate(rows):
+        ax.text(float(r["p_top"]) + 0.01, y[i], f"{r['top_word']}  ×{r['occurrences']}", va="center", color=INK2, fontsize=8.5)
+    if null_mean:
+        ax.axvline(null_mean, color=AXIS, lw=1)
+        ax.text(null_mean + 0.01, -0.9, f"shuffled lines: {null_mean:.2f}", color=INK2, fontsize=8.5)
+    ax.set_yticks(y); ax.set_yticklabels([str(int(r["sign"])) for r in rows]); ax.invert_yaxis()
+    ax.set_xlim(0, 1.0)
+    ax.set_xlabel("Probability of the sign's most frequent word in Metoro's chant")
+    ax.xaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+    ax.grid(axis="y", visible=False)
+    finish(fig, ax, "Metoro named the same sign with the same word far more often than chance",
+           "The 24 most frequent signs on the four tablets he chanted over, 1873; word alignment by expectation maximisation", "metoro.png")
 print("charts written to", img)
