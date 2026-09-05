@@ -9,6 +9,10 @@ What the Barthel transliteration of the rongorongo corpus shows about its texts 
 | Tracings | Thomas Barthel, 1958, via Wikimedia Commons |
 | Status | Working report, September 2026 |
 
+![The verso of the Keiti tablet, photographed in Papeete in the early 1880s](docs/img/keiti_verso.jpg)
+
+*The verso of the Keiti tablet, eight lines, Ev1 at the top. Photographed in Papeete in the early 1880s, some thirty years before the tablet was destroyed at Louvain in 1914; this print has the glyphs filled white for legibility. Public domain, via Wikimedia Commons.*
+
 ## About this project
 
 I am Piotr Rochala, a software engineer from Poland with a long-standing fascination for ancient cultures and the scripts they left behind. I am not a linguist, an archaeologist, or a Pacific specialist, and this repository makes no claim to a decipherment. What it offers is the thing a software engineer can bring to a hundred-year-old problem: a reproducible pipeline over the published data, with every measurement scripted, every result paired with a control or a null, and every caveat stated where the number is. The corpus and the sign catalogue are Barthel's and the CEIPP's; the tracings are Barthel's; the Rapa Nui text is Thomson's. My contribution is the questions, the code, and the discipline of not guessing at meaning.
