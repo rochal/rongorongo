@@ -85,6 +85,13 @@ for m in [i for i, l in enumerate(lines) if "ENGLISH TRANSLATION" in l]:
 apai_key = next(k for k in recitations if k.upper().startswith("APAI"))
 words = [w for k, v in recitations.items() for w in v]
 words_no_apai = [w for k, v in recitations.items() if k != apai_key for w in v]
+# Metraux 1940 text, if metraux_text.py has extracted it, enlarges the language model;
+# Apai stays held out for the positive control
+metraux_file = root / "data" / "metraux" / "rapanui_tokens.txt"
+metraux_words = metraux_file.read_text(encoding="utf-8").split() if metraux_file.exists() else []
+words += metraux_words
+words_no_apai += metraux_words
+LM_NOTE = f"Thomson recitations plus {len(metraux_words)} Metraux tokens" if metraux_words else "Thomson recitations"
 CONS = ["ng", "h", "k", "m", "n", "p", "r", "t", "v"]
 
 
@@ -292,7 +299,7 @@ gain_pos = pos_score - pos_shuf
 md = ["# A statistical decipherment attempt\n",
       f"The {N} most frequent head signs, {int(C_real.sum())} adjacent pairs among them, assigned one-to-one to Rapa Nui syllables by "
       f"simulated annealing ({args.restarts} restarts of {args.iters} steps) to maximise bigram log-likelihood under a model "
-      f"built from {len(rn_stream)} syllables of the 1886 recitations ({len(rn_vocab)} syllable types with 3+ occurrences).\n",
+      f"built from {len(rn_stream)} syllables ({LM_NOTE}; {len(rn_vocab)} syllable types with 3+ occurrences).\n",
       "## Scores, log-likelihood per adjacent pair (higher is better)\n",
       "| condition | score |\n|---|---|"]
 for k, v in scores.items():

@@ -35,6 +35,8 @@ steps += [
 ]
 if args.refetch or not (root / "data" / "rapanui" / "thomson1891_djvu.txt").exists():
     steps.append(["fetch_rapanui.py"])
+if (root / "data" / "metraux").exists():
+    steps.append(["metraux_text.py"])         # needs Tesseract; pages are not in the repository
 steps.append(["rapanui.py"])
 if args.refetch or not (root / "data" / "rapanui" / "sources" / "churchill1912.txt").exists():
     steps.append(["fetch_lexicon.py"])

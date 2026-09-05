@@ -71,6 +71,15 @@ for m in marks:
         words.extend(kept)
 (root / "data" / "rapanui" / "recitations_tokens.txt").write_text(" ".join(words), encoding="utf-8")
 
+# if metraux_text.py has built a larger working corpus, use it for the statistics
+combined = root / "data" / "rapanui" / "_combined_tokens.txt"
+SOURCE_NOTE = "Thomson 1891 recitations"
+if combined.exists():
+    extra = combined.read_text(encoding="utf-8").split()
+    if len(extra) > len(words):
+        SOURCE_NOTE = f"Thomson 1891 recitations plus Metraux 1940 texts ({len(extra) - len(words)} tokens from Metraux)"
+        words = extra
+
 
 def syllables(w):
     return len(re.findall(r"[aeiou]", w))
@@ -128,7 +137,7 @@ def mean(c, n):
 
 
 md = ["# Rongorongo units against Rapa Nui words\n",
-      f"Rapa Nui sample: {len(words)} word tokens, {len(rn_freq)} distinct, from {len(passages)} recitations in Thomson 1891: "
+      f"Rapa Nui sample: {len(words)} word tokens, {len(rn_freq)} distinct. Source: {SOURCE_NOTE}. Thomson's recitations: "
       + "; ".join(f"{t.title().strip('.,')} ({n})" for t, n in passages) + ". OCR errors remain in the sample; tokens with "
       "letters outside the Rapa Nui alphabet were dropped, and lines with fewer than 60 percent valid tokens were skipped.\n",
       f"Rongorongo sample: {len(units)} units, {len(rr_freq)} distinct, one witness per family.\n",
