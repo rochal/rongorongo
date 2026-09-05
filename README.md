@@ -29,7 +29,22 @@ The work started with a single photograph of the Keiti tablet and the question o
 
 Rongorongo is undeciphered and this report does not change that. It records nine structural results obtained by scripting over the published numerical transliteration and Barthel's sign catalogue, each with its evidence and its caveat, so that they can be checked against the literature and built on. Every result is reproducible from the scripts in this repository.
 
-**In one paragraph.** The corpus divides into three families of copied texts and a majority of isolated ones; Keiti's verso is isolated but borrows two list entries from the Small Santiago tablet and one eight-sign formula shared by three tablets. The 380.1-delimited lists are a corpus-wide format whose entries are mostly unique and word-length. Alternating series are two devices, not one. The free-standing stroke signs fail a test for suffix behaviour but chain in a fixed order, and the affix-like behaviour lives in fused components instead. Copies of a text vary in those attached components far more than in head signs. Counted by head sign the inventory is far too large for a syllabary; counted by whole compound unit it has the statistics of words. Merging signs by drawn shape shrinks the head inventory by a quarter, not by the order of magnitude a syllabary would need.
+## What we found, in plain English
+
+- **Some tablets are copies of one another.** Three large tablets in Santiago and St Petersburg carry the same two texts, and a small London tablet is a shortened copy of a Santiago one. Most of the rest, Keiti included, share almost nothing with any other tablet, though the back of Keiti has two short passages that also appear elsewhere.
+- **Several tablets contain lists.** One sign behaves like a comma, separating short groups of one to five signs. Most groups occur only once, the way names do in a register.
+- **The simplest signs are not grammatical endings.** The plain strokes attach to anything and follow anything. But when several strokes stand together they keep a fixed order, the way digits do.
+- **Copyists changed the small marks, not the main signs.** Where the same text survives on two tablets, the differences are almost all in the little marks attached to a sign, so those marks were optional, like accents or spelling variants.
+- **There are too many signs for a sound-based script.** An alphabet or syllabary needs a few dozen signs, all used often. Barthel's catalogue has hundreds, most of them rare. Merging signs that look alike trims the count by a quarter, nowhere near enough.
+- **Whole glyphs behave like words.** Counting each compound glyph as one item, their frequencies look like the frequencies of words in a language: a few very common, a long tail seen once.
+- **Signs keep company.** The same sign is often doubled, and certain pairs travel together across tablets, which is what words and phrases do and random marks do not.
+- **Against a real Rapa Nui text,** recorded in 1886, glyphs are shorter than words, and the script seems to leave out the small grammatical words or to hide them in the attached marks.
+- **The Santiago Staff is built of three-sign groups,** each marked by one attached sign, and the carver's own dividing marks respect those groups. But the groups do not behave like the entries of a family tree, which is what one scholar claimed they were. They look more like the lines of a long chant.
+- **The islander who chanted over the tablets in 1873 was not reading them,** but he did give each sign shape the same name almost every time, so his chant is a usable record of which signs he saw as the same.
+
+Nothing here says what any sign means. What it says is what kind of thing the texts are and how they are put together, which is the ground a real decipherment would have to stand on.
+
+**The same, in the report's own terms.** The corpus divides into three families of copied texts and a majority of isolated ones; Keiti's verso is isolated but borrows two list entries from the Small Santiago tablet and one eight-sign formula shared by three tablets. The 380.1-delimited lists are a corpus-wide format whose entries are mostly unique and word-length. Alternating series are two devices, not one. The free-standing stroke signs fail a test for suffix behaviour but chain in a fixed order, and the affix-like behaviour lives in fused components instead. Copies of a text vary in those attached components far more than in head signs. Counted by head sign the inventory is far too large for a syllabary; counted by whole compound unit it has the statistics of words. Merging signs by drawn shape shrinks the head inventory by a quarter, not by the order of magnitude a syllabary would need.
 
 ## How to read this report
 
@@ -60,9 +75,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 15. [Do the triads chain?](#15-do-the-triads-chain)
 16. [The carved dividers](#16-the-carved-dividers)
 17. [Metoro's readings](#17-metoros-readings)
-18. [Charts](#18-charts)
-19. [What it means and what it does not](#19-what-it-means-and-what-it-does-not)
-20. [Method, data, reproducibility](#20-method-data-reproducibility)
+18. [Three witnesses for merging signs](#18-three-witnesses-for-merging-signs)
+19. [Charts](#19-charts)
+20. [What it means and what it does not](#20-what-it-means-and-what-it-does-not)
+21. [Method, data, reproducibility](#21-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -502,7 +518,40 @@ The eight signs named above, in Barthel's drawings, in the order stroke 1, 5, cr
 
 > **Caveat.** The alignment model assumes Metoro's word for a sign does not depend on its neighbours, which is false for a chant with grammar. Particles were stripped from his word groups so that *te henua* and *henua* count as one word. Guy showed that Metoro read the second sides of Mamari and Keiti in a disordered way; those lines are included, which can only lower the measured consistency.
 
-## 18. Charts
+## 18. Three witnesses for merging signs
+
+*In plain words: three independent sources can say whether two of Barthel's numbers are really one sign: Metoro used the same word for both, the drawings look alike, or a copyist swapped one for the other. We listed every pair Metoro's chant proposes, checked it against the other two witnesses, and then tested each set of merges the only way a merge can be tested: by seeing whether more text lines up between tablets afterwards, compared with merging random signs of the same frequency.*
+
+Metoro's chant proposes a pair when two signs, each chanted at least eight times, share the same most likely word with a consistency of at least 35 percent on both. Words he used as the top word for four or more signs are treated as generic fillers and excluded; that removes *henua*, which he said for the plain stroke and for a seated figure alike. Four pairs survive.
+
+| Pair | Metoro's word | Shape similarity | Copy substitution | Witnesses |
+|---|---|---|---|---|
+| 4 and 22 | *hokohuki* | 0.71, above the 99.5th percentile | | Metoro, shape |
+| 400 and 600 | *manu*, bird | 0.68, above the 95th percentile | one passage | all three |
+| 40 and 41 | *marama*, moon | 0.14 | one passage | Metoro, copies |
+| 206 and 380 | *kiore*, rat | 0.26 | | Metoro only |
+
+![Signs 4 and 22; 400 and 600; 40 and 41; 206 and 380](docs/img/glyphs/witnesses.png)
+
+![Which merges make more text align?](docs/img/merge_witnesses.png)
+
+| Merge table | Signs merged | Shared runs in the strict parallel map |
+|---|---|---|
+| Barthel's numbering as is | 0 | 134 |
+| Metoro's four pairs | 4 | 145 |
+| Metoro's pairs backed by shape or copies | 2 | 137 |
+| Random pairs of matched frequency, mean of five | 4 | 135 |
+| Copy substitutions, section 7 | 3 | 145 |
+| Shape look-alikes, loose, section 9 | 20 | 165 |
+
+- **Metoro's merges are real.** Merging his four pairs raises the number of shared runs from 134 to 145. Merging four random pairs of signs of the same frequency raises it to 135. The gain is the same as from the three copy-substitution pairs, which were found by an entirely different route, so two witnesses who never met agree on the size of the effect.
+- **Two pairs have more than one witness.** Signs 4 and 22 are both a stroke with side marks, look alike by the strict shape test, and got the same word; Metoro and shape agree. Signs 400 and 600 are both birds to Metoro, look alike, and were swapped by a copyist: all three witnesses. The crescents 40 and 41 are both *marama*, the moon, and a copyist swapped them, but the drawings score low, which says more about the shape descriptor than about the crescents.
+- **Shape look-alike classes are not sign identities in Metoro's eyes.** Of the 17 look-alike pairs from section 9 for which Metoro chanted both members, he gave the same word to none. Random pairs of the signs he chanted agree 1 percent of the time. Whatever the shape classes capture, Metoro was naming something finer, and the loose shape merge that gains 31 runs in the parallel map does so partly by merging signs he kept apart.
+- **What a defensible reduced inventory looks like.** It is not one method's list. It is the pairs on which independent witnesses agree, and at this point that is two pairs firmly and two more with a single supporter each. The number is small because the chanted tablets are four and the copied passages few; both witnesses run out of evidence long before the inventory does.
+
+> **Caveat.** The parallel-map gain is a coarse yardstick, since a merge can be right and add no runs, or wrong and add several by chance; the random control bounds only the second. Metoro's chant covers about a third of the corpus and its word alignment is statistical, so a pair he never chanted, or chanted rarely, cannot appear here at all.
+
+## 19. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -514,7 +563,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 19. What it means and what it does not
+## 20. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -530,7 +579,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 20. Method, data, reproducibility
+## 21. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -579,6 +628,7 @@ python scripts/staff_chain.py
 python scripts/staff_dividers.py
 python scripts/fetch_metoro.py         # Metoro's readings, Jaussen 1893, public domain
 python scripts/metoro.py
+python scripts/metoro_merge.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -603,7 +653,8 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | staff_chain.py | Chaining and parent-repetition of sign-76 segments on the Staff, Gv, Ta and in the chant, against shuffled order; slot vocabularies |
 | staff_dividers.py | Stretches between the Staff's carved dividers: length, alignment with the 76 triads, openers and closers, cohesion, repeats, against random dividers |
 | fetch_metoro.py, metoro.py | Metoro's 1873 readings line by line; word alignment to Barthel's signs, consistency against shuffled line pairing, words per series |
-| charts.py | The thirteen charts in docs/img |
+| metoro_merge.py | Sign pairs proposed by Metoro's words, checked against shape and copy substitutions, and tested by rerunning the parallel map against random frequency-matched merges |
+| charts.py | The fourteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### How to cite

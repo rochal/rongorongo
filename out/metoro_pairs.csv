@@ -1,0 +1,5 @@
+a,b,word,p_a,p_b,occ_a,occ_b,shape,shape_95,shape_995,copies,same_series
+004,022,hokohuki,0.350,0.381,155,113,0.708,True,True,0,True
+400,600,manu,0.447,0.397,30,79,0.676,True,False,1,False
+206,380,kiore,0.765,0.425,13,56,0.261,False,False,0,False
+040,041,marama,0.569,0.625,79,27,0.141,False,False,1,True

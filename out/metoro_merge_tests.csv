@@ -1,0 +1,7 @@
+merge_table,signs_merged,shared_runs,hr_covered_pct
+Barthel as is,0,134,42
+"Metoro pairs, all",4,145,43
+Metoro pairs backed by shape or copies,2,137,43
+"random frequency-matched pairs, mean of 5",4,135,
+copy substitutions only,3,145,42
+"shape look-alikes, loose",20,165,46

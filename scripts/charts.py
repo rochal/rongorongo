@@ -375,4 +375,25 @@ if (out / "metoro_signs.csv").exists():
     ax.grid(axis="y", visible=False)
     finish(fig, ax, "Metoro named the same sign with the same word far more often than chance",
            "The 24 most frequent signs on the four tablets he chanted over, 1873; word alignment by expectation maximisation", "metoro.png")
+# 14 merge witnesses -------------------------------------------------------
+if (out / "metoro_merge_tests.csv").exists():
+    rows = read("metoro_merge_tests.csv")
+    base = int(next(r["shared_runs"] for r in rows if r["merge_table"].startswith("Barthel")))
+    rows = [r for r in rows if not r["merge_table"].startswith("Barthel")]
+    labels = {"Metoro pairs, all": "Metoro's word, 4 pairs", "Metoro pairs backed by shape or copies": "Metoro plus shape or copies, 2 pairs",
+              "copy substitutions only": "Copy substitutions, 3 pairs", "shape look-alikes, loose": "Shape look-alikes, 20 pairs"}
+    fig, ax = plt.subplots(figsize=(8, 3.9))
+    y = np.arange(len(rows))
+    cols = [C[1] if r["merge_table"].startswith("random") else C[0] for r in rows]
+    gains = [int(r["shared_runs"]) - base for r in rows]
+    ax.barh(y, gains, height=0.6, color=cols)
+    for i, g in enumerate(gains):
+        ax.text(g + 0.4, y[i], f"+{g}", va="center", color=INK2, fontsize=9)
+    ax.set_yticks(y)
+    ax.set_yticklabels([labels.get(r["merge_table"], "Random pairs of matched frequency, mean of 5") for r in rows])
+    ax.invert_yaxis()
+    ax.set_xlabel(f"Shared runs gained over Barthel's numbering as is ({base} runs)")
+    ax.grid(axis="y", visible=False)
+    finish(fig, ax, "Which merges make more text align?",
+           "Strict parallel map after merging sign pairs proposed by each witness; orange is the chance level for merging frequent signs", "merge_witnesses.png")
 print("charts written to", img)

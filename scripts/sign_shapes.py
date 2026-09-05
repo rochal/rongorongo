@@ -139,6 +139,10 @@ within = np.array(within)
 thr = float(np.percentile(between, 99.5))
 recall = float((within >= thr).mean()) if len(within) else 0.0
 
+# full matrix, for other scripts (metoro_merge.py)
+np.save(out / "sign_similarity_matrix.npy", SS)
+(out / "sign_similarity_signs.txt").write_text("\n".join(signs), encoding="utf-8")
+
 # nearest neighbours
 with open(out / "sign_similarity.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh)
