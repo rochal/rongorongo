@@ -424,4 +424,37 @@ if (out / "calendar_sequence.csv").exists():
                        Patch(color=C[2], label="Other sign")], loc="lower right", ncol=1, fontsize=9, frameon=False)
     finish(fig, ax, "The Mamari calendar as a sequence",
            "Each block is one unit in reading order; marker groups are numbered where they begin", "calendar.png")
+# 16 attachments as particles ------------------------------------------------
+if (out / "attachments_profiles.csv").exists():
+    rows = read("attachments_profiles.csv")
+    order = ["Rapa Nui particles", "attached components", "head signs", "Rapa Nui content words"]
+    rows = sorted(rows, key=lambda r: order.index(r["class"]))
+    fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.6))
+    specs = [("top1_share", "Share of the commonest item", True), ("top5_share", "Share of the five commonest", True),
+             ("types_for_90pct", "Types needed for 90% of tokens", False)]
+    for ax, (key, title, pct) in zip(axes, specs):
+        vals = [float(r[key]) for r in rows]
+        cols = [C[0] if "Rapa Nui" in r["class"] else C[1] for r in rows]
+        y = np.arange(len(rows))
+        ax.barh(y, vals, height=0.6, color=cols)
+        for i, v in enumerate(vals):
+            ax.text(v + (0.01 if pct else max(vals) * 0.02), y[i], f"{v:.0%}" if pct else f"{int(v)}", va="center", color=INK2, fontsize=9)
+        ax.set_yticks(y); ax.set_yticklabels([r["class"] for r in rows] if ax is axes[0] else [""] * len(rows))
+        ax.invert_yaxis()
+        if pct:
+            ax.set_xlim(0, 1); ax.xaxis.set_major_formatter(lambda v, _: f"{v:.0%}")
+        else:
+            ax.set_xlim(0, max(vals) * 1.25)
+        ax.set_title(title, pad=8, fontsize=10.5)
+        ax.grid(axis="y", visible=False); ax.tick_params(length=0)
+    from matplotlib.patches import Patch
+    axes[2].legend(handles=[Patch(color=C[0], label="Rapa Nui, running text"), Patch(color=C[1], label="Rongorongo, one witness per family")],
+                   loc="lower right", fontsize=8.5)
+    fig.suptitle("The attached components are shaped like a particle class, not like a vocabulary", x=0.02, ha="left",
+                 fontsize=13, fontweight="semibold", color=INK, y=1.06)
+    fig.text(0.02, 0.975, "Concentration of four classes of item: a closed grammatical class is dominated by a few members; an open lexical class has a long tail",
+             color=INK2, fontsize=9.5)
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    fig.savefig(img / "attachments.png", bbox_inches="tight", pad_inches=0.25)
+    plt.close(fig)
 print("charts written to", img)

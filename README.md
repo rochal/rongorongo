@@ -82,9 +82,10 @@ Each section opens with a paragraph in italics that says in plain words what was
 21. [The Mamari calendar, rebuilt](#21-the-mamari-calendar-rebuilt)
 22. [Two islanders on one tablet](#22-two-islanders-on-one-tablet)
 23. [A decipherment attempt, and why it cannot work yet](#23-a-decipherment-attempt-and-why-it-cannot-work-yet)
-24. [Charts](#24-charts)
-25. [What it means and what it does not](#25-what-it-means-and-what-it-does-not)
-26. [Method, data, reproducibility](#26-method-data-reproducibility)
+24. [Attachments as particles](#24-attachments-as-particles)
+25. [Charts](#25-charts)
+26. [What it means and what it does not](#26-what-it-means-and-what-it-does-not)
+27. [Method, data, reproducibility](#27-method-data-reproducibility)
 
 ## 1. Keiti's verso against Barthel
 
@@ -397,23 +398,23 @@ The method: take the 55 most frequent head signs as the basic set, and explain e
 
 Section 8 found that whole units have the statistics of words. That gives a prediction that needs no reading: if units are words in Rapa Nui, their length distribution should resemble Rapa Nui word length, their doubling rate should resemble Rapa Nui reduplication, and the most frequent units should be short the way particles are.
 
-The Rapa Nui sample has two parts. The recitations Ure Vaeiko gave in 1886, printed in Rapa Nui in Thomson's 1891 Smithsonian report, public domain: 1,365 word tokens from five recitations. And the legends, chants and lists printed in Rapa Nui with translations in Métraux's 1940 ethnology, from page scans saved by hand and OCR'd: 6,123 tokens. Together 7,488 tokens, 1,109 distinct. In both, the OCR text was cut to the lines made mostly of Rapa Nui tokens and cleaned to Rapa Nui letters only. Word length is counted in syllables, which in Rapa Nui equals the number of vowels. OCR noise remains and long vowels count as two syllables, so the Rapa Nui lengths are slightly inflated. A first version of this comparison used Thomson's recitations alone; the larger sample shifted the Rapa Nui figures toward shorter words, since Métraux's prose legends carry more particles than chant, and left every conclusion standing.
+The Rapa Nui sample has two parts. The recitations Ure Vaeiko gave in 1886, printed in Rapa Nui in Thomson's 1891 Smithsonian report, public domain: 1,365 word tokens from five recitations. And the legends, chants and lists printed in Rapa Nui with translations in Métraux's 1940 ethnology, from 43 page scans saved by hand and OCR'd: 1,582 tokens. Together 2,947 tokens, 785 distinct. In both, a token counts as Rapa Nui only if it parses entirely into (C)V syllables with Rapa Nui consonants, which rejects English on phonotactics alone, and only lines made mostly of such tokens are kept; Métraux's pages interleave the original with its translation, so this filter matters, and a looser one let English in. Word length is counted in syllables, which in Rapa Nui equals the number of vowels. OCR noise remains and long vowels count as two syllables, so the Rapa Nui lengths are slightly inflated.
 
 ![Word length against unit length](docs/img/rapanui_lengths.png)
 
 | | Rapa Nui words | Rongorongo units |
 |---|---|---|
-| Length 1 | 44% | 69% |
-| Length 2 | 36% | 27% |
-| Length 3 or more | 20% | 4% |
-| Mean length | 1.84 syllables | 1.36 components |
-| Doubling, inside the item or immediate repeat | 3.1% | 6.8% |
-| Share of tokens in the fifteen most frequent items | 41% | 23% |
-| Mean length of those fifteen | 1.4 syllables | 1.0 components |
+| Length 1 | 34% | 69% |
+| Length 2 | 41% | 27% |
+| Length 3 or more | 25% | 4% |
+| Mean length | 2.04 syllables | 1.36 components |
+| Doubling, inside the item or immediate repeat | 3.9% | 6.8% |
+| Share of tokens in the fifteen most frequent items | 33% | 23% |
+| Mean length of those fifteen | 1.3 syllables | 1.0 components |
 
-- **Components are not syllables.** If each component wrote one syllable and each unit one word, the two length distributions would match. They do not: two thirds of units are a single sign, while under half of Rapa Nui words are monosyllables, and units of three or more components are rare where three-syllable words are common. A single sign must on average carry more than one syllable, which is the logographic side of a mixed script, not a syllabary.
-- **Doubling is in the same range.** Reduplication and immediate repeats make up about 3 percent of the Rapa Nui tokens and about 7 percent of the rongorongo units. The script doubles about twice as often as the language reduplicates, which is compatible with reduplication being written and with some doubling being something else, such as tallying.
-- **The particle layer is thinner in the script.** In the Rapa Nui texts the fifteen commonest words are the grammatical particles te, e, i, ki, a, o, he, ka and a few nouns, and they carry two fifths of the text. The fifteen commonest units carry under a quarter. Either the script leaves particles unwritten, which early and mixed scripts commonly do, or the attached components carry them, which is what the affix test and the entropy of components suggested.
+- **Components are not syllables.** If each component wrote one syllable and each unit one word, the two length distributions would match. They do not: two thirds of units are a single sign, while a third of Rapa Nui words are monosyllables, and units of three or more components are rare where three-syllable words are common. A single sign must on average carry more than one syllable, which is the logographic side of a mixed script, not a syllabary.
+- **Doubling is in the same range.** Reduplication and immediate repeats make up about 4 percent of the Rapa Nui tokens and about 7 percent of the rongorongo units. The script doubles somewhat more than the language reduplicates, which is compatible with reduplication being written and with some doubling being something else, such as tallying.
+- **The particle layer is thinner in the script.** In the Rapa Nui texts the fifteen commonest words are the grammatical particles te, ki, e, to, he, a, o, ko and a few nouns, and they carry a third of the text. The fifteen commonest units carry under a quarter. Either the script leaves particles unwritten, which early and mixed scripts commonly do, or the attached components carry them, which is what the affix test and the entropy of components suggested.
 
 **A second source: the lexicon.** Roussel's 1908 vocabulary, the largest early record of the language, survives in English in Churchill's 1912 book, which is public domain. Parsed from its OCR it yields 1,645 headwords after English intrusions are filtered, with a residue of a few percent the filters miss. It is a list of word types, not running text, so it measures the language's stock of words rather than their use, and the two differ in the expected way: headwords average 3.4 syllables where running-text words average 2.1, because the short particles that dominate speech are few in a dictionary and the long compound words are many. Three things it settles that the recitations could not:
 
@@ -717,26 +718,55 @@ Thomson's report says which photograph each of Ure Vaeiko's recitations answered
 
 *In plain words: this is the closest thing to a decipherment the evidence allows, done the way computers have cracked substitution ciphers and, once, an ancient script. Treat the forty commonest signs as unknown syllables and search for the assignment under which the tablets read most like Rapa Nui. The result is not a reading. It is a measurement of whether such a search could succeed at all with this much text, and the answer is no: the search cannot even recover Rapa Nui from Rapa Nui.*
 
-The method is the one used on Ugaritic against Hebrew. A syllable bigram model of Rapa Nui was built from the 1886 recitations together with the legends, chants and lists printed in Rapa Nui in Métraux's 1940 ethnology, about 13,800 syllables in 48 types; a first run on the recitations alone, 2,900 syllables, gave the same verdict. The forty most frequent head signs, 2,593 adjacent pairs among them with copies dropped, were assigned one syllable each, no two alike, by simulated annealing to maximise the log-likelihood of the sign sequence under the model, twelve restarts of forty thousand steps. Four controls decide what the score means: the sequence shuffled, which keeps sign frequencies and destroys order; the sequence reversed; the wrong language, English letter bigrams from Thomson's own prose, on the 24 signs a 26-letter alphabet allows; and a positive control in which a genuine Rapa Nui recitation, Apai, is treated as unknown signs against a model trained on the other recitations, to see whether the search recovers the truth when the truth is there.
+The method is the one used on Ugaritic against Hebrew. A syllable bigram model of Rapa Nui was built from the 1886 recitations together with the legends, chants and lists printed in Rapa Nui in Métraux's 1940 ethnology, 6,000 syllables in 47 types; a first run on the recitations alone, 2,900 syllables, gave the same verdict. The forty most frequent head signs, 2,593 adjacent pairs among them with copies dropped, were assigned one syllable each, no two alike, by simulated annealing to maximise the log-likelihood of the sign sequence under the model, twelve restarts of forty thousand steps. Four controls decide what the score means: the sequence shuffled, which keeps sign frequencies and destroys order; the sequence reversed; the wrong language, English letter bigrams from Thomson's own prose, on the 24 signs a 26-letter alphabet allows; and a positive control in which a genuine Rapa Nui recitation, Apai, is treated as unknown signs against a model trained on the other recitations, to see whether the search recovers the truth when the truth is there.
 
 | Condition | Log-likelihood per pair | Gain over shuffled |
 |---|---|---|
-| Real signs under Rapa Nui, 40 signs | -3.670 | +0.068 |
-| Real signs reversed, Rapa Nui | -3.678 | |
-| Real signs under Rapa Nui, 24 signs | -3.341 | +0.021 |
-| Real signs under English letters, 24 signs | -3.434 | +0.039 |
-| Positive control, Apai as unknown signs, searched | -3.441 | +0.114 |
-| Positive control, Apai under the true assignment | -3.599 | |
+| Real signs under Rapa Nui, 40 signs | -3.674 | +0.061 |
+| Real signs reversed, Rapa Nui | -3.672 | |
+| Real signs under Rapa Nui, 24 signs | -3.385 | +0.031 |
+| Real signs under English letters, 24 signs | -3.453 | +0.025 |
+| Positive control, Apai as unknown signs, searched | -3.438 | +0.178 |
+| Positive control, Apai under the true assignment | -3.642 | |
 
-- **The positive control fails, and that is the finding.** Given a real Rapa Nui text as unknown signs, the search recovers 8 percent of the syllables, up from 5 percent when the model had a fifth of the text. The assignment it finds still scores well above the true one: with 48 syllables, a model from some 12,000 syllables, and a text of 1,100, there remain many false assignments that read "more like Rapa Nui" than Rapa Nui does. The search is not finding truth; it is finding whatever the model rewards, and a model five times larger did not change that.
-- **So the sign scores mean nothing either way.** The tablets gain 0.068 over their shuffles under Rapa Nui and, on the 24 signs the two languages can share, 0.021 under Rapa Nui against 0.039 under English; forward beats reversed by 0.007. Those numbers are of the size the search produces from any structured sequence, and the wrong language does as well as the right one. No syllabic reading of the frequent signs can be supported or refuted by this route at this scale.
-- **What it would take.** The method works on Ugaritic because the related language, Hebrew, has a corpus of millions of words and the cipher text has thousands of distinct words to constrain the mapping. Here the language model rests on fourteen thousand syllables and the sign corpus has fewer than three thousand pairs among its frequent signs. Enlarging the model from three thousand syllables to fourteen thousand moved the positive control from 5 to 8 percent recovery, which puts the scale needed for recovery at hundreds of thousands of syllables, more Rapa Nui text of the old genres than was ever written down. The remaining public-domain sources add nothing: Jaussen's 1894 volume is a scan of handwritten notes whose OCR is noise, and Routledge's 1919 book holds no Rapa Nui passages.
+- **The positive control fails, and that is the finding.** Given a real Rapa Nui text as unknown signs, the search recovers 5 percent of the syllables, and the assignment it finds scores well above the true one: with 47 syllables, a model from some 5,000 syllables, and a text of 1,100, there are many false assignments that read "more like Rapa Nui" than Rapa Nui does. The search is not finding truth; it is finding whatever the model rewards, and doubling the model with Métraux's texts did not change that.
+- **So the sign scores mean nothing either way.** The tablets gain 0.061 over their shuffles under Rapa Nui and, on the 24 signs the two languages can share, 0.031 under Rapa Nui against 0.025 under English; reversed reads as well as forward. Those numbers are of the size the search produces from any structured sequence, and the wrong language does nearly as well as the right one. No syllabic reading of the frequent signs can be supported or refuted by this route at this scale.
+- **What it would take.** The method works on Ugaritic because the related language, Hebrew, has a corpus of millions of words and the cipher text has thousands of distinct words to constrain the mapping. Here the language model rests on six thousand syllables and the sign corpus has fewer than three thousand pairs among its frequent signs. A model that could recover a known text would need to be larger by orders of magnitude, more Rapa Nui of the old genres than was ever written down. The remaining public-domain sources add nothing: Jaussen's 1894 volume is a scan of handwritten notes whose OCR is noise, and Routledge's 1919 book holds no Rapa Nui passages.
 
 The best assignment the search found is written to `out/decipher_mapping.csv` for completeness. It should not be read; it is one of many that score as well, and the positive control shows such assignments are wrong even when the language is right.
 
 > **Caveat.** The Rapa Nui model is in-sample for the main run, since the same recitations trained it; the positive control holds Apai out. Syllabification is (C)V by rule, so long vowels count as two syllables and OCR slips add noise. None of this changes the conclusion, which the positive control carries on its own.
 
-## 24. Charts
+## 24. Attachments as particles
+
+*In plain words: sections 6, 8 and 13 kept arriving at the same fork. Rapa Nui is full of little grammatical words, and the script seems not to write them as separate signs. Either they were left out, or they are the small marks attached to the main signs. With a corpus of running Rapa Nui now on disk, the two can be compared: does the set of attached marks have the shape of a language's particle class, and does it occur as often?*
+
+Four classes of item were profiled the same way: the Rapa Nui particles, a closed list of 34 articles, prepositions, tense-aspect markers, deictics and directionals, counted in the 2,947-token corpus; the Rapa Nui content words; the attached components of the transliteration, one witness per family; and the head signs. A grammatical class is dominated by a few members and has a short tail; a lexical class has a long one.
+
+![The attached components are shaped like a particle class](docs/img/attachments.png)
+
+| Class | Tokens | Types | Commonest item | Five commonest | Types for 90% |
+|---|---|---|---|---|---|
+| Rapa Nui particles | 1,079 | 31 | *te*, 19% | 57% | 16 |
+| Attached components | 3,088 | 224 | sign 76, 19% | 41% | 66 |
+| Head signs | 8,688 | 649 | stroke 1, 5% | 18% | 223 |
+| Rapa Nui content words | 1,868 | 742 | 2% | 7% | 556 |
+
+| Density | |
+|---|---|
+| Particles per word token, Rapa Nui | 0.37 |
+| Particles per content word, Rapa Nui | 0.58 |
+| Attachments per unit, rongorongo | 0.36 |
+| Free simple signs per unit, rongorongo | 0.37 |
+
+- **The attachment class has the shape of a particle class.** Its commonest member carries 19 percent of it, exactly the share *te* carries among the particles, and its five commonest carry 41 percent against 57. On the three concentration measures the attachments sit at distance 0.30 from the particles and 2.48 from the content words. The head signs, by contrast, profile like the content words. The script's two layers split the way the language's two classes split.
+- **The density matches too.** There are 0.36 attachments per unit and 0.37 particles per Rapa Nui word token. If a unit is a word, the script attaches a mark as often as the language uses a particle. The match is not exact in the other direction: per content word Rapa Nui has 0.58 particles, so if units were content words only, a third of the particles would still be unwritten.
+- **Free strokes are the other candidate, and they match on density alone.** Free simple signs also run at 0.37 per unit, but section 6 showed they do not behave like a grammatical class: they attach to anything and follow anything. The attachments are the layer that is both concentrated like particles and, from section 6, host-selective like affixes.
+- **What this does not show.** A matching profile and a matching rate are consistent with the attachments being particles; they do not prove it, since any small closed class of modifiers would give the same shape. What it rules out is the view that the attachments are ordinary signs that happen to be fused: nothing about their distribution looks like vocabulary.
+
+> **Caveat.** The particle list is a linguist's closed class applied to OCR'd text; a few Rapa Nui words are both particle and content word depending on use, and were counted as particles throughout. The attachment profile is Barthel's, and section 7 showed copies vary in exactly this layer, so its tail is inflated by variant spellings of the same mark.
+
+## 25. Charts
 
 All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
@@ -748,7 +778,7 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
 
-## 25. What it means and what it does not
+## 26. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
 
@@ -764,7 +794,7 @@ What is probably known already: the families, the 380.1 lists, and the size of B
 - **Are Keiti's refrains strophic?** The recto refrain on Er1, Er2, Er3, and Er6 and the Ev7 series both look like chant structure. Measuring the distance between refrains against the line lengths of documented Rapa Nui chants is a test that needs no reading.
 - **Do compounds decompose?** Section 12 finds no shape evidence that the rare signs are built from the frequent ones, at the resolution a pixel matcher allows. A stroke-graph matcher that compares limb structure rather than ink would be the way to press the question.
 
-## 26. Method, data, reproducibility
+## 27. Method, data, reproducibility
 
 The data is the CEIPP numerical transliteration of the whole corpus, Thomas Barthel's numbering as extended by the Cercle d'Études sur l'Île de Pâques et la Polynésie, served at kohaumotu.org, and Barthel's sign catalogue drawings from the same site. Each unit is one compound as Barthel drew it; components are joined by dots, variant letters mark drawn variants, a question mark marks doubt, and 000 marks an illegible sign. Matching throughout strips variant letters and doubt marks, and most comparisons use only the first component so ligature differences do not break a match. Where copies would count the same evidence several times, the H, P, Q group and the G, K pair are down-weighted or reduced to one witness.
 
@@ -822,6 +852,7 @@ python scripts/robustness.py
 python scripts/mamari_calendar.py
 python scripts/two_islanders.py
 python scripts/decipher.py             # about 3 minutes
+python scripts/attachments.py
 python scripts/charts.py
 python scripts/glyphs.py
 ```
@@ -854,6 +885,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | mamari_calendar.py | The Mamari calendar lines classified into crescents, marker groups and other signs; runs and counts against a lunar month |
 | two_islanders.py | Vocabulary similarity between Ure Vaeiko's 1886 recitations and Metoro's 1873 chants, same-tablet pairs against the rest |
 | decipher.py | One-to-one assignment of the frequent signs to Rapa Nui syllables by annealing, with shuffled, reversed, wrong-language and positive controls |
+| attachments.py | Concentration and density of the attached components against the Rapa Nui particle class and content words |
 | charts.py | The fifteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 

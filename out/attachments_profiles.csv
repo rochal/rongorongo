@@ -1,0 +1,5 @@
+class,tokens,types,top1_share,top5_share,types_for_90pct,entropy_bits
+Rapa Nui particles,1079,31,0.192,0.574,16,4.02
+Rapa Nui content words,1868,742,0.017,0.068,556,8.77
+attached components,3088,224,0.187,0.415,66,5.61
+head signs,8688,649,0.050,0.177,223,7.50

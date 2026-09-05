@@ -33,13 +33,24 @@ for p in pages:
         subprocess.run([tess, str(p), str(ocr / n), "-l", "eng", "--psm", "6"], capture_output=True)
 
 
+# A token counts as Rapa Nui only if it parses entirely into (C)V syllables
+# with Rapa Nui consonants. That rejects "the", "man", "moon", "tree" and
+# nearly all English on phonotactics alone; the few English words that pass
+# ("home", "time", "one") are listed.
+SYLLABLE = re.compile(r"^(?:(?:ng|[hkmnprtv])?[aeiou])+$")
+ENGLISH_CV = {"home", "time", "name", "here", "one", "to", "me", "he", "none", "mine", "hate", "take", "make", "made", "note",
+              "tone", "tune", "hope", "rope", "nine", "tape", "pane", "mate", "rate", "ripe", "pipe", "mere", "hero", "ore",
+              "toe", "tie", "pie", "hue", "we", "no", "a", "i", "o", "e"}
+RAPANUI_SHORT = {"he", "to", "no", "a", "i", "o", "e", "me"}   # genuine Rapa Nui particles that the list above would catch
+
+
 def tokens(line):
     toks = []
     for w in re.split(r"[\s\-]+", line.lower()):
         w = re.sub(r"[^a-z]", "", w)
         if not w:
             continue
-        ok = VALID.match(w) and re.search(r"[aeiou]", w) and not re.search(r"(?<!n)g", w)
+        ok = SYLLABLE.match(w) and (w in RAPANUI_SHORT or w not in ENGLISH_CV)
         toks.append(w if ok else None)
     return toks
 
