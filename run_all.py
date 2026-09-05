@@ -51,6 +51,8 @@ steps.append(["metoro_merge.py"])
 steps.append(["synthesis.py"])
 steps.append(["robustness.py"])
 steps.append(["mamari_calendar.py"])
+if (root / "data" / "rapanui" / "nights.txt").exists():
+    steps.append(["calendar_names.py"])
 steps.append(["two_islanders.py"])
 if not args.fast:
     steps.append(["decipher.py"])            # about 3 minutes

@@ -690,7 +690,22 @@ The crescent and the marker group's signs, from Barthel's catalogue:
 
 The calendar is the one passage where a reading and our structure can be compared, and they agree: an accepted reading predicts a repeated frame around counted crescents summing near a month, and that is what the transcription contains. It also sets the scale of what "reading" means here. Knowing that these are nights does not tell us what the marker groups say, and their six signs, apart from the fish 670, appear elsewhere in the corpus in contexts that have nothing to do with the moon.
 
-> **Caveat.** The classification rule was written after looking at the lines, so it is a formalisation of what is visible, not a discovery. The night names of the Rapa Nui month are not in Thomson's report under any spelling found, so the count could be checked only against the month's length, not against a named list.
+### Against the named nights
+
+Métraux's ethnology prints the thirty night names of the Rapa Nui month, assembled from Thomson's informant and later lists, and the page was added to the scans. The list is uneven in a way that can be compared with the calendar without reading anything: most nights have a name of their own, but two stretches are counted with one base name and an ordinal, six *Kokore* nights from the 5th to the 10th and five from the 19th to the 23rd, and the 26th and 27th share a base. The calendar's runs are 2, 6, 3, 2, 5, 3, 5.
+
+| Test | Result | Chance |
+|---|---|---|
+| The two longest runs are 6 then 5, as the two Kokore stretches are 6 then 5 | matches | a random division of 26 crescents into 7 runs shows a 6 before a 5 in 8% of trials |
+| Marker groups fall where a shared-name stretch begins or ends, crescents taken as nights in order, best offset | 3 of 6 | random placement reaches 3 in 40% of trials |
+
+- **The run lengths are suggestive, not conclusive.** A six-run followed by a five-run is what the named month has and what the calendar has, and it arises by chance one time in twelve. At the offset that fits best, the calendar's run of six crescents falls exactly on the first Kokore stretch, nights 5 to 10, framed by marker groups on both sides.
+- **The marker groups are not name-class boundaries.** Three of six fall on a boundary at the best offset, which random placement matches two times in five. Whatever the groups mark, the naming pattern of the month does not predict where they stand; the second Kokore stretch in particular is not framed.
+- **The count stays where it was.** Twenty-eight crescents against thirty names, with five other signs inside the runs that a night reading would have to absorb.
+
+The named list therefore leaves the calendar reading as it found it: a repeated frame around counted nights, with one internal correspondence, the first Kokore stretch, that may be real, and no support for the markers as phase boundaries in the named sense.
+
+> **Caveat.** The classification rule was written after looking at the lines, so it is a formalisation of what is visible, not a discovery. The night list itself is a reconstruction; Métraux notes the sequence was already confused among his informants and that the names were used as descriptions of phases rather than as a working calendar, so the boundaries tested are those of a list that had lost its system.
 
 ## 22. Two islanders on one tablet
 
@@ -850,6 +865,7 @@ python scripts/metoro_merge.py
 python scripts/synthesis.py
 python scripts/robustness.py
 python scripts/mamari_calendar.py
+python scripts/calendar_names.py       # needs data/rapanui/nights.txt, the thirty night names
 python scripts/two_islanders.py
 python scripts/decipher.py             # about 3 minutes
 python scripts/attachments.py
@@ -883,6 +899,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow and matplotlib. The koha
 | synthesis.py | The typology of texts (one row per side) and the sign dossier (one row per sign), gathered from every other table |
 | robustness.py | The headline measures recomputed under six candidate inventories, with a stability verdict for each |
 | mamari_calendar.py | The Mamari calendar lines classified into crescents, marker groups and other signs; runs and counts against a lunar month |
+| calendar_names.py | The calendar's runs and marker groups against the thirty named nights of the month, with permutation tests |
 | two_islanders.py | Vocabulary similarity between Ure Vaeiko's 1886 recitations and Metoro's 1873 chants, same-tablet pairs against the rest |
 | decipher.py | One-to-one assignment of the frequent signs to Rapa Nui syllables by annealing, with shuffled, reversed, wrong-language and positive controls |
 | attachments.py | Concentration and density of the attached components against the Rapa Nui particle class and content words |

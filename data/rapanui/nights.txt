@@ -1,0 +1,31 @@
+# Nights of the Rapa Nui month, after Metraux 1940 p. 50 (from Thomson 1891 and later lists)
+1 Tireo
+2 Hiro
+3 Ata (Oata)
+4 Ari (Oari)
+5 Kokore tahi
+6 Kokore rua
+7 Kokore toru
+8 Kokore ha
+9 Kokore rima
+10 Kokore ono
+11 Maharu
+12 Hua (Ohua)
+13 Atua (Otua)
+14 Hotu (Ohotu)
+15 Maure
+16 Ina-ira
+17 Rakau
+18 Motohi
+19 Kokore tahi
+20 Kokore rua
+21 Kokore toru
+22 Kokore ha
+23 Kokore rima
+24 Tapume
+25 Matua
+26 Rongo (Orongo)
+27 Rongo Tane
+28 Mauri-nui
+29 Mauri-kero
+30 Mutu (Omutu)
