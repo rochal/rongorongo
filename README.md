@@ -997,6 +997,19 @@ The second attempt registers each print to its tracing. This cannot be one trans
 
 In print mode the key O lays Barthel's tracing over the photograph in translucent red, every line turned to match its orientation on the print and scaled to its extent, so that a doubtful box can be judged against the drawing without leaving the print; W, A, S and D move the overlay of the selected line, or of all lines when nothing is selected, the bracket keys rescale it, and the alignment is saved with the boxes.
 
+**The automatic registration, scored against the hand boxes.** With seven lines of Keiti's verso boxed by hand, the automatic placement can be scored: the same side registered with the corrections ignored, each automatic box stripped of its padding and compared with the hand box for the same unit.
+
+| | Glyphs | Median overlap (IoU) | Overlap at least 0.5 | At least 0.7 | Median centre offset | Offset over glyph width |
+|---|---|---|---|---|---|---|
+| All | 269 | 0.45 | 47% | 8% | 10 px | 0.24 |
+| First fifth of the line | 56 | 0.39 | 39% | 4% | 17 px | 0.38 |
+| Middle | 157 | 0.48 | 49% | 8% | 9 px | 0.18 |
+| Last fifth | 56 | 0.47 | 48% | 14% | 7 px | 0.26 |
+| Thin strokes | 18 | 0.29 | 33% | 0% | 9 px | 0.62 |
+| Local match score below 0.35 | 40 | 0.30 | 35% | 0% | 22 px | 0.49 |
+
+The automatic boxes are roughly right and rarely exact: half of them overlap their glyph by less than half, the typical box sits a quarter of a glyph width off centre, and the start of a line, where the chained search begins, is worst. The low local scores do mark the worst boxes, but the boxes above the threshold are only somewhat better. Relative glyph widths measured from the automatic boxes correlate with those from the hand boxes at 0.63. That number bounds everything in this section that rests on automatic boxes on the other sides: the print slopes of the planning comparison, the stroke-weight table and the print shapes carry a width error of that size, and a confirmation from an automatic side is weaker than one from Keiti's hand boxes. The score is reproduced by `scripts/registration_score.py` and will tighten as the placement improves; the hand boxes are the ground truth it is measured against.
+
 The same editor works on the tracing: `scripts/box_editor.py Ev --source tracing` opens Barthel's drawing with the count-aligned boxes, and `--seed-from-print` places its first boxes from the finished print boxes instead, mapping each print line onto the tracing line and shrinking every box to the ink under it, so that they need a nudge rather than a redraw. The corrections go to `data/boxes/tracing/Ev.json` and `tracings.py` uses them for any line whose count matches, marking those instances `manual`. With boxes drawn by hand on both images the width comparison becomes what it should have been from the start.
 
 The sliver problem was also fixed at its source. Barthel draws a plain stroke as two parallel lines, and where their ends are open the segmentation saw two components a pixel apart and gave each a box two pixels wide; the count alignment then had one blob too many and split or merged elsewhere to compensate. Components narrower than a stroke now join their neighbour across a gap of up to three pixels, and a split may no longer leave a piece narrower than five. Instances under five pixels wide fell from 307 to 28, and because the count alignment no longer had to absorb the fragments, the instances on lines aligned within tolerance rose from 8,039 to 9,365.
@@ -1138,6 +1151,8 @@ python scripts/parity_check.py
 python scripts/fetch_photos.py         # the white-filled prints from Commons
 python scripts/register.py             # the tracings registered to the prints, line by line; about 40 minutes
 python scripts/box_editor.py Ev        # optional: correct the boxes of one side by hand; saved corrections are used by the next register.py run
+python scripts/register.py --sides Ev --ignore-hand --tag auto   # the automatic boxes of a hand-corrected side, kept apart
+python scripts/registration_score.py   # and scored against the hand boxes
 python scripts/tracings_analysis.py --source photos
 python scripts/hands_prints.py
 python scripts/allograph_candidates.py  # rare signs against their series-mates by context, with print shapes where they exist
@@ -1186,6 +1201,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | fetch_photos.py, register.py | The white-filled prints from Commons; each tracing registered to its print by chunk correlation and a layout vote, glyphs cut from the print, fidelity of width and shape to the tracing |
 | hands_prints.py | Stroke weight per side on the prints and a same-object permutation test |
 | allograph_candidates.py | Every rare sign against the common sign of its Barthel series: how well the common sign's neighbours predict the rare sign's, ranked among all common signs, with a shuffled-label null and the copy pairs as positive control; catalogue and print shape alongside |
+| registration_score.py | The automatic boxes of a side, placed with corrections ignored (`register.py --sides Ev --ignore-hand --tag auto`), scored glyph by glyph against the hand boxes: overlap, offset, width agreement, by position and glyph width |
 | box_editor.py | A tkinter editor for the boxes on a print or, with `--source tracing`, on Barthel's drawing, seeded from the print boxes if wanted: drag, resize, add, delete, Tab through edges and boxes, save to `data/boxes/<side>.json` or `data/boxes/tracing/<side>.json`, which register.py and tracings.py then use |
 | check_reproduction.py | Diff of a regenerated out/ against the committed one, file by file |
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |

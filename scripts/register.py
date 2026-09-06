@@ -65,12 +65,15 @@ from skimage.transform import rescale
 ap = argparse.ArgumentParser()
 ap.add_argument("--sides", nargs="*", help="restrict to these sides")
 ap.add_argument("--check", default="Ev", help="side for the check images")
+ap.add_argument("--ignore-hand", action="store_true", help="place every box automatically even where data/boxes has corrections")
+ap.add_argument("--tag", default="", help="write the tables and instances under this suffix instead of the main ones, without merging")
 args = ap.parse_args()
 
 root = pathlib.Path(__file__).resolve().parent.parent
 pdir = root / "data" / "photos"
 tdir = root / "data" / "tracings"
-idir = pdir / "instances"
+idir = pdir / ("instances" + (f"_{args.tag}" if args.tag else ""))
+TAG = f"_{args.tag}" if args.tag else ""
 out = root / "out"
 img_dir = root / "docs" / "img"
 SKIP = {"Aa_left", "Aa_center", "Aa_right", "Ab_left", "Ab_center", "Ab_right", "Hv_unretouched", "Sa_rubbing"}
@@ -404,7 +407,7 @@ for side in sides:
             cut_box(side, lid, kk, r["unit"], r["head"], want, hx0, hx1, hy0, hy1, lsc, int(r["width"]), fx0 - hx0, fx1 - hx0, "auto")
     # hand corrections from box_editor.py replace the automatic boxes of the side
     manual = root / "data" / "boxes" / f"{side}.json"
-    if manual.exists():
+    if manual.exists() and not args.ignore_hand:
         mj = json.load(open(manual, encoding="utf-8"))
         auto_rows_side = [x for x in inst_rows if x[0] == side]; auto_fid_side = [x for x in fid_rows if x[0] == side]
         inst_rows[:] = [x for x in inst_rows if x[0] != side]; fid_rows[:] = [x for x in fid_rows if x[0] != side]
@@ -437,7 +440,7 @@ for side in sides:
     if side == args.check:
         check = {"gray": G, "boxes": boxes_draw}
 
-if args.sides:
+if args.sides and not args.tag:
     # a run restricted to some sides replaces only their rows in the tables, keeping every other side's
     def kept(name, conv):
         f = out / name
@@ -452,16 +455,16 @@ if args.sides:
     line_rows = sorted(kept("register_lines.csv", {}) + line_rows, key=lambda r: r[0])
     inst_rows = sorted(kept("photo_instances.csv", {2: int, 9: int, 10: int, 11: float}) + inst_rows, key=lambda r: r[0])
     fid_rows = sorted(kept("photo_fidelity.csv", {2: int, 4: int, 5: int, 6: float, 7: float}) + fid_rows, key=lambda r: r[0])
-with open(out / "register_sides.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / f"register_sides{TAG}.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh); w.writerow(["side", "scale", "polarity", "vote", "pitch", "first_line_y", "direction", "parity", "reliable_lines", "placed", "status"]); w.writerows(side_rows)
-with open(out / "register_lines.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / f"register_lines{TAG}.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh); w.writerow(["side", "line", "orientation", "chunks_inlier", "chunks", "stretch", "x_residual", "status"]); w.writerows(line_rows)
-with open(out / "photo_instances.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / f"photo_instances{TAG}.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh); w.writerow(["side", "line", "position", "unit", "head", "x0", "x1", "y0", "y1", "print_ink_width", "tracing_width", "local_score", "orientation", "source"]); w.writerows(inst_rows)
-with open(out / "photo_fidelity.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / f"photo_fidelity{TAG}.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh); w.writerow(["side", "line", "position", "head", "print_ink_width", "tracing_width", "similarity", "local_score"]); w.writerows(fid_rows)
 
-if check:
+if check and not args.tag:
     img_dir.mkdir(parents=True, exist_ok=True)
     G = check["gray"]
     im = Image.fromarray((G * 255).astype("uint8")).convert("RGB")
@@ -506,5 +509,5 @@ for r in side_rows:
 md.append("\n## Fidelity of tracing to print\n")
 md.append(f"{len(rel)} glyphs with ink in both; {len(good)} with a local match above {LOCAL_MIN}. Correlation of relative width, print ink extent against tracing width: "
           f"{corr:.2f} over all, {corr_good:.2f} over the locally matched. Descriptor similarity of the print glyph to its tracing: median {med_sim:.3f}.\n")
-(out / "register.md").write_text("\n".join(md), encoding="utf-8")
+(out / f"register{TAG}.md").write_text("\n".join(md), encoding="utf-8")
 print("\n".join(md[:2]))

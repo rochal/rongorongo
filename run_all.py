@@ -70,6 +70,8 @@ if args.refetch or not (root / "data" / "photos").exists():
     steps.append(["fetch_photos.py"])         # slow, as for the tracings
 if not args.fast:
     steps += [["register.py"], ["tracings_analysis.py", "--source", "photos"], ["hands_prints.py"]]   # about 40 minutes
+    if (root / "data" / "boxes" / "Ev.json").exists():
+        steps += [["register.py", "--sides", "Ev", "--ignore-hand", "--tag", "auto"], ["registration_score.py"]]
 steps.append(["allograph_candidates.py"])     # uses the print glyphs when they exist
 steps.append(["untyped.py"])
 steps.append(["tahua_period.py"])
