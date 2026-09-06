@@ -247,6 +247,16 @@ def cut_box(side, lid, kk, unit, hd, want, hx0, hx1, hy0, hy1, lsc, tw, in0, in1
     # a hand-drawn box is the glyph's own extent: keep everything in it but specks; the automatic box is
     # padded and may reach into the next line, so there the intruder rule applies
     crop, pw_ink = own_ink(crop, in0, in1, strict=(source == "auto"))
+    if source == "auto" and crop.any():
+        # the box recorded for an automatic glyph is the extent of the ink kept as its own, not the padded search
+        # box, so that its size is the glyph's; the extents are in the upright crop and mapped back to the print
+        cols = np.where(crop.any(axis=0))[0]; rws = np.where(crop.any(axis=1))[0]
+        c0, c1, r0, r1 = int(cols.min()), int(cols.max()) + 1, int(rws.min()), int(rws.max()) + 1
+        crop = crop[r0:r1, c0:c1]
+        if want:
+            hx0, hx1, hy0, hy1 = hx1 - c1, hx1 - c0, hy1 - r1, hy1 - r0
+        else:
+            hx0, hx1, hy0, hy1 = hx0 + c0, hx0 + c1, hy0 + r0, hy0 + r1
     Image.fromarray(((~crop) * 255).astype("uint8")).save(idir / side / f"{lid}_{kk:03d}.png")
     inst_rows.append([side, lid, kk, unit, hd, hx0, hx1, hy0, hy1, pw_ink, tw, round(lsc, 3), "flipped" if want else "upright", source])
     boxes_draw.append((lid, kk, hx0, hx1, hy0, hy1, lsc))
@@ -258,6 +268,20 @@ def cut_box(side, lid, kk, unit, hd, want, hx0, hx1, hy0, hy1, lsc, tw, in0, in1
 
 
 corpus_all = json.load(open(root / "data" / "corpus.json", encoding="utf-8"))
+def theil_sen(pairs, a0, b0, sign):
+    """median-of-slopes line through (tracing x, print x) pairs; falls back to the given line with too few pairs
+    or a slope of the wrong sign or an implausible stretch"""
+    pts = sorted(pairs)
+    slopes = [(y2 - y1) / (x2 - x1) for i, (x1, y1) in enumerate(pts) for (x2, y2) in pts[i + 1:] if abs(x2 - x1) >= 30]
+    if len(slopes) < 3:
+        return a0, b0
+    b = float(np.median(slopes))
+    if not (0.7 <= sign * b <= 1.4):
+        return a0, b0
+    a = float(np.median([y - b * x for x, y in pts]))
+    return a, b
+
+
 tr_rows = load_tracing_rows()
 tracing_width = {(r["side"], r["line"], int(r["position"])): int(r["width"])
                  for r in csv.DictReader(open(out / "glyph_instances.csv", encoding="utf-8")) if r["line_quality"] == "reliable"}
@@ -314,6 +338,9 @@ for side in sides:
         f.unlink()
     placed = 0
     boxes_draw = []
+    # first every line's map, so that the side's median stretch can stand in for a line whose own fit rests on
+    # too few chunks: Barthel's scale is one per side, and a line's stretch should not stray far from the rest
+    fits = {}
     for lid in lids:
         k = line_number(lid)
         want = (k % 2) == parity                    # this line is upside down on the print
@@ -338,12 +365,27 @@ for side in sides:
                         bestn = len(ok); fit = (a, b, score, ok)
         if fit is None and inl:
             c = max(inl, key=lambda c: c[0]); fit = (c[2] - sign * c[4], float(sign), c[0], [c])
+        if fit is not None:
+            a, b, score, ok = fit
+            # the map from tracing x to print x: a median of pairwise slopes over the inlier chunks is steadier
+            # than the best pair alone, which is what the RANSAC step keeps
+            a, b = theil_sen([(c[4], c[2]) for c in ok], a, b, sign)
+            fit = (a, b, score, ok)
+        fits[lid] = (want, sign, fit)
+    good_b = [abs(f[1]) for want, sign, f in fits.values() if f is not None and len(f[3]) >= 4]
+    prior_b = float(np.median(good_b)) if good_b else None
+    for lid in lids:
+        want, sign, fit = fits[lid]
         tm, (ox, oy) = strips[lid]
         rows = sorted(by_line[lid], key=lambda r: int(r["position"]))
         n_chunks = max(1, (len(rows) - CHUNK) // STRIDE + 1)
         if fit is None or not trusted:
             line_rows.append([side, lid, "flipped" if want else "upright", 0, n_chunks, "", "", "not placed"]); continue
         a, b, score, ok = fit
+        if prior_b is not None and (len(ok) < 4 or abs(abs(b) - prior_b) > 0.08 * prior_b):
+            # too few chunks, or a stretch out of line with the side: take the side's stretch and refit the offset
+            b = sign * prior_b
+            a = float(np.median([c[2] - b * c[4] for c in ok]))
         xs = np.array([c[2] for c in ok]); ys = np.array([c[1] for c in ok])
         if len(ok) >= 4:                            # y along the line: the curvature of the wood
             yfit = np.polyfit(xs, ys, 2)
@@ -352,32 +394,61 @@ for side in sides:
         else:
             yfit = np.array([float(ys[0])])
         resid = float(np.mean(np.abs(a + b * np.array([c[4] for c in ok]) - xs)))
-        line_rows.append([side, lid, "flipped" if want else "upright", len(ok), n_chunks, round(abs(b), 3), round(resid, 1), "placed"])
         placed += 1
         H = tm.shape[0]
-        shift = (0, 0)
-        for r in rows:
+
+        def place(a, b, yfit, chain, win_):
+            """one pass over the glyphs of the line: predicted place from the map, refined by a local match.
+            chain: carry the found shift to the next glyph (first pass); otherwise each glyph starts from the map."""
+            found = []
+            shift = (0, 0)
+            for r in rows:
+                x0, x1, y0g, y1g = int(r["x0"]) - ox, int(r["x1"]) - ox, int(r["y0"]) - oy, int(r["y1"]) - oy
+                pxc = a + b * (x0 + x1) / 2
+                pyc = float(np.polyval(yfit, pxc))
+                cx0, cx1 = max(0, x0 - 12), min(tm.shape[1], x1 + 12)
+                lt = soft(tm[:, cx0:cx1])
+                if want:
+                    lt = lt[::-1, ::-1]
+                tx = int(round(a + b * (cx0 + cx1) / 2 - lt.shape[1] / 2 + shift[1])); ty = int(round(pyc - H / 2 + shift[0]))
+                sy0, sx0 = max(0, ty - win_), max(0, tx - win_)
+                win = Ms[sy0:ty + lt.shape[0] + win_, sx0:tx + lt.shape[1] + win_]
+                lsc, dxy = -1.0, (0, 0)
+                if win.shape[0] > lt.shape[0] and win.shape[1] > lt.shape[1]:
+                    c = match_template(win, lt)
+                    i = np.unravel_index(int(np.argmax(c)), c.shape)
+                    lsc = float(c[i]); dxy = (sy0 + i[0] - ty, sx0 + i[1] - tx)
+                here = (0, 0)
+                if lsc >= LOCAL_MIN:
+                    here = (max(-win_, min(win_, shift[0] + dxy[0])), max(-win_, min(win_, shift[1] + dxy[1])))
+                    if chain:
+                        shift = here
+                elif chain:
+                    here = shift
+                found.append((r, x0, x1, y0g, y1g, pxc + here[1], pyc + here[0], lsc, (x0 + x1) / 2))
+            return found
+
+        first = place(a, b, yfit, True, LOCAL_WIN)
+        # the map re-estimated from the glyphs the first pass matched well, then a second pass from that map
+        # with no carried shift, so that a drift in the first pass cannot propagate
+        anchors = [(xt, pxc, pyc) for (_, _, _, _, _, pxc, pyc, lsc, xt) in first if lsc >= 0.35]
+        if len(anchors) >= 4:
+            a2, b2 = theil_sen([(xt, pxc) for xt, pxc, _ in anchors], a, b, sign)
+            if prior_b is not None and (len(anchors) < 8 or abs(abs(b2) - prior_b) > 0.08 * prior_b):
+                b2 = sign * prior_b; a2 = float(np.median([pxc - b2 * xt for xt, pxc, _ in anchors]))
+            ax = np.array([pxc for _, pxc, _ in anchors]); ay = np.array([pyc for _, _, pyc in anchors])
+            yfit2 = np.polyfit(ax, ay, 2) if len(anchors) >= 6 else np.polyfit(ax, ay, 1)
+            second = place(a2, b2, yfit2, False, 8)
+            resid = float(np.median(np.abs(a2 + b2 * np.array([xt for xt, _, _ in anchors]) - ax)))
+            b_rep = b2
+        else:
+            second, b_rep = first, b
+        line_rows.append([side, lid, "flipped" if want else "upright", len(ok), n_chunks, round(abs(b_rep), 3), round(resid, 1), "placed"])
+        for r, x0, x1, y0g, y1g, pxc, pyc, lsc, xt in second:
             kk = int(r["position"])
-            x0, x1, y0g, y1g = int(r["x0"]) - ox, int(r["x1"]) - ox, int(r["y0"]) - oy, int(r["y1"]) - oy
-            pxc = a + b * (x0 + x1) / 2                 # predicted print centre x of the glyph
-            pyc = float(np.polyval(yfit, pxc))          # predicted print centre y of the line there
-            cx0, cx1 = max(0, x0 - 12), min(tm.shape[1], x1 + 12)
-            lt = soft(tm[:, cx0:cx1])
-            if want:
-                lt = lt[::-1, ::-1]
-            tx = int(round(a + b * (cx0 + cx1) / 2 - lt.shape[1] / 2 + shift[1])); ty = int(round(pyc - H / 2 + shift[0]))
-            sy0, sx0 = max(0, ty - LOCAL_WIN), max(0, tx - LOCAL_WIN)
-            win = Ms[sy0:ty + lt.shape[0] + LOCAL_WIN, sx0:tx + lt.shape[1] + LOCAL_WIN]
-            lsc, dxy = -1.0, (0, 0)
-            if win.shape[0] > lt.shape[0] and win.shape[1] > lt.shape[1]:
-                c = match_template(win, lt)
-                i = np.unravel_index(int(np.argmax(c)), c.shape)
-                lsc = float(c[i]); dxy = (sy0 + i[0] - ty, sx0 + i[1] - tx)
-            if lsc >= LOCAL_MIN:
-                shift = (max(-LOCAL_WIN, min(LOCAL_WIN, shift[0] + dxy[0])), max(-LOCAL_WIN, min(LOCAL_WIN, shift[1] + dxy[1])))
-            hw = (x1 - x0) * abs(b) / 2
-            gx0, gx1 = pxc - hw + shift[1], pxc + hw + shift[1]
-            top = pyc - H / 2 + shift[0]
+            hw = (x1 - x0) * abs(b_rep) / 2
+            gx0, gx1 = pxc - hw, pxc + hw
+            top = pyc - H / 2
             if want:
                 gy0, gy1 = top + (H - y1g), top + (H - y0g)
             else:
@@ -387,7 +458,7 @@ for side in sides:
             # are packed tighter than the tracing's and a tall box would otherwise reach into the next line
             wx0, wx1 = int(max(0, pxc - 40)), int(min(M.shape[1], pxc + 40))
             prof = ndimage.uniform_filter1d(M[:, wx0:wx1].sum(axis=1).astype(float), 3)
-            cy = int(min(max(0, round(pyc + shift[0])), M.shape[0] - 1))
+            cy = int(min(max(0, round(pyc)), M.shape[0] - 1))
             peak = prof[max(0, cy - H // 3): cy + H // 3 + 1].max() if H else 0
             if peak > 0:
                 thr = 0.1 * peak

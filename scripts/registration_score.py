@@ -56,11 +56,8 @@ for lid, bs in by_line.items():
         a = auto.get((lid, b["position"]))
         if not a:
             continue
-        # the automatic box is stored padded, PAD of the glyph width on each side and two pixels above and below
-        # (register.py); the hand box is tight to the ink, so the padding is removed before comparing
-        x0, x1, y0, y1 = int(a["x0"]), int(a["x1"]), int(a["y0"]), int(a["y1"])
-        gw = (x1 - x0) / (1 + 2 * PAD); px = PAD * gw
-        ab = (x0 + px, x1 - px, y0 + 2, y1 - 2); hb = (b["x0"], b["x1"], b["y0"], b["y1"])
+        # both boxes are tight to the ink: the hand box by drawing, the automatic one by snapping (register.py)
+        ab = (int(a["x0"]), int(a["x1"]), int(a["y0"]), int(a["y1"])); hb = (b["x0"], b["x1"], b["y0"], b["y1"])
         hw = hb[1] - hb[0]
         dx = ((ab[0] + ab[1]) - (hb[0] + hb[1])) / 2; dy = ((ab[2] + ab[3]) - (hb[2] + hb[3])) / 2
         pos = b["position"] / max(1, n - 1)
@@ -113,6 +110,12 @@ md.append("\n## By the local match score the registration reported\n")
 md.append("| local score | count | median IoU | IoU at least 0.5 | at least 0.7 | median offset, px | offset over width |\n|---|---|---|---|---|---|---|")
 for lo, hi, lab in ((-1, 0.2, "below 0.2, flagged"), (0.2, 0.35, "0.2 to 0.35"), (0.35, 9, "above 0.35")):
     md.append(f"| {lab} | " + summary([r for r in rows if lo <= r["local_score"] < hi]) + " |")
+md.append("\n## By line\n")
+md.append("| line | glyphs | median IoU | IoU at least 0.5 | median offset, px | median signed offset, px |\n|---|---|---|---|---|---|")
+for lid in sorted(by_line):
+    sel = [r for r in rows if r["line"] == lid]
+    md.append(f"| {lid} | {len(sel)} | {np.median([r['iou'] for r in sel]):.2f} | {np.mean([r['iou'] >= 0.5 for r in sel]):.0%} | "
+              f"{np.median([r['offset_px'] for r in sel]):.1f} | {np.median([r['dx'] for r in sel]):+.1f} |")
 md.append(f"\n## Widths\n\nCorrelation of relative ink width, automatic against hand boxes, per line medians: **{width_corr(rows):.2f}** over all glyphs, "
           f"**{width_corr([r for r in rows if not r['thin']]):.2f}** without the thin strokes.")
 (out / "registration_score.md").write_text("\n".join(md), encoding="utf-8")

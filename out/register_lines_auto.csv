@@ -1,9 +1,9 @@
 side,line,orientation,chunks_inlier,chunks,stretch,x_residual,status
-Ev,Ev01,upright,2,12,0.984,0.0,placed
-Ev,Ev02,flipped,5,8,1.019,2.5,placed
-Ev,Ev03,upright,7,12,1.024,5.3,placed
-Ev,Ev04,flipped,8,13,0.982,6.0,placed
-Ev,Ev05,upright,1,11,1.0,0.0,placed
-Ev,Ev06,flipped,7,11,1.015,2.9,placed
-Ev,Ev07,upright,8,13,0.943,3.6,placed
-Ev,Ev08,flipped,6,12,0.98,5.1,placed
+Ev,Ev01,upright,2,12,0.967,1.7,placed
+Ev,Ev02,flipped,5,8,1.018,1.0,placed
+Ev,Ev03,upright,7,12,1.002,2.9,placed
+Ev,Ev04,flipped,8,13,0.982,2.5,placed
+Ev,Ev05,upright,1,11,0.993,4.0,placed
+Ev,Ev06,flipped,7,11,1.0,3.0,placed
+Ev,Ev07,upright,8,13,0.96,2.8,placed
+Ev,Ev08,flipped,6,12,0.986,4.6,placed
