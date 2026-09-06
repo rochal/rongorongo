@@ -173,7 +173,7 @@ def similarity(d1, d2):
     return float(d1[0] @ d2[0]) * np.sqrt(min(d1[1], d2[1]) / max(d1[1], d2[1]))
 
 
-def own_ink(bits, x_in0, x_in1):
+def own_ink(bits, x_in0, x_in1, strict=True):
     """Keep the ink components whose centre lies within the unpadded box, dropping specks, neighbours' fragments,
     and pieces of the adjacent lines: a component that touches the crop's top or bottom edge with its centre in the
     outer sixth of the height is an intruder from the line above or below, unless it is the largest component.
@@ -189,7 +189,7 @@ def own_ink(bits, x_in0, x_in1):
     keep = np.zeros(n + 1, bool)
     for i, (sz, (yy, xx)) in enumerate(zip(sizes, cx), 1):
         keep[i] = sz >= max(6, 0.02 * sizes.max()) and x_in0 <= xx < x_in1
-        if keep[i] and sz < sizes.max():
+        if strict and keep[i] and sz < sizes.max():
             if (i in top_row and yy < hgt / 6) or (i in bot_row and yy > 5 * hgt / 6):
                 keep[i] = False
     clean = keep[lab]
@@ -241,7 +241,9 @@ def cut_box(side, lid, kk, unit, hd, want, hx0, hx1, hy0, hy1, lsc, tw, in0, in1
     if want:
         crop = crop[::-1, ::-1]
         in0, in1 = crop.shape[1] - in1, crop.shape[1] - in0
-    crop, pw_ink = own_ink(crop, in0, in1)
+    # a hand-drawn box is the glyph's own extent: keep everything in it but specks; the automatic box is
+    # padded and may reach into the next line, so there the intruder rule applies
+    crop, pw_ink = own_ink(crop, in0, in1, strict=(source == "auto"))
     Image.fromarray(((~crop) * 255).astype("uint8")).save(idir / side / f"{lid}_{kk:03d}.png")
     inst_rows.append([side, lid, kk, unit, hd, hx0, hx1, hy0, hy1, pw_ink, tw, round(lsc, 3), "flipped" if want else "upright", source])
     boxes_draw.append((lid, kk, hx0, hx1, hy0, hy1, lsc))

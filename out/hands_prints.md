@@ -8,7 +8,7 @@
 | Hv | 155 | 14 | 0.1538 | 0.0873 | 0.25 | too small |
 | Er | 274 | 56 | 0.1033 | 0.032 | 0.457 | measured |
 | Sa | 72 | 27 | 0.0881 | 0.0429 | 0.298 | too small |
-| Ev | 282 | 62 | 0.0837 | 0.0234 | 0.405 | measured |
+| Ev | 282 | 62 | 0.0832 | 0.0246 | 0.405 | measured |
 | Cb | 27 | 53 | 0.0764 | 0.0781 | 0.198 | measured |
 | Ra | 76 | 69 | 0.0717 | 0.0278 | 0.311 | measured |
 | Pv | 328 | 29 | 0.0714 | 0.044 | 0.198 | too small |
@@ -30,4 +30,4 @@
 ## Are the two sides of one object alike?
 
 5 same-object pairs among the measured sides: Br-Bv, Ca-Cb, Er-Ev, Gr-Gv, Ra-Rb.
-Mean difference in stroke ratio, same-object pairs: 0.0193; other pairs: 0.0215. Permutation test, 5000 relabellings: same-object pairs this close or closer in 0.359 of them.
+Mean difference in stroke ratio, same-object pairs: 0.0194; other pairs: 0.0214. Permutation test, 5000 relabellings: same-object pairs this close or closer in 0.368 of them.
