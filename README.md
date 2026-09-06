@@ -43,7 +43,7 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 **How the script is put together.**
 
 - **There are too many signs for a sound-based script.** An alphabet or syllabary needs a few dozen signs, all used often. Barthel's catalogue has hundreds, most of them rare. Merging signs that look alike trims the count by a quarter, and testing whether the rare signs are built from the common ones finds no support. Sections 8, 9 and 12.
-- **Whole glyphs behave like words.** Counting each compound glyph as one item, their frequencies look like the frequencies of words in a language: a few very common, a long tail seen once. Sections 8 and 10.
+- **Whole glyphs are nothing like syllables, and not quite like words.** Counting each compound glyph as one item gives two thousand kinds, most seen once, where a syllabary gives forty-five. Checked against Māori and Tahitian texts cut to the corpus's exact size, the glyphs are more varied than the words of a running text and lack the handful of very common words every language leans on. Main signs match words in number of kinds. The picture is a vocabulary of content words with the grammar left out or carried by the attached marks. Sections 8, 10 and 13.
 - **The small attached marks behave like a grammar.** They are not ordinary signs that happen to be fused: their frequencies have the shape of a language's class of grammatical particles, they occur as often per glyph as Rapa Nui uses a particle per word, and copyists changed them freely while keeping the main signs. Sections 6, 7 and 24.
 - **The plain strokes are not grammatical endings.** They attach to anything and follow anything. But when several strokes stand together they keep a fixed order, the way digits do. Section 6.
 - **Signs keep company.** The same sign is often doubled, and certain pairs travel together across tablets, which is what words and phrases do and random marks do not. Section 11.
@@ -69,7 +69,7 @@ Nothing here says what any sign means. What it says is what kind of thing the te
 | Are the plain strokes suffixes? | Answered no; they chain in a fixed order | 6, 20 |
 | Are the attached marks a grammatical layer? | Supported: particle-like profile and density, varied freely by copyists | 7, 24 |
 | Is the script a syllabary? | Answered no by head-sign count, under every merge tried | 8, 9, 12, 20 |
-| Are whole glyphs words? | Supported by frequency statistics; not by length against Rapa Nui, where glyphs are shorter | 8, 13 |
+| Are whole glyphs words? | Not syllables, by a wide margin at matched size; more varied than running-text words, with no function-word head; head signs match words in type count | 8, 13 |
 | Is the Staff a genealogy? | Triads real; genealogical reading unsupported by sequence | 14, 15, 16 |
 | Is the Mamari calendar a lunar month? | Structure reproduced; count 28 against 30 names; markers not phase boundaries | 21 |
 | Was Metoro reading? | No, but consistent; a second reciter contradicts him | 17, 22 |
@@ -328,7 +328,29 @@ The eight components most often attached to a head sign:
 
 Barthel's series confirm the split: the geometric signs below 100 are 139 distinct signs and 54 percent of the text, while each pictorial series, human figures, birds, fish, holds between 4 and 10 percent. The script is mostly abstract marks with pictorial signs through it, not a picture script with a few marks.
 
-> **Caveat.** Barthel's catalogue splits what may be one sign into several numbers, so 649 is an upper bound and the tail is shorter than it looks. The word-like statistics of units are suggestive, not probative, because an over-split catalogue also inflates the unit count.
+### Against Polynesian words and syllables, at matched sample size
+
+*In plain words: the claim above rested on a rule of thumb, what a text of nine thousand words usually looks like. Now it can be checked properly. The Māori and Tahitian texts fetched for section 23 are long enough to cut into many pieces of exactly the corpus's size, and the same counts made on those pieces show what real words, and real syllables, look like at this size. The glyphs are nowhere near syllables. But they are not quite words either: whole glyphs are more varied than the words of a running text, and main signs have a word's number of types without the few very common words that every language leans on.*
+
+Three hundred contiguous windows of 8,688 tokens, the size of the glyph stream with one witness per family, were drawn from the Māori and Tahitian streams, as words and as syllables, and the same statistics computed on each: distinct types, hapax share, the share of tokens in the ten commonest types, and the Zipf slope over the top 200 ranks. The bands are the 2.5 to 97.5 percentile range.
+
+| Series | Distinct types | Hapax share of types | Tokens in the ten commonest | Zipf slope, top 200 |
+|---|---|---|---|---|
+| Whole units | 2,067 | 63% | 19% | 0.85 |
+| Head signs | 649 | 30% | 27% | 0.97 |
+| Māori words | 601 to 1,479 | 39% to 63% | 35% to 44% | 1.01 to 1.18 |
+| Tahitian words | 523 to 830 | 40% to 51% | 43% to 49% | 1.14 to 1.31 |
+| Māori syllables | 46 to 49 | 0% to 4% | 54% to 61% | 1.14 to 1.48 |
+| Tahitian syllables | 39 to 43 | 0% to 7% | 72% to 77% | 1.56 to 1.89 |
+
+![Glyphs against words and syllables at matched size](docs/img/matched_stats.png)
+
+- **Nothing in the script counts like a syllabary.** At this size a Polynesian syllable stream has about forty-five types, almost none of them rare, and its ten commonest carry well over half the text. Head signs have 649 types and units 2,067; both lie far above the syllable band on every measure. This is the section's conclusion restated with a control, and it holds.
+- **Whole units are more varied than words.** They have more types than any window of Māori or Tahitian words, a hapax share at the top of the word band, a flatter Zipf slope, and only a fifth of their tokens in the ten commonest types where words carry two fifths. A running Polynesian text is dominated by a few particles, *te*, *i*, *e*, *ki*, *a*; the unit stream has no such head. The paragraph above said units have the statistics of words; the matched comparison says they have the diversity of words and more, without the concentration.
+- **Head signs have a word's type count and a flatter top.** Their 649 types sit inside both word bands, but their hapax share and top-ten share fall below them and the slope is shallower. This is the profile the earlier sections predict: a vocabulary of content words with the grammatical words left out or carried by the attachments (sections 13 and 24). Against Rapa Nui's own recitations, at their size of 2,947 tokens, head-sign windows match the words' top-ten share and slope, 29 percent and 0.99 against 29 percent and 0.92, and differ only in type count.
+- **Genre may carry part of this.** The corpus contains registers of names, which have many types seen once, and the Māori and Tahitian references are scripture and narrative. A window of a genealogy would look more like the units. The comparison says what the glyphs are not, a syllabary, and what they are not quite, running prose; it does not settle what they are.
+
+> **Caveat.** Barthel's catalogue splits what may be one sign into several numbers, so 649 is an upper bound and the tail is shorter than it looks. The word-like statistics of units are suggestive, not probative, because an over-split catalogue also inflates the unit count, and the matched comparison above shows they exceed the word band rather than sit in it.
 
 ## 9. Shape similarity of the signs
 
@@ -826,6 +848,8 @@ The Ugaritic result rested on a Hebrew corpus of millions of words. Rapa Nui's c
 
 ![How much text the search needs](docs/img/decipher_length.png)
 
+![Glyphs against words and syllables at matched size](docs/img/matched_stats.png)
+
 - **Two regimes, and the tablets sit in the first.** Below about a thousand syllables a false assignment scores above the true one, so no search could succeed; the language model is not at fault, the text is too short to pin the mapping down. Between two and four thousand the true assignment is the best there is, and the search, eight restarts of forty thousand steps, cannot find it. From eight thousand syllables the search recovers every syllable and its score equals the truth's. Apai, at 1,100 syllables, and the tablets, at 2,600 pairs among their frequent signs, both fall where recovery is a quarter of the signs at best.
 - **The bound is now on the text, not the language.** A related-language model a thousand times larger than the Rapa Nui one raised recovery from a twentieth to a fifth; three times more text than the tablets contain would be needed to raise it to all. The rongorongo corpus cannot be enlarged. So the section's verdict stands in a stronger form: under the one-sign-one-syllable hypothesis, no statistical assignment of the frequent signs can be verified with the text that exists, whatever the language model, and a published one that claims otherwise has not passed a control of this kind. What the test does not rule out is a different hypothesis, such as one sign per word, which this search does not model.
 
@@ -1067,6 +1091,7 @@ python scripts/decipher.py             # about 3 minutes
 python scripts/fetch_polynesian.py     # Maori and Tahitian texts from archive.org, reduced to Rapa Nui-shaped tokens
 python scripts/decipher.py --lm maori  # the same search and controls under a related-language model; also tahitian, polynesian
 python scripts/decipher_length.py      # how much text the search needs, on a known Maori text
+python scripts/matched_stats.py        # glyph statistics against Maori and Tahitian words and syllables at the corpus's size
 python scripts/attachments.py
 python scripts/fetch_tracings.py       # Barthel's tracings from Commons, at a polite pace
 python scripts/tracings.py
@@ -1092,6 +1117,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | affix_test.py | Host selectivity, enrichment, fused hosts, stacking order |
 | parallels.py | Shared runs, blocks, side matrix, families; options for run length, substitutions, merges |
 | allographs.py | Substitution pairs, component swaps, merge tables |
+| matched_stats.py | Glyph streams against Māori and Tahitian words and syllables in contiguous windows of the corpus's size: types, hapax share, top-ten share, Zipf slope, type-token curves |
 | inventory.py | Three inventories with coverage thresholds and Zipf slopes |
 | fetch_signs.py, sign_shapes.py | Catalogue drawings, similarity, look-alike classes, contact sheet |
 | stroke_shapes.py | Skeleton-based descriptors (stroke counts, skeleton image, shape contexts) calibrated against the pixel descriptor on Barthel's variant pairs |
@@ -1123,7 +1149,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |
 | tahua_period.py | What carries Tahua's recurrence at 22 to 24 signs: driving signs, returning groups, gap stability, line positions, and side b |
-| charts.py | The twenty-one charts in docs/img |
+| charts.py | The twenty-two charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### How to cite

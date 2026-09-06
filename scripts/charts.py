@@ -612,3 +612,45 @@ if (out / "decipher_length.csv").exists():
     ax.legend(h1 + h2, l1 + l2, loc="lower right", fontsize=9)
     finish(fig, ax, "How much text the search needs",
            "A held-out Māori text as unknown signs under a Māori model of 2.6 million syllables; 40 signs, one syllable each", "decipher_length.png")
+# 22 glyphs against words and syllables at matched size ---------------------
+if (out / "matched_stats_curves.csv").exists():
+    cur = collections.defaultdict(list)
+    for r in read("matched_stats_curves.csv"):
+        cur[r["series"]].append((int(r["tokens"]), float(r["types_mean"]), float(r["types_lo"]), float(r["types_hi"])))
+    st = {r["series"]: r for r in read("matched_stats.csv")}
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.6), gridspec_kw={"width_ratios": [1.25, 1]})
+    style = {"maori words": (C[0], "Māori words"), "tahitian words": (C[2], "Tahitian words"),
+             "maori syllables": (C[0], "Māori syllables"), "tahitian syllables": (C[2], "Tahitian syllables")}
+    for key, (col, lab) in style.items():
+        pts = cur[key]; x = [p[0] for p in pts]
+        ax1.fill_between(x, [p[2] for p in pts], [p[3] for p in pts], color=col, alpha=0.18, lw=0)
+        ax1.plot(x, [p[1] for p in pts], color=col, lw=1.2, ls="--" if "syll" in key else "-", label=lab)
+    for key, lab, col in (("units", "whole glyphs (units)", C[1]), ("heads", "head signs", INK)):
+        pts = cur[key]; ax1.plot([p[0] for p in pts], [p[1] for p in pts], color=col, lw=2.2, marker="o", ms=3.5, label=lab)
+    ax1.set_xlabel("Tokens read, in corpus order"); ax1.set_ylabel("Distinct types seen so far")
+    ax1.legend(fontsize=8.5, loc="upper left"); ax1.tick_params(length=0)
+    ax1.set_title("Type-token curves at the corpus's size", pad=26, loc="left")
+    ax1.annotate("Bands: 2.5 to 97.5 percentile over 300 contiguous windows of 8,688 tokens", (0, 1), xycoords="axes fraction",
+                 xytext=(0, 7), textcoords="offset points", color=INK2, fontsize=9.5, va="bottom")
+    measures = [("hapax_share", "hapax share of types", 100), ("top10_share", "tokens in the ten commonest", 100), ("zipf_top200", "Zipf slope, top 200", 1)]
+    series = ["maori words", "tahitian words", "maori syllables", "tahitian syllables"]
+    # one strip per measure, on its own scale
+    ax2.axis("off")
+    inner = fig.add_gridspec(3, 1, left=0.62, right=0.98, top=0.86, bottom=0.12, hspace=0.9)
+    for mi, (k, lab, mult) in enumerate(measures):
+        ax = fig.add_subplot(inner[mi])
+        y = np.arange(len(series))
+        for i, s_ in enumerate(series):
+            base = {"hapax_share": "hapax", "top10_share": "top10", "zipf_top200": "zipf"}[k]
+            r = st[s_]; lo, hi, m = float(r[base + "_lo"]) * mult, float(r[base + "_hi"]) * mult, float(r[k]) * mult
+            col = C[0] if "maori" in s_ else C[2]
+            ax.plot([lo, hi], [i, i], color=col, lw=6, alpha=0.3, solid_capstyle="butt"); ax.plot([m], [i], "o", color=col, ms=4)
+        for s_, col, mk in (("units", C[1], "D"), ("heads", INK, "s")):
+            v = float(st[s_][k]) * mult
+            ax.axvline(v, color=col, lw=1.6); ax.text(v, -0.7, "units" if s_ == "units" else "heads", color=col, fontsize=8, ha="center", va="bottom")
+        ax.set_yticks(y); ax.set_yticklabels([style[s_][1] for s_ in series], fontsize=8); ax.invert_yaxis()
+        ax.set_title(lab, fontsize=9.5, loc="left", pad=10, color=INK2); ax.tick_params(length=0, labelsize=8); ax.grid(axis="y", visible=False)
+    fig.suptitle("Whole glyphs are more diverse than words; head signs have a word's type count but a flatter top", x=0.02, ha="left",
+                 fontsize=13, fontweight="semibold", color=INK, y=1.08)
+    fig.savefig(img / "matched_stats.png", bbox_inches="tight", pad_inches=0.25)
+    plt.close(fig)

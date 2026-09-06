@@ -57,6 +57,7 @@ if (root / "data" / "rapanui" / "nights.txt").exists():
 steps.append(["two_islanders.py"])
 if args.refetch or not (root / "data" / "polynesian" / "maori_tokens.txt").exists():
     steps.append(["fetch_polynesian.py"])     # Maori and Tahitian scripture and traditions from archive.org, about 20 MB
+steps.append(["matched_stats.py"])
 if not args.fast:
     steps.append(["decipher.py"])            # about 3 minutes
     steps += [["decipher.py", "--lm", "maori"], ["decipher.py", "--lm", "tahitian"], ["decipher.py", "--lm", "polynesian"]]
