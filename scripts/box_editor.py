@@ -119,11 +119,14 @@ def seed_from_print(side, tracing_img, auto_boxes, units):
                 a0, a1 = tx0 + (px1 - b["x1"]) * scale, tx0 + (px1 - b["x0"]) * scale
             else:
                 a0, a1 = tx0 + (b["x0"] - px0) * scale, tx0 + (b["x1"] - px0) * scale
-            # the tracing's own box at this position is the anchor when it agrees with the map to within a glyph
+            # where the tracing's own box at this position agrees with the map to within a glyph, it is used as
+            # it is, width included: the print's widths are the thing under test, not a guide to Barthel's.
+            # The mapped box is used only where the count alignment put its box somewhere else
             if k < len(ab):
                 t = ab[k]; w = a1 - a0
                 if abs((t["x0"] + t["x1"]) / 2 - (a0 + a1) / 2) < max(8, w):
-                    c = (t["x0"] + t["x1"]) / 2; a0, a1 = c - w / 2, c + w / 2
+                    out.append({"line": lid, "x0": t["x0"], "x1": t["x1"], "y0": t["y0"], "y1": t["y1"]})
+                    continue
             a0, a1 = max(0, int(round(a0)) - 2), int(round(a1)) + 2
             band = ink[ty0:ty1, a0:a1]
             cols = band.any(axis=0)
@@ -137,6 +140,24 @@ def seed_from_print(side, tracing_img, auto_boxes, units):
     for lid, ab in auto_by.items():
         if lid not in by_line:
             out.extend(ab)
+    # neighbours may not overlap: the boundary between two overlapping boxes goes to the emptiest column between their centres
+    by = {}
+    for b in out:
+        by.setdefault(b["line"], []).append(b)
+    for lst in by.values():
+        lst.sort(key=lambda b: b["x0"])
+        for a, b in zip(lst, lst[1:]):
+            if b["x0"] < a["x1"]:
+                # the two share the union of their extents, cut at the emptiest column between their centres,
+                # or in the middle when one lies inside the other
+                u0, u1 = a["x0"], max(a["x1"], b["x1"])
+                lo, hi = int((a["x0"] + a["x1"]) / 2), int((b["x0"] + b["x1"]) / 2)
+                if hi - lo < 2:
+                    lo, hi = u0 + (u1 - u0) // 3, u1 - (u1 - u0) // 3
+                y0, y1 = min(a["y0"], b["y0"]), max(a["y1"], b["y1"])
+                col = ink[y0:y1, lo:hi].sum(axis=0) if hi > lo else None
+                cut = lo + int(col.argmin()) if col is not None and len(col) else (u0 + u1) // 2
+                a["x0"], a["x1"], b["x0"], b["x1"] = u0, cut, cut, u1
     return out
 
 
