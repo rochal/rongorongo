@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Rochala
     given-names: Piotr
-version: 1.0.0
-date-released: 2026-09-06
+version: 1.1.0
+date-released: 2026-09-07
 repository-code: "https://github.com/rochal/rongorongo"
 url: "https://github.com/rochal/rongorongo"
 license: MIT
@@ -20,12 +20,19 @@ keywords:
 abstract: >-
   Scripts, generated tables and a working report analysing the rongorongo
   corpus of Easter Island for structure without assigning meaning to any
-  sign. Uses the CEIPP numerical transliteration of Barthel's corpus, Barthel's
-  sign catalogue, Thomson's 1891 recitations and Jaussen's 1893 record of
-  Metoro's chanted readings. Covers parallel passages and text families,
-  delimited lists, alternating series, an affix test for the stroke signs,
-  allograph mining, sign inventories, shape similarity, genre clustering,
-  sequence entropy, collocations, compound decomposition, comparison with
-  Rapa Nui word statistics and the 1886 creation chant, the structure of the
-  Santiago Staff, and the consistency of Metoro's readings, each result with
-  a control or a shuffled null.
+  sign. Uses the CEIPP numerical transliteration of Barthel's corpus,
+  Barthel's sign catalogue and tracings, the retouched photographs of the
+  tablets, Thomson's 1891 recitations, Metraux's 1940 texts, Jaussen's 1893
+  record of Metoro's chanted readings, and public-domain Maori and Tahitian
+  texts as related-language models. Covers parallel passages and text
+  families, delimited lists, alternating series, an affix test for the
+  stroke signs, allograph mining and a context test for rare signs, sign
+  inventories against Polynesian words and syllables at matched sample
+  size, shape similarity, genre clustering, sequence entropy, collocations,
+  compound decomposition, the Santiago Staff, the Mamari calendar under
+  three counting rules, the consistency of Metoro's readings, a statistical
+  decipherment attempt with positive controls and a text-length bound, the
+  registration of the tracings to the photographs with hand-corrected boxes
+  as ground truth, and a log of places where carving, tracing and
+  transliteration disagree; each result with a control or a shuffled null,
+  and a fresh-clone reproduction check.

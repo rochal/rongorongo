@@ -937,13 +937,13 @@ Barthel's tracings of 31 sides were fetched from Wikimedia Commons, cut into lin
 |---|---|
 | Tracings on Commons | 31 sides; the small objects F verso, M, O, U to Z have none |
 | Instances cut | 10,145 on 29 sides |
-| On lines aligned within tolerance | 9,365 on 29 sides, after the sliver fix described under the prints; 8,039 before it |
-| Sides aligning on most lines | Keiti both sides, Tahua, the Staff, H, P, Q, Aruku Kurenga, Small Washington |
-| Sides too small to segment well | Mamari verso, Small Santiago recto, Honolulu, the Vienna and London tablets |
+| On lines aligned within tolerance | 9,365 on 28 sides, after the sliver fix described under the prints; 8,039 before it |
+| Sides aligning on every line | Tahua and Keiti, both faces; the Great Santiago faces; the Staff; the Great St Petersburg recto; Atua Mata Riri's verso |
+| Sides still segmenting poorly | Échancrée, the London and Vienna tablets, Great Washington, Honolulu; F verso and Great Washington's verso skipped, their ink bands not matching their line counts |
 
-**Hands cannot be tested on tracings, and the result says so.** For every pair of sides sharing enough signs, the similarity of the same sign across the two sides was compared with its similarity within each. If different carvers drew a sign differently, the cross-side penalty would be large for some pairs and near zero for sides by one hand. It is near zero for all 160 pairs, between -0.005 and +0.056, and the copy families are no closer than unrelated sides. That is the expected result for drawings all made by one person: the hand these tracings record is Barthel's. Scribal hands need photographs.
+**Hands cannot be tested on tracings, and the result says so.** For every pair of sides sharing enough signs, the similarity of the same sign across the two sides was compared with its similarity within each. If different carvers drew a sign differently, the cross-side penalty would be large for some pairs and near zero for sides by one hand. It is near zero for all 215 pairs, between -0.004 and +0.042, and the copy families are no closer than unrelated sides. That is the expected result for drawings all made by one person, the hand these tracings record being Barthel's; but it is also, as the positive control under the prints below shows, the result this descriptor gives whether hands differ or not, since it cannot see stroke weight. Scribal hands need photographs and a different measure.
 
-**Variation per sign is real but the descriptor can barely see it.** At this resolution a glyph is 25 to 40 pixels tall, and the shape descriptor that separated Barthel's type drawings in section 9 gives instances of one sign a similarity of 0.19 to 0.31 against 0.21 for instances of different signs. The most consistent signs as drawn, 56, 760, 608, 680 and 92, and the least, 77, 15 and 3, are listed in `out/tracings_variation.csv`, but the ranking is weak evidence. A stroke-based descriptor was tried and did not improve on this one (section 9, last subsection); larger images of the glyphs, from photographs, are what the variation question needs.
+**Variation per sign is real but the descriptor can barely see it.** At this resolution a glyph is 25 to 40 pixels tall, and the shape descriptor that separated Barthel's type drawings in section 9 gives instances of one sign a similarity of 0.18 to 0.30 against 0.21 for instances of different signs. The most consistent signs as drawn, 376, 382, 591, 92 and 46, and the least, 16, 22 and 3, are listed in `out/tracings_variation.csv`, but the ranking is weak evidence, and it changed when the segmentation was fixed. A stroke-based descriptor was tried and did not improve on this one (section 9, last subsection); larger images of the glyphs, from photographs, are what the variation question needs.
 
 **Glyph width along the line: a result that shrank when the segmentation improved.** Within each aligned line, glyph width relative to the line's median was regressed on position along the line; height was regressed the same way. A first version of this table, from the original segmentation, showed narrowing of a fifth to a third on the H, P and Q rectos, Aruku Kurenga and the Staff, and widening on Keiti's verso and Small Santiago's verso. Hand-drawn boxes on the prints then exposed a fault in the segmentation: Barthel draws a plain stroke as two parallel lines, and where their ends are open the segmentation cut each into a box two pixels wide. Those slivers were not evenly placed. On Aruku Kurenga's recto 58 percent of them fell in the outer fifths of their lines, on Small Santiago's verso 65 percent, against 40 percent expected, and a sliver counted as a glyph of relative width near zero pulls the end of a line down. With the slivers joined to their strokes (section 25, the prints), the table is this.
 
@@ -1235,14 +1235,14 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 
 The repository carries a citation file, so GitHub's "Cite this repository" button gives the reference in APA and BibTeX. Cite the tagged version you used, since the analyses change between versions:
 
-> Rochala, P. (2026). *Structure Without Reading: a reproducible structural analysis of the rongorongo corpus* (Version 1.0.0) [Software and working report]. https://github.com/rochal/rongorongo
+> Rochala, P. (2026). *Structure Without Reading: a reproducible structural analysis of the rongorongo corpus* (Version 1.1.0) [Software and working report]. https://github.com/rochal/rongorongo
 
 ```bibtex
 @software{rochala2026rongorongo,
   author  = {Rochala, Piotr},
   title   = {Structure Without Reading: a reproducible structural analysis of the rongorongo corpus},
   year    = {2026},
-  version = {1.0.0},
+  version = {1.1.0},
   url     = {https://github.com/rochal/rongorongo},
   note    = {Software and working report}
 }
