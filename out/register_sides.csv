@@ -1,0 +1,23 @@
+side,scale,polarity,vote,pitch,first_line_y,direction,parity,reliable_lines,placed,status
+Br,0.345,dark,0.864,36.2,371,1 at bottom,even lines flipped,8,7,trusted
+Bv,0.538,bright,0.93,43.1,570,1 at bottom,even lines flipped,9,9,trusted
+Ca,0.297,bright,0.922,29.5,398,1 at bottom,even lines flipped,9,8,trusted
+Cb,0.241,dark,0.94,56.6,267,1 at bottom,even lines flipped,2,2,trusted
+Da,0.239,dark,0.753,29.6,93,1 at top,odd lines flipped,5,4,trusted
+Db,0.214,dark,0.81,42.0,0,1 at top,odd lines flipped,3,2,trusted
+Er,0.492,bright,0.966,31.7,293,1 at bottom,even lines flipped,8,8,trusted
+Ev,0.452,bright,0.932,33.4,281,1 at bottom,even lines flipped,8,8,trusted
+Gr,0.285,dark,1.0,26.4,200,1 at bottom,even lines flipped,1,1,trusted
+Gv,0.289,dark,0.892,26.4,208,1 at bottom,even lines flipped,7,7,trusted
+Hr,1.823,dark,0.893,35.1,418,1 at bottom,even lines flipped,9,9,trusted
+Hv,1.791,dark,0.898,43.0,455,1 at bottom,even lines flipped,10,10,trusted
+Kr,0.484,bright,0.988,44.1,0,1 at top,even lines flipped,3,3,trusted
+Kv,0.257,bright,0.943,29.6,12,1 at top,odd lines flipped,2,1,trusted
+Na,0.49,dark,1.0,31.2,45,1 at top,odd lines flipped,1,1,trusted
+Nb,0.5,bright,0.986,29.6,35,1 at top,odd lines flipped,2,2,trusted
+Pr,0.855,dark,0.885,35.1,385,1 at bottom,even lines flipped,10,10,trusted
+Pv,0.821,dark,0.912,28.8,95,1 at top,odd lines flipped,9,9,trusted
+Qv,0.544,dark,0.822,31.7,61,1 at top,even lines flipped,8,8,trusted
+Ra,0.295,dark,0.851,33.1,217,1 at bottom,even lines flipped,4,4,trusted
+Rb,0.308,bright,0.829,27.2,231,1 at bottom,even lines flipped,9,8,trusted
+Sa,0.963,bright,0.84,48.7,183,1 at bottom,odd lines flipped,4,4,trusted

@@ -503,3 +503,48 @@ if (out / "untyped_autocorr.csv").exists():
     fig.savefig(img / "periodicity.png", bbox_inches="tight", pad_inches=0.25)
     plt.close(fig)
 print("charts written to", img)
+# 19 the prints against the tracings ----------------------------------------
+if (out / "photos_planning.csv").exists() and (out / "hands_prints.csv").exists():
+    tr = {r["side"]: r for r in read("tracings_planning.csv") if int(r["lines"]) >= 4}
+    ph = {r["side"]: r for r in read("photos_planning.csv") if int(r["lines"]) >= 4}
+    both = sorted(set(tr) & set(ph))
+    st = [r for r in read("hands_prints.csv") if r["status"] == "measured"]
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.6), gridspec_kw={"width_ratios": [1, 1.3]})
+    xs = [float(tr[s]["width_slope"]) for s in both]; ys = [float(ph[s]["width_slope"]) for s in both]
+    lim = max(abs(v) for v in xs + ys) * 1.15
+    ax1.plot([-lim, lim], [-lim, lim], color=AXIS, lw=1, ls="--")
+    ax1.axhline(0, color=GRID, lw=1); ax1.axvline(0, color=GRID, lw=1)
+    ax1.scatter(xs, ys, s=42, color=C[0], zorder=3)
+    for s, x, y in zip(both, xs, ys):
+        ax1.annotate(s, (x, y), xytext=(5, 3), textcoords="offset points", fontsize=8.5, color=INK2)
+    ax1.set_xlim(-lim, lim); ax1.set_ylim(-lim, lim)
+    ax1.set_xlabel("Narrowing slope on Barthel's tracing"); ax1.set_ylabel("Narrowing slope on the print")
+    ax1.set_title("Do glyphs narrow the same way on the print?", pad=26)
+    ax1.annotate("Sides with at least four lines in both; dashed line is agreement", (0, 1), xycoords="axes fraction", xytext=(0, 7),
+                 textcoords="offset points", color=INK2, fontsize=9.5, va="bottom")
+    ax1.tick_params(length=0)
+    st.sort(key=lambda r: float(r["stroke_ratio"]))
+    y = np.arange(len(st)); vals = [float(r["stroke_ratio"]) for r in st]; iqr = [float(r["stroke_ratio_iqr"]) for r in st]
+    objs = collections.defaultdict(list)
+    for i, r in enumerate(st):
+        objs[r["side"][0]].append(i)
+    palette = {}
+    for k, (o, idx) in enumerate(sorted(objs.items())):
+        if len(idx) == 2:
+            palette[o] = C[k % 3]
+    ax2.barh(y, vals, xerr=[[q / 2 for q in iqr], [q / 2 for q in iqr]], height=0.6, error_kw={"ecolor": AXIS, "lw": 1},
+             color=[palette.get(r["side"][0], "#c3c2b7") for r in st])
+    for o, idx in objs.items():
+        if len(idx) == 2:
+            i, j = idx
+            ax2.plot([vals[i], vals[j]], [y[i], y[j]], color=palette[o], lw=1.2, alpha=0.7)
+    ax2.set_yticks(y); ax2.set_yticklabels([r["side"] for r in st]); ax2.invert_yaxis()
+    ax2.set_xlabel("Stroke width over glyph height, median with interquartile range")
+    ax2.grid(axis="y", visible=False)
+    ax2.set_title("Stroke weight per side on the prints", pad=26)
+    ax2.annotate("Colour links the two sides of one object; grey sides have no measured partner", (0, 1), xycoords="axes fraction", xytext=(0, 7),
+                 textcoords="offset points", color=INK2, fontsize=9.5, va="bottom")
+    ax2.tick_params(length=0)
+    fig.tight_layout(w_pad=3)
+    fig.savefig(img / "prints.png", bbox_inches="tight", pad_inches=0.25)
+    plt.close(fig)

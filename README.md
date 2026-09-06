@@ -54,7 +54,7 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 
 - **The islander who chanted over the tablets in 1873 was not reading them,** but he did give each sign shape the same name almost every time, so his chant is a usable record of which signs he saw as the same, and merging the sign pairs his words propose makes more text align between tablets than merging random pairs does. A second islander, reciting over the same tablet thirteen years later, produced words with no relation to his. Sections 17, 18 and 22.
 - **A computer cannot crack it yet, and we can say why.** The method that decoded an ancient script against a related language was tried on the commonest signs against Rapa Nui. It fails its own test: given a real Rapa Nui text disguised as signs, it cannot recover the text, because the Rapa Nui available, even after adding Métraux's texts, is far too small to constrain the answer. Until a much larger Rapa Nui corpus exists, no statistical decipherment of the frequent signs can be trusted, ours or anyone's. Section 23.
-- **The drawings have been pushed as far as drawings go.** Ten thousand glyphs cut from Barthel's tracings show carvers narrowing their glyphs toward the ends of lines, as if fitting a fixed text, but cannot show whose hand carved what, since the hand in a tracing is the tracer's; and no matcher, pixel or stroke, tells a sign from its own variants well enough at that size. Photographs are the next source. Sections 9 and 25.
+- **The drawings have been checked against the wood.** Ten thousand glyphs cut from Barthel's tracings show carvers narrowing their glyphs toward the ends of lines, as if fitting a fixed text. The tracings were then registered to the retouched photographs, line by line, and the same measurement on the photographs agrees: the narrowing is the carver's, and Barthel's proportions are faithful. Whose hand carved what is still open, and the report now says why: the shape matcher cannot see stroke weight, and in a retouched print the stroke is the retoucher's. Sections 9 and 25.
 
 Nothing here says what any sign means. What it says is what kind of thing the texts are and how they are put together, which is the ground a real decipherment would have to stand on.
 
@@ -75,7 +75,7 @@ Nothing here says what any sign means. What it says is what kind of thing the te
 | Was Metoro reading? | No, but consistent; a second reciter contradicts him | 17, 22 |
 | Can the frequent signs be assigned syllables statistically? | Bounded: not with any Rapa Nui corpus that exists | 23 |
 | Are the twelve isolated sides a hidden genre? | Answered no | 26 |
-| Whose hand carved which tablet? | Open; needs photographs, and the white-filled prints defeated a first segmentation attempt | 25 |
+| Whose hand carved which tablet? | Open; the prints are now registered and cut, but the shape matcher is blind to stroke weight and the retouched prints carry the retoucher's stroke | 25 |
 | What does any sign mean? | Open, and not addressed | |
 
 ## How to read this report
@@ -872,13 +872,37 @@ The odd and even columns are shown because they prompted a test, reported below,
 
 > **Caveat.** Everything here is measured on Barthel's tracings, which are drawings after photographs and rubbings; proportions are presumably faithful but a tracer's hand is between us and the wood. Segmentation by count alignment is wrong wherever glyphs touch, and the quality flag is coarse. The positional analysis pools lines of different lengths, and the parity split has few lines per side; both slopes and their split should be re-derived from photographs before anyone builds on them.
 
-### The prints: a first attempt, and why it stopped
+### The prints: registered to the tracings
 
-The step beyond tracings is photographs. Commons holds, for every object that has a tracing, a print in which the glyphs were filled white for legibility, mostly from Chauvet's 1935 volume, plus a few rubbings and one unretouched photograph; the Keiti photograph at the head of this report is one of them. Thirty-one were fetched and put through the section 25 pipeline with two changes: the object is first located as the largest dark region, and the lines are cut by dividing its inked extent equally and refining each cut to the nearest valley of the row profile.
+*In plain words: the tracings are drawings; the prints are photographs of the wood, retouched so the glyphs show white. A first try at cutting the prints on their own failed. The second try uses what the tracings already know, where every glyph sits in its line, and finds each line on the photograph. That worked, and for the first time the glyphs measured here are the carved ones.*
 
-It did not work, and the reasons are recorded so the next attempt starts further on. The prints are not one kind of image: some show white glyphs on dark wood, others dark glyphs on a bright ground, several at a quarter of the resolution of the rest, and the paper margin, wood grain and wear inside the object all pass a brightness threshold. Only two sides produced lines that aligned by count, Keiti's verso and Aruku Kurenga's verso, and a labelled strip of Keiti's Ev4 showed that even those cuts were wrong: the count matched by coincidence and the boxes held fragments. The fidelity test that was the point of the milestone, print glyph against tracing glyph, therefore returned nothing usable: a width correlation of -0.07 and a similarity below that of unrelated signs.
+Commons holds, for every object that has a tracing, a print in which the glyphs were filled white for legibility, mostly from Chauvet's 1935 volume, plus a few rubbings and one unretouched photograph; the Keiti photograph at the head of this report is one of them. A first attempt to segment the prints by their own row profiles did not work: the prints vary in polarity, contrast and resolution, and only two sides produced line cuts that aligned by count, wrongly even then. That attempt is kept in the history of the repository and nothing from it is used.
 
-What it would take: per-print polarity and contrast handling; line cutting guided by registration of the print to its tracing, which already knows where every glyph is, rather than by the print's own row profile; and a checked sample of cuts before any statistic. That is a project of its own. The scripts and the fetched prints are in place for it, and no number from the prints is used anywhere in this report.
+The second attempt registers each print to its tracing. This cannot be one transform, because the tracing is not a picture of the tablet: Barthel drew every line upright and left to right, while on the wood alternate lines are upside down, the object is curved, and Barthel's spacing is not the carver's. Even one line cannot be matched as a rigid strip. So the registration is built from short pieces upward. The print is reduced to an ink map by local contrast. Every run of six glyphs in a reliable tracing line, filled in (Barthel drew outlines, the prints are solid) and blurred, is correlated over the whole print in both orientations, and its best twelve peaks are kept; a run alone is ambiguous, because the glyph field is full of similar shapes. Then all runs of all lines vote for one layout of the side, a first-line position, a line pitch, a direction and a parity, with reverse boustrophedon built into the vote, since the orientation must alternate line by line. The surviving runs give each line a stretch map along it and a curve across it, each glyph is matched once more in a small window around its predicted place, and the box is cut from the print at full resolution and turned upright. The print instances are not in the repository, since the prints are Chauvet's; the table of boxes and scores is.
+
+![The registration on Keiti's verso: every glyph box drawn on the print, orange where the local match held, blue where it did not](docs/img/registration_check.png)
+
+![Fourteen glyphs of one line of Keiti: Barthel's tracing above, the same glyph cut from the print below](docs/img/registration_pairs.png)
+
+| | |
+|---|---|
+| Prints registered | 22 sides; Tahua's three-part prints and the rubbings skipped |
+| Reliable tracing lines placed | 125 of 131 |
+| Glyphs cut from the prints | 4,452, of which 3,812 with a local match above the threshold |
+| Vote strength | 0.75 to 1.0 of the candidate mass on every side |
+| Width of the print glyph against the tracing glyph, relative to line medians | correlation 0.90 over 3,335 glyphs |
+
+**Barthel's proportions are faithful.** The width of each print glyph, measured from its own ink inside a padded box, follows the width of the tracing glyph with a correlation of 0.90. The box comes from the tracing, so the test is not free, but the padding lets the print's ink run a third wider or narrower than the box, and it does not.
+
+**The narrowing along lines is the carver's, not the tracer's.** The section 25 slopes were recomputed on the print glyphs. Over the twelve sides whose glyphs stand at least 30 pixels tall on the print, print and tracing slopes correlate at 0.77 and agree in sign on ten. Aruku Kurenga narrows on both faces in both sources; Keiti's verso and Small Santiago's verso widen in both. The exceptions are the Great Santiago faces and Great Washington, whose prints are so small that a glyph is fourteen pixels tall, and the Great St Petersburg recto, which narrows on the tracing and not on the print. Those three small prints are below the resolution where a width can be measured, and the tracing result stands for them unconfirmed.
+
+![Print against tracing: narrowing slope per side, and stroke weight per side](docs/img/prints.png)
+
+**The hands test is blind, and now we know by how much.** The cross-side penalty of section 25 was recomputed on the print glyphs and is again near zero for every pair of sides, between -0.007 and +0.036. Before reading that as one hand, the test was given a positive control: side B's glyphs re-read with every stroke thickened by one pixel. The control penalties are indistinguishable from the real ones, median 0.010 against 0.011, on prints and tracings alike. The descriptor, a blurred silhouette with gradient histograms at 32 pixels, does not see stroke weight, which is the first thing a different tool or hand would change. The near-zero penalties in section 25 and here are therefore not evidence of one hand; they are evidence that this descriptor cannot tell hands apart. That is a correction to the way section 25 put it.
+
+**Stroke weight can be measured on the prints, and it measures the print.** Stroke width relative to glyph height, from the skeleton and distance transform of each print glyph, was taken per side. The two sides of one object are closer in it than sides of different objects, mean difference 0.012 against 0.020, with a permutation test at 0.06. But the outlier shows what the number carries: Aruku Kurenga's two faces, carved by one hand on one piece of wood, differ by more than any other pair, 0.022 against 0.054, because the two prints were retouched differently. What survives in a white-filled print is the retoucher's brush over the carver's groove, and stroke weight cannot separate them. Whose hand carved which tablet needs photographs that were never retouched, or the objects themselves.
+
+> **Caveat.** The registration has been checked by eye on Keiti's verso, the check images above, and on no other side; the vote strength and the local match scores in `out/register_sides.csv` and `out/photo_instances.csv` are the only quality measures elsewhere. Glyphs at line ends match worst. Three prints are below usable resolution, and the boxes still come from the tracing, so a glyph Barthel misdrew is cut wrong here too.
 
 ## 26. The untyped sides
 
@@ -920,6 +944,8 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 ![No stroke sign behaves like a suffix](docs/img/affix_test.png)
 
 ![Adjacent strokes keep a fixed order](docs/img/stroke_order.png)
+
+![Print against tracing](docs/img/prints.png)
 
 ## 28. What it means and what it does not
 
@@ -1002,6 +1028,10 @@ python scripts/fetch_tracings.py       # Barthel's tracings from Commons, at a p
 python scripts/tracings.py
 python scripts/tracings_analysis.py
 python scripts/parity_check.py
+python scripts/fetch_photos.py         # the white-filled prints from Commons
+python scripts/register.py             # the tracings registered to the prints, line by line; about 40 minutes
+python scripts/tracings_analysis.py --source photos
+python scripts/hands_prints.py
 python scripts/untyped.py
 python scripts/tahua_period.py
 python scripts/charts.py
@@ -1040,13 +1070,14 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | decipher.py | One-to-one assignment of the frequent signs to Rapa Nui syllables by annealing, with shuffled, reversed, wrong-language and positive controls |
 | attachments.py | Concentration and density of the attached components against the Rapa Nui particle class and content words |
 | fetch_tracings.py, tracings.py | Barthel's tracings of 31 sides from Commons; lines and glyph instances cut and aligned to the transliteration, with a quality flag per line |
-| tracings_analysis.py | Per-sign variation, cross-side hand penalties, and glyph width along the line with end-dropping and line-parity checks |
-| fetch_photos.py, photos.py | The white-filled prints and rubbings from Commons, and a first segmentation attempt with a print-to-tracing fidelity check; results not usable yet, see section 25 |
+| tracings_analysis.py | Per-sign variation, cross-side hand penalties with a thickened-stroke positive control, and glyph width along the line with end-dropping and line-parity checks; `--source photos` runs it on the print glyphs |
+| fetch_photos.py, register.py | The white-filled prints from Commons; each tracing registered to its print by chunk correlation and a layout vote, glyphs cut from the print, fidelity of width and shape to the tracing |
+| hands_prints.py | Stroke weight per side on the prints and a same-object permutation test |
 | check_reproduction.py | Diff of a regenerated out/ against the committed one, file by file |
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |
 | tahua_period.py | What carries Tahua's recurrence at 22 to 24 signs: driving signs, returning groups, gap stability, line positions, and side b |
-| charts.py | The eighteen charts in docs/img |
+| charts.py | The nineteen charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### How to cite

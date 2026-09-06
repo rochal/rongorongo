@@ -61,6 +61,10 @@ steps.append(["attachments.py"])
 if args.refetch or not (root / "data" / "tracings").exists():
     steps.append(["fetch_tracings.py"])       # slow: Commons rate-limits, about a file every few seconds
 steps += [["tracings.py"], ["tracings_analysis.py"], ["parity_check.py"]]
+if args.refetch or not (root / "data" / "photos").exists():
+    steps.append(["fetch_photos.py"])         # slow, as for the tracings
+if not args.fast:
+    steps += [["register.py"], ["tracings_analysis.py", "--source", "photos"], ["hands_prints.py"]]   # about 40 minutes
 steps.append(["untyped.py"])
 steps.append(["tahua_period.py"])
 if not args.fast:

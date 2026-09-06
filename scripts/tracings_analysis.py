@@ -24,21 +24,39 @@ restricted to lines aligned within tolerance.
 Outputs (out/): tracings_variation.csv, tracings_hands.csv,
 tracings_planning.csv, tracings_analysis.md
 """
-import collections, csv, itertools, math, pathlib
+import argparse, collections, csv, itertools, math, pathlib
 import numpy as np
 from PIL import Image, ImageFilter
+from scipy import ndimage
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--source", choices=["tracings", "photos"], default="tracings",
+                help="photos: the glyphs cut from the prints by register.py, restricted to locally matched ones; outputs are prefixed photos_")
+args = ap.parse_args()
 
 MIN_INST = 12
 N = 32
 root = pathlib.Path(__file__).resolve().parent.parent
 out = root / "out"
-idir = root / "data" / "tracings" / "instances"
-rows = [r for r in csv.DictReader(open(out / "glyph_instances.csv", encoding="utf-8")) if r["line_quality"] == "reliable"]
+if args.source == "tracings":
+    idir = root / "data" / "tracings" / "instances"
+    rows = [r for r in csv.DictReader(open(out / "glyph_instances.csv", encoding="utf-8")) if r["line_quality"] == "reliable"]
+    prefix = "tracings_"
+else:
+    idir = root / "data" / "photos" / "instances"
+    rows = []
+    for r in csv.DictReader(open(out / "photo_instances.csv", encoding="utf-8")):
+        if float(r["local_score"]) >= 0.2 and int(r["print_ink_width"]) > 0:
+            r["width"] = r["print_ink_width"]; r["height"] = str(int(r["y1"]) - int(r["y0"]))
+            rows.append(r)
+    prefix = "photos_"
 
 
-def descriptor(path):
+def descriptor(path, thicken=0):
     im = Image.open(path).convert("L")
     a = np.asarray(im) < 128
+    if thicken:
+        a = ndimage.binary_dilation(a, iterations=thicken)
     ys, xs = np.where(a)
     if len(ys) < 4:
         return None
@@ -105,7 +123,7 @@ for s, lst in by_sign.items():
                      "same_side": float(np.mean(same_side)) if same_side else float("nan"),
                      "cross_side": float(np.mean(cross_side)) if cross_side else float("nan")})
 var_rows.sort(key=lambda r: -r["within"])
-with open(out / "tracings_variation.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / (prefix + "variation.csv"), "w", newline="", encoding="utf-8") as fh:
     w = csv.DictWriter(fh, fieldnames=list(var_rows[0].keys()))
     w.writeheader()
     for r in var_rows:
@@ -126,11 +144,36 @@ for a, b in itertools.combinations(sides, 2):
             diffs.append((within_a + within_b) / 2 - cross)
     if n_signs >= 4:
         pen[(a, b)] = (float(np.mean(diffs)), n_signs)
-with open(out / "tracings_hands.csv", "w", newline="", encoding="utf-8") as fh:
+# positive control: could the test see a hand if there were one? Side B's instances are re-read with
+# every stroke thickened by one pixel, a smaller change than two carvers' tools would make, and the
+# penalty recomputed. If the control penalties stand clear of the real ones, the real near-zero is a finding.
+feats_thick = {}
+for r in rows:
+    p = idir / r["side"] / f"{r['line']}_{int(r['position']):03d}.png"
+    d = descriptor(p, thicken=1)
+    if d is not None:
+        feats_thick[(r["side"], r["line"], int(r["position"]))] = d
+by_sign_thick = collections.defaultdict(list)
+for r in rows:
+    k = (r["side"], r["line"], int(r["position"]))
+    if k in feats_thick:
+        by_sign_thick[r["head"]].append((r["side"], feats_thick[k][0], feats_thick[k][1]))
+pen_ctl = {}
+for a, b in pen:
+    diffs = []
+    for s, lst in by_sign.items():
+        A = [x for x in lst if x[0] == a]; B = [x for x in by_sign_thick[s] if x[0] == b]
+        if len(A) >= 3 and len(B) >= 3:
+            within_a = np.mean([sim(x, y) for x, y in itertools.combinations(A[:12], 2)])
+            within_b = np.mean([sim(x, y) for x, y in itertools.combinations(B[:12], 2)])
+            cross = np.mean([sim(x, y) for x in A[:12] for y in B[:12]])
+            diffs.append((within_a + within_b) / 2 - cross)
+    pen_ctl[(a, b)] = float(np.mean(diffs)) if diffs else float("nan")
+with open(out / (prefix + "hands.csv"), "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh)
-    w.writerow(["side_a", "side_b", "shared_signs", "cross_side_penalty"])
+    w.writerow(["side_a", "side_b", "shared_signs", "cross_side_penalty", "control_penalty_thickened"])
     for (a, b), (d, n) in sorted(pen.items(), key=lambda kv: kv[1][0]):
-        w.writerow([a, b, n, f"{d:.4f}"])
+        w.writerow([a, b, n, f"{d:.4f}", f"{pen_ctl[(a, b)]:.4f}"])
 
 # planning: width against position along the line
 plan = collections.defaultdict(list)
@@ -168,7 +211,7 @@ for side, lst in plan.items():
     plan_rows.append({"side": side, "lines": len(lst), "instances": len(pos), "width_slope": sw, "width_slope_inner": sw_inner,
                       "slope_odd_lines": slope_for(1), "slope_even_lines": slope_for(0),
                       "height_slope": sh, "width_first_fifth": first, "width_last_fifth": last})
-with open(out / "tracings_planning.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / (prefix + "planning.csv"), "w", newline="", encoding="utf-8") as fh:
     w = csv.DictWriter(fh, fieldnames=list(plan_rows[0].keys()))
     w.writeheader()
     for r in plan_rows:
@@ -187,15 +230,15 @@ for r in var_rows[-8:]:
     md.append(f"| {r['sign']} | {r['instances']} | {r['sides']} | {r['within']:.3f} | {r['same_side']:.3f} | {r['cross_side']:.3f} |")
 md.append("\n## Hands: cross-side penalty, sides that share at least four signs\n")
 md.append("Penalty = mean over shared signs of (within-side similarity minus cross-side similarity). Near zero: the two sides draw the same sign the same way.\n")
-md.append("| side A | side B | shared signs | penalty |\n|---|---|---|---|")
+md.append("| side A | side B | shared signs | penalty | control: B thickened 1 px |\n|---|---|---|---|---|")
 for (a, b), (d, n) in sorted(pen.items(), key=lambda kv: kv[1][0]):
-    md.append(f"| {a} | {b} | {n} | {d:+.3f} |")
+    md.append(f"| {a} | {b} | {n} | {d:+.3f} | {pen_ctl[(a, b)]:+.3f} |")
 md.append("\n## Planning: glyph width along the line\n")
 md.append("| side | lines | instances | width slope | same, line ends dropped | odd lines | even lines | height slope | width, first fifth | width, last fifth |\n|---|---|---|---|---|---|---|---|---|---|")
 for r in sorted(plan_rows, key=lambda r: r["width_slope"]):
     md.append(f"| {r['side']} | {r['lines']} | {r['instances']} | {r['width_slope']:+.3f} | {r['width_slope_inner']:+.3f} | "
               f"{r['slope_odd_lines']:+.3f} | {r['slope_even_lines']:+.3f} | {r['height_slope']:+.3f} | "
               f"{r['width_first_fifth']:.2f} | {r['width_last_fifth']:.2f} |")
-(out / "tracings_analysis.md").write_text("\n".join(md), encoding="utf-8")
+(out / (prefix + "analysis.md")).write_text("\n".join(md), encoding="utf-8")
 print("\n".join(md[:8]))
 print(f"pairs: {len(pen)}, sides with planning data: {len(plan_rows)}")
