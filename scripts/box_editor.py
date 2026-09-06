@@ -10,9 +10,11 @@ With --source tracing the image is Barthel's drawing, the starting boxes
 are the count-aligned ones from tracings.py, every line is upright, and
 the corrections go to data/boxes/tracing/<side>.json, which tracings.py
 then uses. With --seed-from-print, on every line whose print boxes are
-finished, the tracing boxes are placed by mapping the print boxes onto the
-tracing line and shrinking each to the ink under it, so that they need a
-nudge rather than a redraw.
+finished and at least four in five of them hand-edited, the tracing boxes
+are placed by mapping the print boxes onto the tracing line, anchored on
+the tracing's own box where the two agree, and shrunk to the ink under
+them; other lines keep the count-aligned boxes. Boxes you have edited are
+drawn solid, untouched automatic ones dashed.
 
 Opens the print with the boxes that register.py found, or with the saved
 corrections in data/boxes/<side>.json if there are any, and lets you fix
@@ -101,22 +103,30 @@ def seed_from_print(side, tracing_img, auto_boxes, units):
     for b in auto_boxes:
         auto_by.setdefault(b["line"], []).append(b)
     for lid, pb in by_line.items():
-        if len(pb) != len(units.get(lid, [])) or lid not in auto_by:
-            out.extend(auto_by.get(lid, []))       # unfinished on the print: keep the automatic tracing boxes
+        n_ed = sum(1 for b in pb if b.get("edited"))
+        if len(pb) != len(units.get(lid, [])) or lid not in auto_by or n_ed < 0.8 * len(pb):
+            out.extend(auto_by.get(lid, []))       # unfinished on the print, or mostly automatic: keep the tracing's own boxes
             continue
-        ab = auto_by[lid]
+        ab = sorted(auto_by[lid], key=lambda b: b["x0"])
         tx0, tx1 = min(b["x0"] for b in ab), max(b["x1"] for b in ab)
         ty0, ty1 = min(b["y0"] for b in ab), max(b["y1"] for b in ab)
         px0, px1 = min(b["x0"] for b in pb), max(b["x1"] for b in pb)
         flipped = pd["lines"].get(lid) == "flipped"
         scale = (tx1 - tx0) / max(1, px1 - px0)
-        for b in sorted(pb, key=lambda b: b["position"]):
+        pbs = sorted(pb, key=lambda b: b["position"])
+        for k, b in enumerate(pbs):
             if flipped:
                 a0, a1 = tx0 + (px1 - b["x1"]) * scale, tx0 + (px1 - b["x0"]) * scale
             else:
                 a0, a1 = tx0 + (b["x0"] - px0) * scale, tx0 + (b["x1"] - px0) * scale
-            a0, a1 = max(0, int(round(a0)) - 3), int(round(a1)) + 3
-            cols = ink[ty0:ty1, a0:a1].any(axis=0)
+            # the tracing's own box at this position is the anchor when it agrees with the map to within a glyph
+            if k < len(ab):
+                t = ab[k]; w = a1 - a0
+                if abs((t["x0"] + t["x1"]) / 2 - (a0 + a1) / 2) < max(8, w):
+                    c = (t["x0"] + t["x1"]) / 2; a0, a1 = c - w / 2, c + w / 2
+            a0, a1 = max(0, int(round(a0)) - 2), int(round(a1)) + 2
+            band = ink[ty0:ty1, a0:a1]
+            cols = band.any(axis=0)
             xs = [i for i, v in enumerate(cols) if v]
             if xs:
                 a0, a1 = a0 + xs[0], a0 + xs[-1] + 1
@@ -242,7 +252,7 @@ class Editor:
             sx0, sy0 = self.to_screen(b["x0"], b["y0"]); sx1, sy1 = self.to_screen(b["x1"], b["y1"])
             col = colour.get(b["line"], "#ffffff")
             width = 3 if i == self.sel else 1
-            c.create_rectangle(sx0, sy0, sx1, sy1, outline=col, width=width)
+            c.create_rectangle(sx0, sy0, sx1, sy1, outline=col, width=width, dash=() if b.get("edited") else (3, 3))
             if i == self.sel:
                 # the edges the arrow keys move, in white
                 if self.edge_mode == 0:
@@ -263,7 +273,8 @@ class Editor:
             b = self.boxes[self.sel]; lid = b["line"]
             n_units, n_boxes = len(self.units.get(lid, [])), sum(1 for x in self.boxes if x["line"] == lid)
             flag = "" if n_units == n_boxes else "   MISMATCH"
-            parts.append(f"{lid} ({self.lines.get(lid)}): {n_units} units, {n_boxes} boxes{flag}   selected box {b['position']}   "
+            n_ed = sum(1 for x in self.boxes if x["line"] == lid and x.get("edited"))
+            parts.append(f"{lid} ({self.lines.get(lid)}): {n_units} units, {n_boxes} boxes, {n_ed} edited{flag}   selected box {b['position']}   "
                          f"arrows move the {'right and bottom' if self.edge_mode else 'left and top'} edges (Tab to switch, Shift for the whole box, Ctrl for five pixels)")
             self.orient_var.set(self.lines.get(lid, ""))
         else:
@@ -319,6 +330,8 @@ class Editor:
         kind, x_start, y_start, orig, edges = self.drag
         dx, dy = int(round(ix - x_start)), int(round(iy - y_start))
         b = self.boxes[self.sel]
+        if dx or dy:
+            b["edited"] = True
         if kind == "move":
             b["x0"], b["x1"], b["y0"], b["y1"] = orig["x0"] + dx, orig["x1"] + dx, orig["y0"] + dy, orig["y1"] + dy
         else:
@@ -338,7 +351,7 @@ class Editor:
                 if lid == "nearest":
                     lid = self.nearest_line((x0 + x1) / 2, (y0 + y1) / 2)
                 if lid:
-                    self.boxes.append({"line": lid, "x0": x0, "x1": x1, "y0": y0, "y1": y1})
+                    self.boxes.append({"line": lid, "x0": x0, "x1": x1, "y0": y0, "y1": y1, "edited": True})
                     self.sel = len(self.boxes) - 1; self.edge_mode = 0; self.dirty = True
             self.add_mode = False
         elif self.drag:
@@ -372,6 +385,7 @@ class Editor:
         if self.sel is None:
             return "break"
         b = self.boxes[self.sel]
+        b["edited"] = True
         if whole:
             for k, d in (("x0", dx), ("x1", dx), ("y0", dy), ("y1", dy)):
                 b[k] += d
@@ -441,7 +455,8 @@ class Editor:
         for b in sorted(self.boxes, key=lambda b: (line_number(b["line"]), b["position"])):
             units = self.units.get(b["line"], []); k = b["position"]
             out["boxes"].append({"line": b["line"], "position": k, "unit": units[k] if k < len(units) else "?",
-                                 "x0": int(b["x0"]), "x1": int(b["x1"]), "y0": int(b["y0"]), "y1": int(b["y1"])})
+                                 "x0": int(b["x0"]), "x1": int(b["x1"]), "y0": int(b["y0"]), "y1": int(b["y1"]),
+                                 "edited": bool(b.get("edited", False))})
         self.json_path.write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
         self.dirty = False; self.redraw()
 
