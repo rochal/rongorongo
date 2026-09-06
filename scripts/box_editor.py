@@ -155,7 +155,7 @@ def seed_from_print(side, tracing_img, auto_boxes, units):
     for lst in by.values():
         lst.sort(key=lambda b: b["x0"])
         for a, b in zip(lst, lst[1:]):
-            if b["x0"] < a["x1"]:
+            if b["x0"] < a["x1"] - 3:          # a pixel or two of overlap is how Barthel's neighbours sit; more is a fault
                 # the two share the union of their extents, cut at the emptiest column between their centres,
                 # or in the middle when one lies inside the other
                 u0, u1 = a["x0"], max(a["x1"], b["x1"])
