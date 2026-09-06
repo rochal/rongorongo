@@ -9,11 +9,12 @@
 With --source tracing the image is Barthel's drawing, the starting boxes
 are the count-aligned ones from tracings.py, every line is upright, and
 the corrections go to data/boxes/tracing/<side>.json, which tracings.py
-then uses. With --seed-from-print, on every line whose print boxes are
-finished and at least four in five of them hand-edited, the tracing boxes
-are placed by mapping the print boxes onto the tracing line, anchored on
-the tracing's own box where the two agree, and shrunk to the ink under
-them; other lines keep the count-aligned boxes. Boxes you have edited are
+then uses. With --seed-from-print, a line that the count alignment marked
+unreliable, and whose print boxes are finished and at least four in five
+hand-edited, gets its tracing boxes by mapping the print boxes onto the
+tracing line, anchored on the tracing's own box where the two agree and
+shrunk to the ink; every other line keeps the count-aligned boxes, which
+after the sliver fix sit on the ink almost everywhere. Boxes you have edited are
 drawn solid, untouched automatic ones dashed.
 
 Opens the print with the boxes that register.py found, or with the saved
@@ -74,6 +75,9 @@ def line_number(lid):
     return int(re.sub(r"\D", "", lid[2:]) or 0)
 
 
+UNRELIABLE = set()      # tracing lines whose count alignment needed too many changes; filled by load_auto
+
+
 def load_auto(side, source="print"):
     boxes, lines = [], {}
     p = root_dir / "out" / ("photo_instances.csv" if source == "print" else "glyph_instances.csv")
@@ -84,6 +88,8 @@ def load_auto(side, source="print"):
             continue
         boxes.append({"line": r["line"], "x0": int(r["x0"]), "x1": int(r["x1"]), "y0": int(r["y0"]), "y1": int(r["y1"])})
         lines[r["line"]] = r["orientation"] if source == "print" else "upright"
+        if source == "tracing" and r.get("line_quality") == "unreliable":
+            UNRELIABLE.add(r["line"])
     return boxes, lines
 
 
@@ -104,8 +110,10 @@ def seed_from_print(side, tracing_img, auto_boxes, units):
         auto_by.setdefault(b["line"], []).append(b)
     for lid, pb in by_line.items():
         n_ed = sum(1 for b in pb if b.get("edited"))
-        if len(pb) != len(units.get(lid, [])) or lid not in auto_by or n_ed < 0.8 * len(pb):
-            out.extend(auto_by.get(lid, []))       # unfinished on the print, or mostly automatic: keep the tracing's own boxes
+        # only a line the count alignment could not settle is seeded from the print; where the alignment was
+        # reliable its boxes sit on the ink already and a mapping from the print can only disturb them
+        if len(pb) != len(units.get(lid, [])) or lid not in auto_by or n_ed < 0.8 * len(pb) or lid not in UNRELIABLE:
+            out.extend(auto_by.get(lid, []))
             continue
         ab = sorted(auto_by[lid], key=lambda b: b["x0"])
         tx0, tx1 = min(b["x0"] for b in ab), max(b["x1"] for b in ab)
