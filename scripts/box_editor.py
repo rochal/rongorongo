@@ -37,8 +37,8 @@ Overlay (print only)
                            box's line, in translucent red, turned to match
                            the line's orientation on the print and scaled
                            to the line's extent
-  I J K L                  move the overlay a pixel (Shift: five)
-  [ ]                      scale it down or up by two percent
+  Ctrl + drag              move the overlay; Ctrl + wheel scales it
+  I J K L                  move it a pixel (Shift: five); [ ] scale it
   0                        reset the overlay of that line
   The alignment is saved with the boxes and comes back next time.
 
@@ -280,6 +280,8 @@ class Editor:
             self.root.bind(f"<Key-{key.upper()}>", lambda e, dx=dx, dy=dy: self.move_overlay(5 * dx, 5 * dy))
         self.root.bind("<Key-bracketleft>", lambda e: self.scale_overlay(1 / 1.02)); self.root.bind("<Key-bracketright>", lambda e: self.scale_overlay(1.02))
         self.root.bind("<Key-0>", lambda e: self.reset_overlay())
+        self.canvas.bind("<Control-ButtonPress-1>", self.overlay_drag_start); self.canvas.bind("<Control-B1-Motion>", self.overlay_drag)
+        self.canvas.bind("<Control-MouseWheel>", self.overlay_wheel)
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self.redraw()
 
@@ -343,7 +345,7 @@ class Editor:
             bad = [lid for lid in self.units if len(self.units[lid]) != sum(1 for x in self.boxes if x["line"] == lid)]
             parts.append(f"{len(self.boxes)} boxes; lines whose box count differs from the unit count: {', '.join(sorted(bad, key=line_number)) or 'none'}")
         parts.append("ADD MODE: drag to draw" if self.add_mode else "")
-        parts.append("overlay on (O off, IJKL move, [ ] scale, 0 reset)" if self.overlay_on else ("O: tracing overlay" if self.tracing_img is not None else ""))
+        parts.append("overlay on: Ctrl+drag to move, Ctrl+wheel to scale, IJKL and [ ] likewise, 0 reset, O off" if self.overlay_on else ("O: tracing overlay" if self.tracing_img is not None else ""))
         parts.append("unsaved" if self.dirty else "saved")
         self.status.set("   ".join(p for p in parts if p))
 
@@ -367,6 +369,8 @@ class Editor:
 
     def press(self, e):
         self.canvas.focus_set()
+        if e.state & 4:                     # Ctrl held: the overlay handlers take it
+            return
         ix, iy = self.to_image(e.x, e.y)
         if self.add_mode:
             self.drag = ("new", ix, iy); return
@@ -382,7 +386,7 @@ class Editor:
         self.redraw()
 
     def motion(self, e):
-        if not self.drag:
+        if not self.drag or e.state & 4:
             return
         ix, iy = self.to_image(e.x, e.y)
         if self.drag[0] == "new":
@@ -516,7 +520,7 @@ class Editor:
         out = {"side": self.side, "image": self.image_path.name, "lines": {k: v for k, v in self.lines.items() if k in self.units},
                "boxes": []}
         if self.overlay:
-            out["overlay"] = self.overlay
+            out["overlay"] = {k: {"dx": round(v["dx"], 1), "dy": round(v["dy"], 1), "scale": v["scale"]} for k, v in self.overlay.items()}
         for b in sorted(self.boxes, key=lambda b: (line_number(b["line"]), b["position"])):
             units = self.units.get(b["line"], []); k = b["position"]
             out["boxes"].append({"line": b["line"], "position": k, "unit": units[k] if k < len(units) else "?",
@@ -568,6 +572,22 @@ class Editor:
         sx, sy = self.to_screen(px0 + prm["dx"], oy_img + prm["dy"])
         self._overlay_tk = ImageTk.PhotoImage(rgba)
         self.canvas.create_image(sx, sy, anchor="nw", image=self._overlay_tk)
+
+    def overlay_drag_start(self, e):
+        self._odrag = (e.x, e.y)
+        return "break"
+
+    def overlay_drag(self, e):
+        lid = self.overlay_line()
+        if lid and self.overlay_on and getattr(self, "_odrag", None):
+            prm = self.overlay_params(lid)
+            prm["dx"] += (e.x - self._odrag[0]) / self.zoom; prm["dy"] += (e.y - self._odrag[1]) / self.zoom
+            self._odrag = (e.x, e.y); self.dirty = True; self.redraw()
+        return "break"
+
+    def overlay_wheel(self, e):
+        self.scale_overlay(1.02 if e.delta > 0 else 1 / 1.02)
+        return "break"
 
     def toggle_overlay(self):
         if self.tracing_img is None:
