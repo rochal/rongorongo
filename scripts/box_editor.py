@@ -33,13 +33,14 @@ Mouse
                            (or the line chosen in the box at the top); it
                            is selected at once
 Overlay (print only)
-  O                        show or hide Barthel's tracing of the selected
-                           box's line, in translucent red, turned to match
-                           the line's orientation on the print and scaled
-                           to the line's extent
-  Ctrl + drag              move the overlay; Ctrl + wheel scales it
-  I J K L                  move it a pixel (Shift: five); [ ] scale it
-  0                        reset the overlay of that line
+  O                        show or hide Barthel's tracing over the print, every
+                           line in translucent red, each turned to match its
+                           orientation on the print and scaled to its extent
+  Ctrl + arrows            move the overlay of the selected box's line, or of
+                           every line when nothing is selected; Ctrl+Shift five
+                           pixels at a time; I J K L do the same
+  Ctrl + wheel, [ ]        scale it, likewise per line or for all
+  0                        reset it
   The alignment is saved with the boxes and comes back next time.
 
 Keys
@@ -267,8 +268,8 @@ class Editor:
         for key, dx, dy in (("Left", -1, 0), ("Right", 1, 0), ("Up", 0, -1), ("Down", 0, 1)):
             self.root.bind(f"<{key}>", lambda e, dx=dx, dy=dy: self.nudge(dx, dy))
             self.root.bind(f"<Shift-{key}>", lambda e, dx=dx, dy=dy: self.nudge(dx, dy, whole=True))
-            self.root.bind(f"<Control-{key}>", lambda e, dx=dx, dy=dy: self.nudge(5 * dx, 5 * dy))
-            self.root.bind(f"<Control-Shift-{key}>", lambda e, dx=dx, dy=dy: self.nudge(5 * dx, 5 * dy, whole=True))
+            self.root.bind(f"<Control-{key}>", lambda e, dx=dx, dy=dy: self.move_overlay(dx, dy))
+            self.root.bind(f"<Control-Shift-{key}>", lambda e, dx=dx, dy=dy: self.move_overlay(5 * dx, 5 * dy))
         # Tab and Shift+Tab step through the boxes; the focus-traversal events are taken over so that
         # Tk does not move the focus between the toolbar widgets instead
         self.root.bind_all("<<NextWindow>>", lambda e: self.step(1)); self.root.bind_all("<<PrevWindow>>", lambda e: self.step(-1))
@@ -280,7 +281,6 @@ class Editor:
             self.root.bind(f"<Key-{key.upper()}>", lambda e, dx=dx, dy=dy: self.move_overlay(5 * dx, 5 * dy))
         self.root.bind("<Key-bracketleft>", lambda e: self.scale_overlay(1 / 1.02)); self.root.bind("<Key-bracketright>", lambda e: self.scale_overlay(1.02))
         self.root.bind("<Key-0>", lambda e: self.reset_overlay())
-        self.canvas.bind("<Control-ButtonPress-1>", self.overlay_drag_start); self.canvas.bind("<Control-B1-Motion>", self.overlay_drag)
         self.canvas.bind("<Control-MouseWheel>", self.overlay_wheel)
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self.redraw()
@@ -345,7 +345,7 @@ class Editor:
             bad = [lid for lid in self.units if len(self.units[lid]) != sum(1 for x in self.boxes if x["line"] == lid)]
             parts.append(f"{len(self.boxes)} boxes; lines whose box count differs from the unit count: {', '.join(sorted(bad, key=line_number)) or 'none'}")
         parts.append("ADD MODE: drag to draw" if self.add_mode else "")
-        parts.append("overlay on: Ctrl+drag to move, Ctrl+wheel to scale, IJKL and [ ] likewise, 0 reset, O off" if self.overlay_on else ("O: tracing overlay" if self.tracing_img is not None else ""))
+        parts.append("overlay on: Ctrl+arrows move it (this line, or all lines when nothing is selected), Ctrl+wheel or [ ] scale, 0 reset, O off" if self.overlay_on else ("O: tracing overlay" if self.tracing_img is not None else ""))
         parts.append("unsaved" if self.dirty else "saved")
         self.status.set("   ".join(p for p in parts if p))
 
@@ -369,8 +369,6 @@ class Editor:
 
     def press(self, e):
         self.canvas.focus_set()
-        if e.state & 4:                     # Ctrl held: the overlay handlers take it
-            return
         ix, iy = self.to_image(e.x, e.y)
         if self.add_mode:
             self.drag = ("new", ix, iy); return
@@ -386,7 +384,7 @@ class Editor:
         self.redraw()
 
     def motion(self, e):
-        if not self.drag or e.state & 4:
+        if not self.drag:
             return
         ix, iy = self.to_image(e.x, e.y)
         if self.drag[0] == "new":
@@ -544,11 +542,15 @@ class Editor:
         return self.overlay.setdefault(lid, {"dx": 0, "dy": 0, "scale": 1.0})
 
     def draw_overlay(self):
-        lid = self.overlay_line()
-        if not self.overlay_on or self.tracing_img is None or lid not in self.tracing_lines:
+        if not self.overlay_on or self.tracing_img is None:
             return
+        self._overlay_tk = []
+        for lid in sorted(self.tracing_lines, key=line_number):
+            self.draw_overlay_line(lid)
+
+    def draw_overlay_line(self, lid):
         pb = [b for b in self.boxes if b["line"] == lid]
-        if not pb:
+        if not pb or lid not in self.tracing_lines:
             return
         tx0, ty0, tx1, ty1 = self.tracing_lines[lid]
         tx0, ty0 = max(0, tx0 - 3), max(0, ty0 - 3); tx1, ty1 = tx1 + 3, ty1 + 3
@@ -559,31 +561,21 @@ class Editor:
         w, h = max(1, int((tx1 - tx0) * sc)), max(1, int((ty1 - ty0) * sc))
         key = (lid, round(sc, 4), self.lines.get(lid))
         if key not in self._overlay_cache:
+            if len(self._overlay_cache) > 16:
+                self._overlay_cache = {}
             strip = self.tracing_img.crop((tx0, ty0, tx1, ty1))
             if self.lines.get(lid) == "flipped":
                 strip = strip.rotate(180)
             strip = strip.resize((w, h), Image.BILINEAR)
             a = strip.point(lambda v: 170 if v < 128 else 0)     # ink becomes translucent, paper transparent
             rgba = Image.new("RGBA", (w, h), (235, 60, 40, 0)); rgba.putalpha(a)
-            self._overlay_cache = {key: rgba}
+            self._overlay_cache[key] = rgba
         rgba = self._overlay_cache[key]
         # the overlay's top-left sits on the line's box extent, plus the hand offset; the vertical centre follows the boxes
         oy_img = (py0 + py1) / 2 - (ty1 - ty0) * base * prm["scale"] / 2
         sx, sy = self.to_screen(px0 + prm["dx"], oy_img + prm["dy"])
-        self._overlay_tk = ImageTk.PhotoImage(rgba)
-        self.canvas.create_image(sx, sy, anchor="nw", image=self._overlay_tk)
-
-    def overlay_drag_start(self, e):
-        self._odrag = (e.x, e.y)
-        return "break"
-
-    def overlay_drag(self, e):
-        lid = self.overlay_line()
-        if lid and self.overlay_on and getattr(self, "_odrag", None):
-            prm = self.overlay_params(lid)
-            prm["dx"] += (e.x - self._odrag[0]) / self.zoom; prm["dy"] += (e.y - self._odrag[1]) / self.zoom
-            self._odrag = (e.x, e.y); self.dirty = True; self.redraw()
-        return "break"
+        tkimg = ImageTk.PhotoImage(rgba); self._overlay_tk.append(tkimg)
+        self.canvas.create_image(sx, sy, anchor="nw", image=tkimg)
 
     def overlay_wheel(self, e):
         self.scale_overlay(1.02 if e.delta > 0 else 1 / 1.02)
@@ -594,22 +586,29 @@ class Editor:
             self.status.set("no tracing for this side, or out/glyph_instances.csv is missing"); return "break"
         self.overlay_on = not self.overlay_on; self.redraw(); return "break"
 
-    def move_overlay(self, dx, dy):
+    def overlay_targets(self):
+        """the selected box's line, or every line when nothing is selected"""
         lid = self.overlay_line()
-        if lid and self.overlay_on:
-            prm = self.overlay_params(lid); prm["dx"] += dx; prm["dy"] += dy; self.dirty = True; self.redraw()
+        return [lid] if lid else sorted(self.tracing_lines, key=line_number)
+
+    def move_overlay(self, dx, dy):
+        if self.overlay_on:
+            for lid in self.overlay_targets():
+                prm = self.overlay_params(lid); prm["dx"] += dx; prm["dy"] += dy
+            self.dirty = True; self.redraw()
         return "break"
 
     def scale_overlay(self, f):
-        lid = self.overlay_line()
-        if lid and self.overlay_on:
-            prm = self.overlay_params(lid); prm["scale"] = round(prm["scale"] * f, 4); self.dirty = True; self.redraw()
+        if self.overlay_on:
+            for lid in self.overlay_targets():
+                prm = self.overlay_params(lid); prm["scale"] = round(prm["scale"] * f, 4)
+            self.dirty = True; self.redraw()
         return "break"
 
     def reset_overlay(self):
-        lid = self.overlay_line()
-        if lid:
-            self.overlay[lid] = {"dx": 0, "dy": 0, "scale": 1.0}; self.dirty = True; self.redraw()
+        for lid in self.overlay_targets():
+            self.overlay[lid] = {"dx": 0, "dy": 0, "scale": 1.0}
+        self.dirty = True; self.redraw()
         return "break"
 
     # ------------------------------------------------------------ view
