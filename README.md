@@ -71,7 +71,7 @@ Nothing here says what any sign means. What it says is what kind of thing the te
 | Is the script a syllabary? | Answered no by head-sign count, under every merge tried | 8, 9, 12, 20 |
 | Are whole glyphs words? | Not syllables, by a wide margin at matched size; more varied than running-text words, with no function-word head; head signs match words in type count | 8, 13 |
 | Is the Staff a genealogy? | Triads real; genealogical reading unsupported by sequence | 14, 15, 16 |
-| Is the Mamari calendar a lunar month? | Structure reproduced; count 28 against 30 names; markers not phase boundaries | 21 |
+| Is the Mamari calendar a lunar month? | Structure reproduced; a natural rule counts exactly 30; markers on named boundaries no better than chance; no waxing-to-waning flip in the crescents | 21 |
 | Was Metoro reading? | No, but consistent; a second reciter contradicts him | 17, 22 |
 | Can the frequent signs be assigned syllables statistically? | Bounded: not with the text that exists, under any language model; the search needs three times more text than the tablets give | 23 |
 | Are the twelve isolated sides a hidden genre? | Answered no | 26 |
@@ -794,6 +794,24 @@ The named list therefore leaves the calendar reading as it found it: a repeated 
 
 > **Caveat.** The classification rule was written after looking at the lines, so it is a formalisation of what is visible, not a discovery. The night list itself is a reconstruction; Métraux notes the sequence was already confused among his informants and that the names were used as descriptions of phases rather than as a working calendar, so the boundaries tested are those of a list that had lost its system.
 
+### Three ways of counting, and an anchor that is not there
+
+*In plain words: the calendar has 28 crescents and the month has 30 nights. Five other signs stand among the crescents; if the small ones count as nights and the bird does not, the total is exactly 30. That is neat. But neat is not the same as right, and when the thirty nights are laid against the named month, the marker groups fall on the boundaries between name groups no more often than chance would put them. We also looked for the one thing that would have fixed the calendar in place, a change in the way the crescents face between the waxing and the waning half. There is none.*
+
+Section 21 left open whether the five non-crescent signs inside the runs, 30, 59, 143, 152 and the bird 600, count as nights. Three rules were scored against the named month, with the marker groups as the gaps between runs and the name-class boundaries where a Kokore stretch or a shared-name pair begins or ends, after nights 4, 10, 18, 23, 25 and 27. Two placements were tried: anchored, the first unit as night 1 with no free parameter; and the best of the thirty offsets, as in the earlier test. The null is random placement of six gaps among the month's twenty-nine, scored the same way.
+
+| Rule | Run lengths | Nights | Anchored: gaps on a boundary | Chance | Best offset: gaps on a boundary | Chance, best of thirty |
+|---|---|---|---|---|---|---|
+| Crescents only | 2, 6, 3, 2, 5, 3, 5 | 26 | 1 of 6 | 0.79 | 3 of 6 | 0.97 |
+| Every unit in a run | 3, 6, 4, 4, 5, 3, 6 | 31 | 1 of 6 | 0.79 | 4 of 6 | 0.21 |
+| Every unit but the bird 600 | 3, 6, 4, 4, 5, 3, 5 | 30 | 1 of 6 | 0.78 | 4 of 6 | 0.20 |
+
+- **Thirty comes out of a natural rule.** Count every unit inside the runs as a night except the bird, which also appears fused onto the opener of marker group 5 and so belongs to the marker vocabulary, and the seven framed runs hold exactly thirty, with the two crescents after the last group left over as a tail. Under that rule, at an offset of one, the run of six falls on the first Kokore stretch and the run of five on the second, each framed by marker groups at both ends, four of six gaps on a boundary.
+- **And it does not survive the null.** Six gaps placed at random, with the best of thirty offsets chosen as it was here, land four on a boundary one time in five. Anchored, with the first unit as night 1, the rule scores one of six, which is chance. The exact thirty is suggestive and the Kokore framing is what an eye would seize on, but the test does not distinguish them from luck, and the night list itself is a reconstruction that Métraux's informants no longer agreed on.
+- **The crescents do not flip.** Guy's reading of the calendar turns on the crescents' orientation marking the waxing and the waning halves. Measured on the 24 plain crescents cut from Barthel's tracing, 17 have their ink to the left and 7 to the right, scattered through the sequence, not divided by half, and the print, where its registration covers the calendar, agrees line by line. In Barthel's reading orientation the crescents face one way throughout. Since the tracing draws every line upright, a uniform orientation in reading frame means the carved crescents alternate physically from line to line, which is a fact about the carver's convention, not about the moon. There is no anchor in the drawing.
+
+The lead is therefore where section 21 left it, a little thinner. The calendar counts nights, the count can be made to reach thirty, and nothing in it, tested against the one list of names that exists, places a marker group on a named night with any confidence.
+
 ## 22. Two islanders on one tablet
 
 *In plain words: two different islanders recited over the same tablets thirteen years apart, Metoro in 1873 over the originals and Ure Vaeiko in 1886 over photographs. If either of them was drawing on anything in the tablet beyond the look of the signs, their words for the same tablet should resemble each other more than their words for different tablets. We measured that.*
@@ -1172,6 +1190,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | affix_test.py | Host selectivity, enrichment, fused hosts, stacking order |
 | parallels.py | Shared runs, blocks, side matrix, families; options for run length, substitutions, merges |
 | allographs.py | Substitution pairs, component swaps, merge tables |
+| calendar_nights.py | The calendar under three counting rules against the named month, anchored and with a free offset, with a random-placement null; crescent orientation measured from the tracing |
 | matched_stats.py | Glyph streams against Māori and Tahitian words and syllables in contiguous windows of the corpus's size: types, hapax share, top-ten share, Zipf slope, type-token curves |
 | inventory.py | Three inventories with coverage thresholds and Zipf slopes |
 | fetch_signs.py, sign_shapes.py | Catalogue drawings, similarity, look-alike classes, contact sheet |

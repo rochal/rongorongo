@@ -1,0 +1,4 @@
+rule,run_lengths,nights,anchored_hits,gaps,p_anchored,best_offset,best_hits,p_best
+A: crescents only,2 6 3 2 5 3 5,26,1,6,0.786,2,3,0.97
+B: every unit in a run,3 6 4 4 5 3 6,31,1,6,0.787,1,4,0.209
+C: every unit but the bird 600,3 6 4 4 5 3 5,30,1,6,0.784,1,4,0.204

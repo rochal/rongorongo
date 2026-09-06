@@ -54,6 +54,7 @@ steps.append(["robustness.py"])
 steps.append(["mamari_calendar.py"])
 if (root / "data" / "rapanui" / "nights.txt").exists():
     steps.append(["calendar_names.py"])
+    steps.append(["calendar_nights.py"])
 steps.append(["two_islanders.py"])
 if args.refetch or not (root / "data" / "polynesian" / "maori_tokens.txt").exists():
     steps.append(["fetch_polynesian.py"])     # Maori and Tahitian scripture and traditions from archive.org, about 20 MB
