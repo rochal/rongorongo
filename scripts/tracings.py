@@ -27,6 +27,8 @@ from PIL import Image
 from scipy import ndimage
 
 MAX_ADJUST = 0.25          # share of units a line may need adjusting before it is marked unreliable
+MIN_WIDTH = 5              # a split may not leave a piece narrower than this, in tracing pixels
+SLIVER_GAP = 3             # a component narrower than MIN_WIDTH joins its neighbour across a gap up to this
 root = pathlib.Path(__file__).resolve().parent.parent
 tdir = root / "data" / "tracings"
 idir = tdir / "instances"
@@ -77,6 +79,23 @@ def blobs(line_img):
             m[1] = max(m[1], b[1]); m[2] = min(m[2], b[2]); m[3] = max(m[3], b[3])
         else:
             merged.append(b)
+    # Barthel draws a plain stroke as two parallel lines; where their ends are open they label as two
+    # components a pixel or two apart. A component narrower than a stroke is joined to the neighbour
+    # across the smaller gap, if that gap is at most SLIVER_GAP
+    changed = True
+    while changed and len(merged) > 1:
+        changed = False
+        for i, b in enumerate(merged):
+            if b[1] - b[0] >= MIN_WIDTH:
+                continue
+            left = (b[0] - merged[i - 1][1]) if i > 0 else 10 ** 6
+            right = (merged[i + 1][0] - b[1]) if i + 1 < len(merged) else 10 ** 6
+            j = i - 1 if left <= right else i + 1
+            if min(left, right) <= SLIVER_GAP:
+                m = merged[j]
+                m[0] = min(m[0], b[0]); m[1] = max(m[1], b[1]); m[2] = min(m[2], b[2]); m[3] = max(m[3], b[3])
+                del merged[i]; changed = True
+                break
     return merged
 
 
@@ -90,19 +109,32 @@ def align(boxes, n_units, a):
         b1, b2 = boxes[i], boxes[i + 1]
         boxes[i:i + 2] = [[b1[0], b2[1], min(b1[2], b2[2]), max(b1[3], b2[3])]]
         changes += 1
+    tried = set()
     while len(boxes) < n_units:
-        widths = [b[1] - b[0] for b in boxes]
-        i = int(np.argmax(widths))
-        b = boxes[i]
-        if b[1] - b[0] < 6:
+        # split the widest box that can still be split into two pieces of at least MIN_WIDTH, at its emptiest
+        # column; never at the edge, which is what produced two-pixel slivers of a single stroke
+        order = sorted(range(len(boxes)), key=lambda i: -(boxes[i][1] - boxes[i][0]))
+        i = next((i for i in order if boxes[i][1] - boxes[i][0] >= 2 * MIN_WIDTH + 1 and tuple(boxes[i]) not in tried), None)
+        if i is None:
             break
+        b = boxes[i]
         col = (a[b[2]:b[3], b[0]:b[1]] < 128).sum(axis=0)
-        inner = col[2:-2]
-        cut = int(np.argmin(inner)) + 2 + b[0]
+        inner = col[MIN_WIDTH:-MIN_WIDTH]
+        cut = int(np.argmin(inner)) + MIN_WIDTH + b[0]
+        tried.add(tuple(b))
         boxes[i:i + 1] = [[b[0], cut, b[2], b[3]], [cut, b[1], b[2], b[3]]]
         changes += 1
     return boxes, changes
 
+
+hand = {}
+for hf in (root / "data" / "boxes" / "tracing").glob("*.json"):
+    hj = json.load(open(hf, encoding="utf-8"))
+    hand[hj["side"]] = {}
+    for b in hj["boxes"]:
+        hand[hj["side"]].setdefault(b["line"], []).append(b)
+    for lid in hand[hj["side"]]:
+        hand[hj["side"]][lid].sort(key=lambda b: b["position"])
 
 rows = []
 report = []
@@ -125,22 +157,29 @@ for f in sorted(tdir.glob("*.*")):
         bx = blobs(line)
         bx, changes = align(bx, len(units), line)
         reliable = changes <= MAX_ADJUST * max(1, len(units)) and len(bx) == len(units)
+        source = "auto"
+        # hand-drawn boxes on the tracing (box_editor.py --source tracing) replace the automatic ones on a
+        # line whose box count matches its unit count
+        if lid in hand.get(side, {}) and len(hand[side][lid]) == len(units):
+            bx = [[b["x0"], b["x1"], b["y0"] - y0, b["y1"] - y0] for b in hand[side][lid]]
+            reliable, source = True, "manual"
         total += 1
         good += reliable
         for k, (u, b) in enumerate(zip(units, bx)):
             x0, x1, yy0, yy1 = b
+            yy0, yy1 = max(0, yy0), min(line.shape[0], yy1)
             crop = line[yy0:yy1, x0:x1]
             Image.fromarray(crop).save(idir / side / f"{lid}_{k:03d}.png")
             rows.append([side, lid, k, u, head(u), x0, x1, y0 + yy0, y0 + yy1, x1 - x0, yy1 - yy0,
-                         int((crop < 128).sum()), "reliable" if reliable else "unreliable"])
+                         int((crop < 128).sum()), "reliable" if reliable else "unreliable", source])
     report.append((side, len(bs), len(lids), f"{good}/{total} lines aligned within tolerance"))
 
 with open(out / "glyph_instances.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh)
-    w.writerow(["side", "line", "position", "unit", "head", "x0", "x1", "y0", "y1", "width", "height", "ink", "line_quality"])
+    w.writerow(["side", "line", "position", "unit", "head", "x0", "x1", "y0", "y1", "width", "height", "ink", "line_quality", "source"])
     w.writerows(rows)
 
-n_rel = sum(1 for r in rows if r[-1] == "reliable")
+n_rel = sum(1 for r in rows if r[12] == "reliable")
 md = ["# Glyph instances cut from Barthel's tracings\n",
       f"{len(rows)} instances from {len([r for r in report if 'aligned' in r[3]])} sides; {n_rel} on lines aligned within tolerance.\n",
       "| side | ink bands | transliterated lines | result |\n|---|---|---|---|"]

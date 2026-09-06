@@ -899,7 +899,7 @@ Barthel's tracings of 31 sides were fetched from Wikimedia Commons, cut into lin
 |---|---|
 | Tracings on Commons | 31 sides; the small objects F verso, M, O, U to Z have none |
 | Instances cut | 10,145 on 29 sides |
-| On lines aligned within tolerance | 8,039 on 28 sides |
+| On lines aligned within tolerance | 9,365 on 29 sides, after the sliver fix described under the prints; 8,039 before it |
 | Sides aligning on most lines | Keiti both sides, Tahua, the Staff, H, P, Q, Aruku Kurenga, Small Washington |
 | Sides too small to segment well | Mamari verso, Small Santiago recto, Honolulu, the Vienna and London tablets |
 
@@ -907,29 +907,39 @@ Barthel's tracings of 31 sides were fetched from Wikimedia Commons, cut into lin
 
 **Variation per sign is real but the descriptor can barely see it.** At this resolution a glyph is 25 to 40 pixels tall, and the shape descriptor that separated Barthel's type drawings in section 9 gives instances of one sign a similarity of 0.19 to 0.31 against 0.21 for instances of different signs. The most consistent signs as drawn, 56, 760, 608, 680 and 92, and the least, 77, 15 and 3, are listed in `out/tracings_variation.csv`, but the ranking is weak evidence. A stroke-based descriptor was tried and did not improve on this one (section 9, last subsection); larger images of the glyphs, from photographs, are what the variation question needs.
 
-**Glyphs narrow along the line, on most sides.** Within each aligned line, glyph width relative to the line's median was regressed on position along the line; height was regressed the same way.
+**Glyph width along the line: a result that shrank when the segmentation improved.** Within each aligned line, glyph width relative to the line's median was regressed on position along the line; height was regressed the same way. A first version of this table, from the original segmentation, showed narrowing of a fifth to a third on the H, P and Q rectos, Aruku Kurenga and the Staff, and widening on Keiti's verso and Small Santiago's verso. Hand-drawn boxes on the prints then exposed a fault in the segmentation: Barthel draws a plain stroke as two parallel lines, and where their ends are open the segmentation cut each into a box two pixels wide. Those slivers were not evenly placed. On Aruku Kurenga's recto 58 percent of them fell in the outer fifths of their lines, on Small Santiago's verso 65 percent, against 40 percent expected, and a sliver counted as a glyph of relative width near zero pulls the end of a line down. With the slivers joined to their strokes (section 25, the prints), the table is this.
 
 ![Do glyphs narrow toward the end of a line?](docs/img/planning.png)
 
 | Side | Lines | Width slope | Same with line ends dropped | Odd lines | Even lines | Height slope |
 |---|---|---|---|---|---|---|
-| Hr | 9 | -0.25 | -0.37 | -0.87 | +0.50 | -0.04 |
-| Pr | 10 | -0.24 | -0.15 | -0.46 | -0.01 | 0.00 |
-| Qr | 7 | -0.22 | -0.18 | -0.70 | +0.16 | -0.03 |
-| Br | 8 | -0.21 | -0.31 | -0.37 | -0.03 | -0.05 |
-| Pv | 9 | -0.19 | -0.28 | -0.09 | -0.26 | +0.03 |
-| I, the Staff | 14 | -0.17 | -0.17 | -0.09 | -0.26 | -0.04 |
-| Bv | 9 | -0.15 | -0.18 | -0.11 | -0.17 | -0.06 |
-| Aa | 7 | +0.01 | +0.01 | +0.12 | -0.07 | +0.01 |
-| Hv | 10 | -0.04 | -0.05 | -0.01 | -0.07 | +0.03 |
-| Ev | 8 | +0.17 | +0.31 | +0.01 | +0.34 | +0.01 |
-| Gv | 7 | +0.23 | +0.45 | +0.26 | +0.20 | -0.08 |
+| Rb | 8 | -0.51 | -0.17 | -0.85 | -0.21 | -0.08 |
+| Ra | 7 | -0.45 | -0.58 | -0.53 | -0.34 | -0.07 |
+| Db | 4 | -0.40 | +0.18 | n/a | -0.51 | -0.05 |
+| Gr | 7 | -0.36 | -0.45 | -0.42 | -0.27 | -0.09 |
+| Pr | 11 | -0.20 | -0.14 | -0.37 | -0.01 | -0.00 |
+| Hv | 12 | -0.20 | -0.25 | -0.36 | -0.04 | +0.01 |
+| Sa | 5 | -0.18 | -0.20 | -0.41 | +0.21 | -0.02 |
+| Pv | 10 | -0.14 | -0.23 | -0.08 | -0.20 | +0.02 |
+| Ab | 8 | -0.10 | -0.12 | -0.05 | -0.14 | +0.04 |
+| Cb | 11 | -0.08 | -0.04 | -0.04 | -0.13 | -0.00 |
+| Er | 9 | -0.08 | -0.01 | +0.02 | -0.20 | -0.01 |
+| I, the Staff | 14 | -0.07 | -0.07 | +0.04 | -0.18 | -0.03 |
+| Aa | 8 | -0.06 | -0.10 | -0.04 | -0.07 | +0.01 |
+| Ca | 12 | -0.03 | -0.18 | +0.06 | -0.13 | +0.01 |
+| Hr | 12 | -0.01 | -0.03 | -0.80 | +0.77 | -0.01 |
+| Gv | 7 | -0.01 | +0.03 | -0.06 | +0.03 | -0.07 |
+| Br | 9 | -0.01 | -0.12 | -0.27 | +0.22 | -0.04 |
+| Bv | 10 | +0.03 | +0.01 | +0.04 | +0.02 | -0.04 |
+| Qv | 8 | +0.04 | +0.00 | -0.07 | +0.15 | -0.01 |
+| Qr | 7 | +0.06 | -0.07 | -0.10 | +0.18 | -0.03 |
+| Ev | 8 | +0.17 | +0.28 | +0.06 | +0.28 | +0.01 |
+| Na | 4 | +0.29 | +0.12 | +0.37 | +0.21 | -0.03 |
+| Da | 4 | +0.47 | +0.98 | +0.44 | +0.50 | +0.11 |
 
-The odd and even columns are shown because they prompted a test, reported below, not because they carry a result.
-
-- **Width narrows, height does not.** On the H, P, Q rectos, Aruku Kurenga, the Staff and several others, glyphs at the end of a line are a fifth to a third narrower than at its start, and the effect survives dropping the two glyphs at each end. Height slopes are near zero everywhere. Squeezing sideways to fit a fixed text into a fixed line is the natural reading, which fits the copied texts, where the content of each line was given in advance.
-- **An odd-line pattern appeared and did not survive testing.** On the three copied rectos the narrowing looked concentrated on the odd-numbered lines, which would have been interesting, since Barthel drew every line in reading orientation and a physical squeeze toward one end of the tablet would show opposite slopes on alternate lines. A permutation test regrouping each side's lines at random gives the observed odd-minus-even difference or larger in 10 percent of trials for Hr and more often everywhere else, with four or five lines per group; twelve of nineteen sides lean the same way, which is what chance gives. The split is recorded in `out/parity_check.md` and treated as noise. The narrowing itself, pooled over all lines, stands.
-- **Keiti's verso and Small Santiago's verso do the opposite.** Glyphs widen along the line on both, and on Ev the widening sits on the even lines. Those are the list text and the untyped verso, not copies of anything.
+- **Most of the narrowing was the segmentation's.** The Great Santiago recto went from -0.25 to -0.01, Aruku Kurenga's recto from -0.21 to -0.01, the Small St Petersburg recto from -0.22 to +0.06, the Staff from -0.17 to -0.07, and Small Santiago's widening from +0.23 to -0.01. What remains is a narrowing of a seventh to a fifth on the Great St Petersburg tablet, both faces, the Great Santiago verso and Great Washington, stronger on the small Atua Mata Riri and Small Santiago recto, and a widening on Keiti's verso, Échancrée and Small Vienna. Height slopes stay near zero everywhere. Squeezing to fit a fixed text is still the natural reading of the sides that narrow, and the St Petersburg faces are copied texts; but the claim is now about a handful of sides, not a general habit of the carvers.
+- **The odd-line pattern survives on one side, and it is a physical one.** Barthel drew every line in reading orientation, so a squeeze toward one physical end of the tablet would show as narrowing on alternate lines and widening on the others. The permutation test of `scripts/parity_check.py` regroups each side's lines at random. On the re-cut instances the Great Santiago recto's odd lines slope -0.94 and its even lines +0.97, equal and opposite, and no random regrouping of its twelve lines matches that; the Staff shows a weaker version at one regrouping in a hundred; every other side is within chance. So on that one face, in the frame of the wood, glyph widths shrink toward one end on every line, which is why its pooled slope is zero. The Great St Petersburg recto carries a copy of the same text and shows no such pattern, so this belongs to the object or to Barthel's image of it, not to the text: either the carver crowded toward one end of the wood, or the photograph Barthel traced was foreshortened along the tablet. The print of that face is too small to decide, fourteen pixels to a glyph. The odd and even columns stay in the table for this case.
+- **Keiti's verso widens, and that survives everything.** Its slope was +0.17 before the fix and is +0.17 after, +0.28 with line ends dropped, and section 25's print comparison finds the same on boxes drawn by hand on the photograph. It is the list text of section 4, not a copy of anything.
 
 > **Caveat.** Everything here is measured on Barthel's tracings, which are drawings after photographs and rubbings; proportions are presumably faithful but a tracer's hand is between us and the wood. Segmentation by count alignment is wrong wherever glyphs touch, and the quality flag is coarse. The positional analysis pools lines of different lengths, and the parity split has few lines per side; both slopes and their split should be re-derived from photographs before anyone builds on them.
 
@@ -964,6 +974,10 @@ The second attempt registers each print to its tracing. This cannot be one trans
 **Stroke weight can be measured on the prints, and it measures the print.** Stroke width relative to glyph height, from the skeleton and distance transform of each print glyph, was taken per side. The two sides of one object are no closer in it than sides of different objects, mean difference 0.019 against 0.022, with a permutation test at 0.32. And the clearest pair shows what the number carries: Aruku Kurenga's two faces, carved by one hand on one piece of wood, differ by more than almost any other pair, 0.023 against 0.058, because the two prints were retouched differently. What survives in a white-filled print is the retoucher's brush over the carver's groove, and stroke weight cannot separate them. Whose hand carved which tablet needs photographs that were never retouched, or the objects themselves.
 
 **Hand correction.** Automatic boxes go wrong in predictable places: thin strokes, where a narrow template has little to lock on; line ends, where the chained shift has drifted furthest; and wherever the print's lines are packed tighter than the tracing's, so that a tall box reaches into the neighbouring line and picks up the top of a glyph there. Two of the fourteen pairs shown above are of that last kind, a plain stroke with the top of a glyph from the next line beneath it; clipping every box to the print's own line band, which the registration now does, did not cure those two, and no automatic rule will catch every case. So the boxes can be corrected by hand. `scripts/box_editor.py Ev` opens the print with its boxes; a box is moved by dragging it, resized by dragging an edge or a corner, deleted, or drawn new; Tab steps through the boxes in reading order, first a box's left and top edges, then its right and bottom, and the arrow keys move the active edges a pixel at a time, with Shift for the whole box and Ctrl for five pixels; and the reading position and unit label of every box follow from its order along the line, so that the status bar can say whether a line's box count matches its transliteration. Saving writes `data/boxes/Ev.json`, which is committed, and from then on the registration uses those boxes for every line of that side whose box count matches its unit count, marking them `manual` in `out/photo_instances.csv`, so the corrections are part of the reproducible run rather than a one-off; a line whose counts differ is unfinished and keeps its automatic boxes. Seven of Keiti's eight lines have been corrected so far, and the first thing they did was expose the width test above.
+
+The same editor works on the tracing: `scripts/box_editor.py Ev --source tracing` opens Barthel's drawing with the count-aligned boxes, and `--seed-from-print` places its first boxes from the finished print boxes instead, mapping each print line onto the tracing line and shrinking every box to the ink under it, so that they need a nudge rather than a redraw. The corrections go to `data/boxes/tracing/Ev.json` and `tracings.py` uses them for any line whose count matches, marking those instances `manual`. With boxes drawn by hand on both images the width comparison becomes what it should have been from the start.
+
+The sliver problem was also fixed at its source. Barthel draws a plain stroke as two parallel lines, and where their ends are open the segmentation saw two components a pixel apart and gave each a box two pixels wide; the count alignment then had one blob too many and split or merged elsewhere to compensate. Components narrower than a stroke now join their neighbour across a gap of up to three pixels, and a split may no longer leave a piece narrower than five. Instances under five pixels wide fell from 307 to 28, and because the count alignment no longer had to absorb the fragments, the instances on lines aligned within tolerance rose from 8,039 to 9,365.
 
 > **Caveat.** The registration has been checked by eye on Keiti's verso, the check images above, and on no other side; the vote strength and the local match scores in `out/register_sides.csv` and `out/photo_instances.csv` are the only quality measures elsewhere, until a side has been corrected by hand. Glyphs at line ends and thin strokes match worst. Three prints are below usable resolution, and the automatic boxes still come from the tracing, so a glyph Barthel misdrew is cut wrong here too.
 
@@ -1148,7 +1162,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | tracings_analysis.py | Per-sign variation, cross-side hand penalties with a thickened-stroke positive control, and glyph width along the line with end-dropping and line-parity checks; `--source photos` runs it on the print glyphs |
 | fetch_photos.py, register.py | The white-filled prints from Commons; each tracing registered to its print by chunk correlation and a layout vote, glyphs cut from the print, fidelity of width and shape to the tracing |
 | hands_prints.py | Stroke weight per side on the prints and a same-object permutation test |
-| box_editor.py | A tkinter editor for the boxes on a print: drag, resize, add, delete, save to `data/boxes/<side>.json`, which register.py then uses for that side |
+| box_editor.py | A tkinter editor for the boxes on a print or, with `--source tracing`, on Barthel's drawing, seeded from the print boxes if wanted: drag, resize, add, delete, Tab through edges and boxes, save to `data/boxes/<side>.json` or `data/boxes/tracing/<side>.json`, which register.py and tracings.py then use |
 | check_reproduction.py | Diff of a regenerated out/ against the committed one, file by file |
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |

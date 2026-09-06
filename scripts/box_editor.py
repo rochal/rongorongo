@@ -1,7 +1,18 @@
 """Hand-correct the glyph boxes on a print.
 
-    python scripts/box_editor.py Ev            # open Keiti's verso
-    python scripts/box_editor.py Ev --auto     # start again from the automatic boxes
+    python scripts/box_editor.py Ev                      # open Keiti's verso, the print
+    python scripts/box_editor.py Ev --auto               # start again from the automatic boxes
+    python scripts/box_editor.py Ev --source tracing     # the same for Barthel's tracing of the side
+    python scripts/box_editor.py Ev --source tracing --seed-from-print
+                                                         # first tracing boxes placed from the finished print boxes
+
+With --source tracing the image is Barthel's drawing, the starting boxes
+are the count-aligned ones from tracings.py, every line is upright, and
+the corrections go to data/boxes/tracing/<side>.json, which tracings.py
+then uses. With --seed-from-print, on every line whose print boxes are
+finished, the tracing boxes are placed by mapping the print boxes onto the
+tracing line and shrinking each to the ink under it, so that they need a
+nudge rather than a redraw.
 
 Opens the print with the boxes that register.py found, or with the saved
 corrections in data/boxes/<side>.json if there are any, and lets you fix
@@ -61,17 +72,62 @@ def line_number(lid):
     return int(re.sub(r"\D", "", lid[2:]) or 0)
 
 
-def load_auto(side):
+def load_auto(side, source="print"):
     boxes, lines = [], {}
-    p = root_dir / "out" / "photo_instances.csv"
+    p = root_dir / "out" / ("photo_instances.csv" if source == "print" else "glyph_instances.csv")
     if not p.exists():
         return boxes, lines
     for r in csv.DictReader(open(p, encoding="utf-8")):
         if r["side"] != side:
             continue
         boxes.append({"line": r["line"], "x0": int(r["x0"]), "x1": int(r["x1"]), "y0": int(r["y0"]), "y1": int(r["y1"])})
-        lines[r["line"]] = r["orientation"]
+        lines[r["line"]] = r["orientation"] if source == "print" else "upright"
     return boxes, lines
+
+
+def seed_from_print(side, tracing_img, auto_boxes, units):
+    """Place tracing boxes from the finished print boxes: per line, a linear map from the print line's extent to the
+    tracing line's extent (reversed for lines upside down on the print), then each box shrunk to the ink under it."""
+    pj = BOXES / f"{side}.json"
+    if not pj.exists():
+        return None
+    pd = json.load(open(pj, encoding="utf-8"))
+    ink = (tracing_img < 128)
+    out = []
+    by_line = {}
+    for b in pd["boxes"]:
+        by_line.setdefault(b["line"], []).append(b)
+    auto_by = {}
+    for b in auto_boxes:
+        auto_by.setdefault(b["line"], []).append(b)
+    for lid, pb in by_line.items():
+        if len(pb) != len(units.get(lid, [])) or lid not in auto_by:
+            out.extend(auto_by.get(lid, []))       # unfinished on the print: keep the automatic tracing boxes
+            continue
+        ab = auto_by[lid]
+        tx0, tx1 = min(b["x0"] for b in ab), max(b["x1"] for b in ab)
+        ty0, ty1 = min(b["y0"] for b in ab), max(b["y1"] for b in ab)
+        px0, px1 = min(b["x0"] for b in pb), max(b["x1"] for b in pb)
+        flipped = pd["lines"].get(lid) == "flipped"
+        scale = (tx1 - tx0) / max(1, px1 - px0)
+        for b in sorted(pb, key=lambda b: b["position"]):
+            if flipped:
+                a0, a1 = tx0 + (px1 - b["x1"]) * scale, tx0 + (px1 - b["x0"]) * scale
+            else:
+                a0, a1 = tx0 + (b["x0"] - px0) * scale, tx0 + (b["x1"] - px0) * scale
+            a0, a1 = max(0, int(round(a0)) - 3), int(round(a1)) + 3
+            cols = ink[ty0:ty1, a0:a1].any(axis=0)
+            xs = [i for i, v in enumerate(cols) if v]
+            if xs:
+                a0, a1 = a0 + xs[0], a0 + xs[-1] + 1
+            rows = ink[ty0:ty1, a0:a1].any(axis=1)
+            ys = [i for i, v in enumerate(rows) if v]
+            y0, y1 = (ty0 + ys[0], ty0 + ys[-1] + 1) if ys else (ty0, ty1)
+            out.append({"line": lid, "x0": int(a0), "x1": int(a1), "y0": int(y0), "y1": int(y1)})
+    for lid, ab in auto_by.items():
+        if lid not in by_line:
+            out.extend(ab)
+    return out
 
 
 def order_boxes(boxes, lines):
@@ -90,18 +146,26 @@ def order_boxes(boxes, lines):
 
 
 class Editor:
-    def __init__(self, side, auto):
-        self.side = side
-        self.image_path = next(p for p in (root_dir / "data" / "photos").glob(side + ".*") if p.suffix.lower() in (".jpg", ".png"))
+    def __init__(self, side, auto, source="print", seed=False):
+        self.side = side; self.source = source
+        folder = root_dir / "data" / ("photos" if source == "print" else "tracings")
+        self.image_path = next(p for p in folder.glob(side + ".*") if p.suffix.lower() in (".jpg", ".png"))
         self.img = Image.open(self.image_path).convert("RGB")
         self.corpus = json.load(open(root_dir / "data" / "corpus.json", encoding="utf-8"))
-        self.units = {lid: line_units(self.corpus, lid) for lid in self.corpus if lid.startswith(side)}
-        self.json_path = BOXES / f"{side}.json"
-        if self.json_path.exists() and not auto:
+        key = "Ia" if side == "I" else side
+        self.units = {lid: line_units(self.corpus, lid) for lid in self.corpus if lid.startswith(key)}
+        self.json_path = (BOXES if source == "print" else BOXES / "tracing") / f"{side}.json"
+        self.json_path.parent.mkdir(parents=True, exist_ok=True)
+        if self.json_path.exists() and not auto and not seed:
             d = json.load(open(self.json_path, encoding="utf-8"))
             self.boxes, self.lines = d["boxes"], d["lines"]
         else:
-            self.boxes, self.lines = load_auto(side)
+            self.boxes, self.lines = load_auto(side, source)
+            if seed and source == "tracing":
+                import numpy as np
+                seeded = seed_from_print(side, np.asarray(self.img.convert("L")), self.boxes, self.units)
+                if seeded is not None:
+                    self.boxes = seeded
         for lid in self.units:
             self.lines.setdefault(lid, "upright")
         order_boxes(self.boxes, self.lines)
@@ -110,7 +174,7 @@ class Editor:
         self.edge_mode = 0          # 0: left and top edges take the arrows; 1: right and bottom
 
         self.root = tk.Tk()
-        self.root.title(f"Boxes on {side}")
+        self.root.title(f"Boxes on {side}, " + ("the print" if source == "print" else "the tracing"))
         bar = ttk.Frame(self.root); bar.pack(side="top", fill="x")
         ttk.Button(bar, text="Add box (A)", command=self.start_add).pack(side="left", padx=2)
         ttk.Button(bar, text="Delete (Del)", command=self.delete).pack(side="left", padx=2)
@@ -365,7 +429,7 @@ class Editor:
 
     def reset(self):
         if messagebox.askyesno("Reset", "Discard the corrections and start again from the automatic boxes?"):
-            self.boxes, self.lines = load_auto(self.side)
+            self.boxes, self.lines = load_auto(self.side, self.source)
             for lid in self.units:
                 self.lines.setdefault(lid, "upright")
             order_boxes(self.boxes, self.lines); self.sel = None; self.dirty = True; self.redraw()
@@ -406,9 +470,11 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("side")
     ap.add_argument("--auto", action="store_true", help="ignore saved corrections and start from the automatic boxes")
+    ap.add_argument("--source", choices=["print", "tracing"], default="print", help="which image to correct boxes on")
+    ap.add_argument("--seed-from-print", action="store_true", help="tracing only: place the boxes from the finished print boxes")
     ap.add_argument("--smoke", action="store_true", help="open, save nothing, close at once (for testing)")
     args = ap.parse_args()
-    ed = Editor(args.side, args.auto)
+    ed = Editor(args.side, args.auto, args.source, args.seed_from_print)
     if args.smoke:
         ed.root.after(500, ed.root.destroy)
     ed.root.mainloop()
