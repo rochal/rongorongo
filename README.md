@@ -1042,6 +1042,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | fetch_tracings.py, tracings.py | Barthel's tracings of 31 sides from Commons; lines and glyph instances cut and aligned to the transliteration, with a quality flag per line |
 | tracings_analysis.py | Per-sign variation, cross-side hand penalties, and glyph width along the line with end-dropping and line-parity checks |
 | fetch_photos.py, photos.py | The white-filled prints and rubbings from Commons, and a first segmentation attempt with a print-to-tracing fidelity check; results not usable yet, see section 25 |
+| check_reproduction.py | Diff of a regenerated out/ against the committed one, file by file |
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |
 | tahua_period.py | What carries Tahua's recurrence at 22 to 24 signs: driving signs, returning groups, gap stability, line positions, and side b |
@@ -1070,6 +1071,14 @@ To cite one result, name the section, for example "section 15, chaining test", a
 ### Licence
 
 The scripts, this README and the generated outputs are under the MIT licence in LICENSE. The downloaded transliteration and sign catalogue are not redistributed here and remain with the CEIPP; the line crops in docs/img are from Barthel's tracings as hosted on Wikimedia Commons, and the small glyph strips in docs/img/glyphs are cut from Barthel's catalogue drawings as reproduced on kohaumotu.org, included as quotations for the purpose of commentary.
+
+### Reproduction
+
+The sequence was run end to end from a fresh clone on 6 September 2026: `pip install -r requirements.txt` and `python run_all.py`, 40 steps in 23 minutes on a 32-core machine, every data source fetched again. `scripts/check_reproduction.py` then compared the regenerated `out/` with the committed one: 113 of 122 tables identical byte for byte, none nondeterministic. The nine that differ all follow from the Métraux page scans, which cannot be redistributed and so are absent from a clone: without them the Rapa Nui corpus is Thomson's recitations alone, and the word comparison, the attachment profile and the decipherment run take the values a Thomson-only corpus gives. Anyone who adds the scans to `data/metraux/` reproduces the committed numbers.
+
+```bash
+python scripts/check_reproduction.py <path to a regenerated out folder>
+```
 
 ### Conventions
 

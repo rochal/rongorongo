@@ -4,8 +4,6 @@
 
 | side | ink bands | transliterated lines | result |
 |---|---|---|---|
-| _check_Ev04 | 2 | 0 | skipped: band count differs from line count |
-| _check_Ev04_a | 2 | 0 | skipped: band count differs from line count |
 | Aa | 8 | 8 | 7/8 lines aligned within tolerance |
 | Ab | 8 | 8 | 7/8 lines aligned within tolerance |
 | Br | 10 | 10 | 8/10 lines aligned within tolerance |
