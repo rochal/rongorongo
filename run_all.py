@@ -18,8 +18,8 @@ steps = []
 if args.refetch or not (root / "data" / "html").exists():
     steps.append(["fetch_corpus.py"])
 steps.append(["parse_corpus.py"])
-if args.refetch or not (root / "data" / "signs" / "rows.json").exists():
-    steps.append(["fetch_signs.py"])
+if args.refetch or not any((root / "data" / "signs" / "gif").glob("*")):
+    steps.append(["fetch_signs.py"])          # rows.json is committed but the drawings are not
 steps += [
     ["alternations.py"],
     ["lists_380.py"],
