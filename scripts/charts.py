@@ -649,7 +649,7 @@ if (out / "matched_stats_curves.csv").exists():
             v = float(st[s_][k]) * mult
             ax.axvline(v, color=col, lw=1.6, label=("whole glyphs (units)" if s_ == "units" else "head signs") if mi == 0 else None)
         if mi == 0:
-            ax.legend(fontsize=8, loc="upper left", bbox_to_anchor=(0, 1.55), ncol=2, frameon=False)
+            ax.legend(fontsize=8, loc="upper left", bbox_to_anchor=(0, 2.05), ncol=2, frameon=False)
         ax.set_yticks(y); ax.set_yticklabels([style[s_][1] for s_ in series], fontsize=8); ax.invert_yaxis()
         ax.set_title(lab, fontsize=9.5, loc="left", pad=10, color=INK2); ax.tick_params(length=0, labelsize=8); ax.grid(axis="y", visible=False)
     fig.suptitle("Whole glyphs are more diverse than words; head signs have a word's type count but a flatter top", x=0.02, ha="left",
