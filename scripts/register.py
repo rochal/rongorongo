@@ -54,7 +54,7 @@ Outputs
   docs/img/registration_check.png   the glyph boxes drawn on one print
   docs/img/registration_pairs.png   tracing and print of the same glyphs
 """
-import argparse, collections, csv, pathlib, re
+import argparse, collections, csv, json, pathlib, re
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 from scipy import ndimage
@@ -174,7 +174,9 @@ def similarity(d1, d2):
 
 
 def own_ink(bits, x_in0, x_in1):
-    """Keep the ink components whose centre lies within the unpadded box, dropping specks and neighbours' fragments.
+    """Keep the ink components whose centre lies within the unpadded box, dropping specks, neighbours' fragments,
+    and pieces of the adjacent lines: a component that touches the crop's top or bottom edge with its centre in the
+    outer sixth of the height is an intruder from the line above or below, unless it is the largest component.
 
     Returns the cleaned crop and the horizontal extent of what is kept."""
     lab, n = ndimage.label(bits, structure=np.ones((3, 3)))
@@ -182,9 +184,14 @@ def own_ink(bits, x_in0, x_in1):
         return bits, 0
     sizes = ndimage.sum(bits, lab, range(1, n + 1))
     cx = ndimage.center_of_mass(bits, lab, range(1, n + 1))
+    hgt = bits.shape[0]
+    top_row, bot_row = set(lab[0]), set(lab[-1])
     keep = np.zeros(n + 1, bool)
     for i, (sz, (yy, xx)) in enumerate(zip(sizes, cx), 1):
         keep[i] = sz >= max(6, 0.02 * sizes.max()) and x_in0 <= xx < x_in1
+        if keep[i] and sz < sizes.max():
+            if (i in top_row and yy < hgt / 6) or (i in bot_row and yy > 5 * hgt / 6):
+                keep[i] = False
     clean = keep[lab]
     cols = np.where(clean.any(axis=0))[0]
     return clean, (int(cols.max() - cols.min() + 1) if len(cols) else 0)
@@ -221,7 +228,33 @@ def vote(cands, pitch0, height):
     return best + (total,)
 
 
+def head_of(u):
+    return re.sub(r"[a-zA-Z]+$", "", re.split(r"[.:;']", re.sub(r"[?!]", "", u))[0])
+
+
+def cut_box(side, lid, kk, unit, hd, want, hx0, hx1, hy0, hy1, lsc, tw, in0, in1, source):
+    """Cut one box from the print, turn it upright, keep its own ink, save it and record it."""
+    hx0, hx1 = max(0, hx0), min(G_full.shape[1], hx1); hy0, hy1 = max(0, hy0), min(G_full.shape[0], hy1)
+    crop = full_ink_map[hy0:hy1, hx0:hx1]
+    if crop.size == 0:
+        return
+    if want:
+        crop = crop[::-1, ::-1]
+        in0, in1 = crop.shape[1] - in1, crop.shape[1] - in0
+    crop, pw_ink = own_ink(crop, in0, in1)
+    Image.fromarray(((~crop) * 255).astype("uint8")).save(idir / side / f"{lid}_{kk:03d}.png")
+    inst_rows.append([side, lid, kk, unit, hd, hx0, hx1, hy0, hy1, pw_ink, tw, round(lsc, 3), "flipped" if want else "upright", source])
+    boxes_draw.append((lid, kk, hx0, hx1, hy0, hy1, lsc))
+    tp = tdir / "instances" / side / f"{lid}_{kk:03d}.png"
+    if tp.exists() and pw_ink and tw:
+        d1 = descriptor(crop); d2 = descriptor(np.asarray(Image.open(tp).convert("L")) < 128)
+        if d1 and d2:
+            fid_rows.append([side, lid, kk, hd, pw_ink, tw, round(similarity(d1, d2), 4), round(lsc, 3)])
+
+
 tr_rows = load_tracing_rows()
+tracing_width = {(r["side"], r["line"], int(r["position"])): int(r["width"])
+                 for r in csv.DictReader(open(out / "glyph_instances.csv", encoding="utf-8")) if r["line_quality"] == "reliable"}
 sides = args.sides or sorted(s for s in tr_rows if any(p.stem == s for p in pdir.glob("*.*")) and s not in SKIP)
 side_rows, line_rows, inst_rows, fid_rows = [], [], [], []
 check = {}
@@ -269,6 +302,7 @@ for side in sides:
     strength, s, pol, y0, pitch, d, parity, total, cands, M, Ms = best_side
     trusted = strength >= VOTE_MIN * total
     full_ink = full_maps[pol]
+    G_full, full_ink_map = G, full_ink
     (idir / side).mkdir(parents=True, exist_ok=True)
     for f in (idir / side).glob("*.png"):
         f.unlink()
@@ -342,28 +376,45 @@ for side in sides:
                 gy0, gy1 = top + (H - y1g), top + (H - y0g)
             else:
                 gy0, gy1 = top + y0g, top + y1g
+            # clip the box to the print's own line band: the row profile of the ink around the glyph, followed
+            # up and down from the line's centre until it falls to a tenth of its peak, since the print's lines
+            # are packed tighter than the tracing's and a tall box would otherwise reach into the next line
+            wx0, wx1 = int(max(0, pxc - 40)), int(min(M.shape[1], pxc + 40))
+            prof = ndimage.uniform_filter1d(M[:, wx0:wx1].sum(axis=1).astype(float), 3)
+            cy = int(min(max(0, round(pyc + shift[0])), M.shape[0] - 1))
+            peak = prof[max(0, cy - H // 3): cy + H // 3 + 1].max() if H else 0
+            if peak > 0:
+                thr = 0.1 * peak
+                bt = cy
+                while bt > 0 and prof[bt - 1] > thr and cy - bt < H:
+                    bt -= 1
+                bb = cy
+                while bb < M.shape[0] - 1 and prof[bb + 1] > thr and bb - cy < H:
+                    bb += 1
+                gy0, gy1 = max(gy0, bt - 1), min(gy1, bb + 2)
+                if gy1 - gy0 < 4:
+                    gy0, gy1 = top + (H - y1g) if want else top + y0g, top + (H - y0g) if want else top + y1g
             fx0, fx1, fy0, fy1 = [int(round(v / s)) for v in (gx0, gx1, gy0, gy1)]
             w = max(1, fx1 - fx0); pw = int(PAD * w)
             hy0, hy1 = max(0, fy0 - 2), min(G.shape[0], fy1 + 2)
             hx0, hx1 = max(0, fx0 - pw), min(G.shape[1], fx1 + pw)
-            crop = full_ink[hy0:hy1, hx0:hx1]
-            if crop.size == 0:
+            cut_box(side, lid, kk, r["unit"], r["head"], want, hx0, hx1, hy0, hy1, lsc, int(r["width"]), fx0 - hx0, fx1 - hx0, "auto")
+    # hand corrections from box_editor.py replace the automatic boxes of the side
+    manual = root / "data" / "boxes" / f"{side}.json"
+    if manual.exists():
+        mj = json.load(open(manual, encoding="utf-8"))
+        inst_rows[:] = [x for x in inst_rows if x[0] != side]; fid_rows[:] = [x for x in fid_rows if x[0] != side]
+        boxes_draw.clear()
+        for f in (idir / side).glob("*.png"):
+            f.unlink()
+        for b in mj["boxes"]:
+            if b["unit"] == "?":
                 continue
-            if want:
-                crop = crop[::-1, ::-1]
-            # the unpadded box inside the crop, in the crop's upright frame
-            in0, in1 = fx0 - hx0, fx1 - hx0
-            if want:
-                in0, in1 = crop.shape[1] - in1, crop.shape[1] - in0
-            crop, pw_ink = own_ink(crop, in0, in1)
-            Image.fromarray(((~crop) * 255).astype("uint8")).save(idir / side / f"{lid}_{kk:03d}.png")
-            inst_rows.append([side, lid, kk, r["unit"], r["head"], hx0, hx1, hy0, hy1, pw_ink, int(r["width"]), round(lsc, 3), "flipped" if want else "upright"])
-            boxes_draw.append((lid, kk, hx0, hx1, hy0, hy1, lsc))
-            tp = tdir / "instances" / side / f"{lid}_{kk:03d}.png"
-            if tp.exists() and pw_ink:
-                d1 = descriptor(crop); d2 = descriptor(np.asarray(Image.open(tp).convert("L")) < 128)
-                if d1 and d2:
-                    fid_rows.append([side, lid, kk, r["head"], pw_ink, int(r["width"]), round(similarity(d1, d2), 4), round(lsc, 3)])
+            want_b = mj["lines"].get(b["line"]) == "flipped"
+            tw = tracing_width.get((side, b["line"], b["position"]), 0)
+            cut_box(side, b["line"], b["position"], b["unit"], head_of(b["unit"]), want_b, b["x0"], b["x1"], b["y0"], b["y1"], 1.0, tw, 0, b["x1"] - b["x0"], "manual")
+        n_manual = sum(1 for x in inst_rows if x[0] == side)
+        print(f"{side}: {n_manual} hand-corrected boxes from {manual.name}", flush=True)
     side_rows.append([side, round(s, 3), pol, round(strength / total, 3) if total else 0, round(pitch, 1), y0, "1 at top" if d > 0 else "1 at bottom",
                       "odd lines flipped" if parity == 1 else "even lines flipped", len(lids), placed, "trusted" if trusted else "weak vote"])
     print(f"{side}: scale {s:.3f} {pol}, vote {strength / total if total else 0:.2f}, pitch {pitch:.1f}, {placed}/{len(lids)} lines placed", flush=True)
@@ -375,7 +426,7 @@ with open(out / "register_sides.csv", "w", newline="", encoding="utf-8") as fh:
 with open(out / "register_lines.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh); w.writerow(["side", "line", "orientation", "chunks_inlier", "chunks", "stretch", "x_residual", "status"]); w.writerows(line_rows)
 with open(out / "photo_instances.csv", "w", newline="", encoding="utf-8") as fh:
-    w = csv.writer(fh); w.writerow(["side", "line", "position", "unit", "head", "x0", "x1", "y0", "y1", "print_ink_width", "tracing_width", "local_score", "orientation"]); w.writerows(inst_rows)
+    w = csv.writer(fh); w.writerow(["side", "line", "position", "unit", "head", "x0", "x1", "y0", "y1", "print_ink_width", "tracing_width", "local_score", "orientation", "source"]); w.writerows(inst_rows)
 with open(out / "photo_fidelity.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh); w.writerow(["side", "line", "position", "head", "print_ink_width", "tracing_width", "similarity", "local_score"]); w.writerows(fid_rows)
 
