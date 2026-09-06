@@ -252,6 +252,7 @@ def cut_box(side, lid, kk, unit, hd, want, hx0, hx1, hy0, hy1, lsc, tw, in0, in1
             fid_rows.append([side, lid, kk, hd, pw_ink, tw, round(similarity(d1, d2), 4), round(lsc, 3)])
 
 
+corpus_all = json.load(open(root / "data" / "corpus.json", encoding="utf-8"))
 tr_rows = load_tracing_rows()
 tracing_width = {(r["side"], r["line"], int(r["position"])): int(r["width"])
                  for r in csv.DictReader(open(out / "glyph_instances.csv", encoding="utf-8")) if r["line_quality"] == "reliable"}
@@ -403,12 +404,25 @@ for side in sides:
     manual = root / "data" / "boxes" / f"{side}.json"
     if manual.exists():
         mj = json.load(open(manual, encoding="utf-8"))
+        auto_rows_side = [x for x in inst_rows if x[0] == side]; auto_fid_side = [x for x in fid_rows if x[0] == side]
         inst_rows[:] = [x for x in inst_rows if x[0] != side]; fid_rows[:] = [x for x in fid_rows if x[0] != side]
         boxes_draw.clear()
+        # a line whose box count does not match its unit count is not finished: its labels would be shifted,
+        # so the automatic boxes of that line are kept and the hand boxes skipped, with a warning
+        n_units = {lid: sum(1 for u in corpus_all[lid] if not head_of(u).startswith("(") and head_of(u) not in ("000", "999")) for lid in corpus_all if lid.startswith(side)}
+        n_boxes = collections.Counter(b["line"] for b in mj["boxes"])
+        unfinished = {lid for lid in n_boxes if n_boxes[lid] != n_units.get(lid, -1)}
         for f in (idir / side).glob("*.png"):
-            f.unlink()
+            if f.stem.rsplit("_", 1)[0] not in unfinished:
+                f.unlink()
+        if unfinished:
+            print(f"{side}: hand boxes skipped on {', '.join(sorted(unfinished, key=line_number))}, box count differs from the unit count; automatic boxes kept there", flush=True)
+        auto_keep = [x for x in auto_rows_side if x[1] in unfinished]
+        inst_rows.extend(auto_keep); fid_rows.extend(x for x in auto_fid_side if x[1] in unfinished)
+        for x in auto_keep:
+            boxes_draw.append((x[1], x[2], x[5], x[6], x[7], x[8], x[11]))
         for b in mj["boxes"]:
-            if b["unit"] == "?":
+            if b["unit"] == "?" or b["line"] in unfinished:
                 continue
             want_b = mj["lines"].get(b["line"]) == "flipped"
             tw = tracing_width.get((side, b["line"], b["position"]), 0)
