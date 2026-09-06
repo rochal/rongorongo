@@ -542,6 +542,7 @@ class Editor:
         return self.overlay.setdefault(lid, {"dx": 0, "dy": 0, "scale": 1.0})
 
     def draw_overlay(self):
+        self._overlay_items = {}
         if not self.overlay_on or self.tracing_img is None:
             return
         self._overlay_tk = []
@@ -574,8 +575,16 @@ class Editor:
         # the overlay's top-left sits on the line's box extent, plus the hand offset; the vertical centre follows the boxes
         oy_img = (py0 + py1) / 2 - (ty1 - ty0) * base * prm["scale"] / 2
         sx, sy = self.to_screen(px0 + prm["dx"], oy_img + prm["dy"])
-        tkimg = ImageTk.PhotoImage(rgba); self._overlay_tk.append(tkimg)
-        self.canvas.create_image(sx, sy, anchor="nw", image=tkimg)
+        # only the part on screen is turned into a canvas image, with a margin so that small moves need no redraw
+        cw, ch = self.canvas.winfo_width(), self.canvas.winfo_height()
+        m = 200
+        vx0, vy0 = max(0, int(-sx - m)), max(0, int(-sy - m))
+        vx1, vy1 = min(w, int(cw - sx + m)), min(h, int(ch - sy + m))
+        if vx1 <= vx0 or vy1 <= vy0:
+            return
+        part = rgba.crop((vx0, vy0, vx1, vy1))
+        tkimg = ImageTk.PhotoImage(part); self._overlay_tk.append(tkimg)
+        self._overlay_items[lid] = self.canvas.create_image(sx + vx0, sy + vy0, anchor="nw", image=tkimg)
 
     def overlay_wheel(self, e):
         self.scale_overlay(1.02 if e.delta > 0 else 1 / 1.02)
@@ -592,10 +601,14 @@ class Editor:
         return [lid] if lid else sorted(self.tracing_lines, key=line_number)
 
     def move_overlay(self, dx, dy):
+        """shift the strips already on the canvas; nothing is re-rendered"""
         if self.overlay_on:
             for lid in self.overlay_targets():
                 prm = self.overlay_params(lid); prm["dx"] += dx; prm["dy"] += dy
-            self.dirty = True; self.redraw()
+                item = getattr(self, "_overlay_items", {}).get(lid)
+                if item:
+                    self.canvas.move(item, dx * self.zoom, dy * self.zoom)
+            self.dirty = True; self.update_status()
         return "break"
 
     def scale_overlay(self, f):
