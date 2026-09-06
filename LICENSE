@@ -20,8 +20,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-This licence covers the scripts, the README and the generated tables and
-charts. It does not cover the third-party material the scripts download:
-the CEIPP numerical transliteration of the rongorongo corpus and Barthel's
-sign catalogue (kohaumotu.org), which remain with their authors, and
-Barthel's 1958 tracings reproduced from Wikimedia Commons in docs/img.
+This licence covers the scripts, the README, the generated tables and
+charts, and the hand-drawn glyph boxes in data/boxes. It does not cover the
+third-party material the scripts download: the CEIPP numerical
+transliteration of the rongorongo corpus and Barthel's sign catalogue
+(kohaumotu.org), which remain with their authors; Barthel's 1958 tracings
+and Chauvet's 1935 prints of the tablets reproduced from Wikimedia Commons
+in docs/img; and the public-domain Maori and Tahitian texts fetched from
+the Internet Archive, which are not stored here.
