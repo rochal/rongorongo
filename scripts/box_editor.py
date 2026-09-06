@@ -576,7 +576,7 @@ class Editor:
         oy_img = (py0 + py1) / 2 - (ty1 - ty0) * base * prm["scale"] / 2
         sx, sy = self.to_screen(px0 + prm["dx"], oy_img + prm["dy"])
         # only the part on screen is turned into a canvas image, with a margin so that small moves need no redraw
-        cw, ch = self.canvas.winfo_width(), self.canvas.winfo_height()
+        cw, ch = max(200, self.canvas.winfo_width()), max(200, self.canvas.winfo_height())
         m = 200
         vx0, vy0 = max(0, int(-sx - m)), max(0, int(-sy - m))
         vx1, vy1 = min(w, int(cw - sx + m)), min(h, int(ch - sy + m))
