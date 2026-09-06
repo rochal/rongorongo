@@ -54,7 +54,6 @@ steps.append(["robustness.py"])
 steps.append(["mamari_calendar.py"])
 if (root / "data" / "rapanui" / "nights.txt").exists():
     steps.append(["calendar_names.py"])
-    steps.append(["calendar_nights.py"])
 steps.append(["two_islanders.py"])
 if args.refetch or not (root / "data" / "polynesian" / "maori_tokens.txt").exists():
     steps.append(["fetch_polynesian.py"])     # Maori and Tahitian scripture and traditions from archive.org, about 20 MB
@@ -67,6 +66,8 @@ steps.append(["attachments.py"])
 if args.refetch or not (root / "data" / "tracings").exists():
     steps.append(["fetch_tracings.py"])       # slow: Commons rate-limits, about a file every few seconds
 steps += [["tracings.py"], ["tracings_analysis.py"], ["parity_check.py"]]
+if (root / "data" / "rapanui" / "nights.txt").exists():
+    steps.append(["calendar_nights.py"])     # after tracings.py: it measures the crescents cut from the tracing
 if args.refetch or not (root / "data" / "photos").exists():
     steps.append(["fetch_photos.py"])         # slow, as for the tracings
 if not args.fast:
