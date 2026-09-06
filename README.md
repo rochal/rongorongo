@@ -995,7 +995,7 @@ The second attempt registers each print to its tracing. This cannot be one trans
 
 ![The box editor on Barthel's tracing of Keiti's verso: every line with its count-aligned boxes, dashed until edited by hand, labelled with position and unit](docs/img/visual-editor.png)
 
-In print mode the key O lays Barthel's tracing over the photograph in translucent red, every line turned to match its orientation on the print and scaled to its extent, so that a doubtful box can be judged against the drawing without leaving the print; Ctrl with the arrows moves the overlay of the selected line, or of all lines when nothing is selected, the bracket keys rescale it, and the alignment is saved with the boxes.
+In print mode the key O lays Barthel's tracing over the photograph in translucent red, every line turned to match its orientation on the print and scaled to its extent, so that a doubtful box can be judged against the drawing without leaving the print; W, A, S and D move the overlay of the selected line, or of all lines when nothing is selected, the bracket keys rescale it, and the alignment is saved with the boxes.
 
 The same editor works on the tracing: `scripts/box_editor.py Ev --source tracing` opens Barthel's drawing with the count-aligned boxes, and `--seed-from-print` places its first boxes from the finished print boxes instead, mapping each print line onto the tracing line and shrinking every box to the ink under it, so that they need a nudge rather than a redraw. The corrections go to `data/boxes/tracing/Ev.json` and `tracings.py` uses them for any line whose count matches, marking those instances `manual`. With boxes drawn by hand on both images the width comparison becomes what it should have been from the start.
 

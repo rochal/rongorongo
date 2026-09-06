@@ -31,14 +31,14 @@ Mouse
   right drag               pan
   drag on empty ground     draw a new box on the line of the nearest box
                            (or the line chosen in the box at the top); it
-                           is selected at once
+                           is selected at once; N does the same on the next drag
 Overlay (print only)
   O                        show or hide Barthel's tracing over the print, every
                            line in translucent red, each turned to match its
                            orientation on the print and scaled to its extent
-  Ctrl + arrows            move the overlay of the selected box's line, or of
-                           every line when nothing is selected; Ctrl+Shift five
-                           pixels at a time; I J K L do the same
+  W A S D                  move the overlay of the selected box's line, or of
+                           every line when nothing is selected; capitals five
+                           pixels at a time
   Ctrl + wheel, [ ]        scale it, likewise per line or for all
   0                        reset it
   The alignment is saved with the boxes and comes back next time.
@@ -242,7 +242,7 @@ class Editor:
         self.root = tk.Tk()
         self.root.title(f"Boxes on {side}, " + ("the print" if source == "print" else "the tracing"))
         bar = ttk.Frame(self.root); bar.pack(side="top", fill="x")
-        ttk.Button(bar, text="Add box (A)", command=self.start_add).pack(side="left", padx=2)
+        ttk.Button(bar, text="Add box (N)", command=self.start_add).pack(side="left", padx=2)
         ttk.Button(bar, text="Delete (Del)", command=self.delete).pack(side="left", padx=2)
         ttk.Button(bar, text="Save (Ctrl+S)", command=self.save).pack(side="left", padx=2)
         ttk.Button(bar, text="Reset to automatic", command=self.reset).pack(side="left", padx=2)
@@ -263,20 +263,18 @@ class Editor:
         self.canvas.bind("<MouseWheel>", self.wheel); self.canvas.bind("<Button-4>", self.wheel); self.canvas.bind("<Button-5>", self.wheel)
         self.canvas.bind("<Configure>", lambda e: self.redraw())
         self.root.bind("<Delete>", lambda e: self.delete()); self.root.bind("<Control-s>", lambda e: self.save())
-        self.root.bind("<Key-a>", lambda e: self.start_add()); self.root.bind("<Key-A>", lambda e: self.start_add())
+        self.root.bind("<Key-n>", lambda e: self.start_add()); self.root.bind("<Key-N>", lambda e: self.start_add())
         self.root.bind("<Escape>", lambda e: self.cancel_add())
         for key, dx, dy in (("Left", -1, 0), ("Right", 1, 0), ("Up", 0, -1), ("Down", 0, 1)):
             self.root.bind(f"<{key}>", lambda e, dx=dx, dy=dy: self.nudge(dx, dy))
             self.root.bind(f"<Shift-{key}>", lambda e, dx=dx, dy=dy: self.nudge(dx, dy, whole=True))
-            self.root.bind(f"<Control-{key}>", lambda e, dx=dx, dy=dy: self.move_overlay(dx, dy))
-            self.root.bind(f"<Control-Shift-{key}>", lambda e, dx=dx, dy=dy: self.move_overlay(5 * dx, 5 * dy))
         # Tab and Shift+Tab step through the boxes; the focus-traversal events are taken over so that
         # Tk does not move the focus between the toolbar widgets instead
         self.root.bind_all("<<NextWindow>>", lambda e: self.step(1)); self.root.bind_all("<<PrevWindow>>", lambda e: self.step(-1))
         self.root.bind("<Tab>", lambda e: self.step(1)); self.root.bind("<Shift-Tab>", lambda e: self.step(-1))
         self.root.bind("<KeyPress>", self.keypress)
         self.root.bind("<Key-o>", lambda e: self.toggle_overlay()); self.root.bind("<Key-O>", lambda e: self.toggle_overlay())
-        for key, dx, dy in (("j", -1, 0), ("l", 1, 0), ("i", 0, -1), ("k", 0, 1)):
+        for key, dx, dy in (("a", -1, 0), ("d", 1, 0), ("w", 0, -1), ("s", 0, 1)):
             self.root.bind(f"<Key-{key}>", lambda e, dx=dx, dy=dy: self.move_overlay(dx, dy))
             self.root.bind(f"<Key-{key.upper()}>", lambda e, dx=dx, dy=dy: self.move_overlay(5 * dx, 5 * dy))
         self.root.bind("<Key-bracketleft>", lambda e: self.scale_overlay(1 / 1.02)); self.root.bind("<Key-bracketright>", lambda e: self.scale_overlay(1.02))
@@ -345,7 +343,7 @@ class Editor:
             bad = [lid for lid in self.units if len(self.units[lid]) != sum(1 for x in self.boxes if x["line"] == lid)]
             parts.append(f"{len(self.boxes)} boxes; lines whose box count differs from the unit count: {', '.join(sorted(bad, key=line_number)) or 'none'}")
         parts.append("ADD MODE: drag to draw" if self.add_mode else "")
-        parts.append("overlay on: Ctrl+arrows move it (this line, or all lines when nothing is selected), Ctrl+wheel or [ ] scale, 0 reset, O off" if self.overlay_on else ("O: tracing overlay" if self.tracing_img is not None else ""))
+        parts.append("overlay on: WASD move it (this line, or all lines when nothing is selected), Ctrl+wheel or [ ] scale, 0 reset, O off" if self.overlay_on else ("O: tracing overlay" if self.tracing_img is not None else ""))
         parts.append("unsaved" if self.dirty else "saved")
         self.status.set("   ".join(p for p in parts if p))
 
