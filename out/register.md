@@ -1,6 +1,6 @@
 # Registration of the tracings to the prints
 
-156 of 168 reliable tracing lines placed on 22 prints; 5358 glyphs cut from the prints, 4594 with a local match above 0.2.
+156 of 168 reliable tracing lines placed on 22 prints; 5414 glyphs cut from the prints, 4505 with a local match above 0.2.
 
 | side | scale | polarity | vote | pitch | line 1 | flipped | reliable lines | placed | status |
 |---|---|---|---|---|---|---|---|---|---|
@@ -29,4 +29,4 @@
 
 ## Fidelity of tracing to print
 
-4442 glyphs with ink in both; 4074 with a local match above 0.2. Correlation of relative width, print ink extent against tracing width: 0.91 over all, 0.88 over the locally matched. Descriptor similarity of the print glyph to its tracing: median 0.266.
+4551 glyphs with ink in both; 4019 with a local match above 0.2. Correlation of relative width, print ink extent against tracing width: 0.92 over all, 0.91 over the locally matched. Descriptor similarity of the print glyph to its tracing: median 0.269.
