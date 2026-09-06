@@ -53,7 +53,7 @@ Rongorongo is undeciphered and this report does not change that. It records nine
 **What the witnesses and the tools can and cannot do.**
 
 - **The islander who chanted over the tablets in 1873 was not reading them,** but he did give each sign shape the same name almost every time, so his chant is a usable record of which signs he saw as the same, and merging the sign pairs his words propose makes more text align between tablets than merging random pairs does. A second islander, reciting over the same tablet thirteen years later, produced words with no relation to his. Sections 17, 18 and 22.
-- **A computer cannot crack it yet, and we can say why.** The method that decoded an ancient script against a related language was tried on the commonest signs against Rapa Nui. It fails its own test: given a real Rapa Nui text disguised as signs, it cannot recover the text, because the Rapa Nui available, even after adding Métraux's texts, is far too small to constrain the answer. Until a much larger Rapa Nui corpus exists, no statistical decipherment of the frequent signs can be trusted, ours or anyone's. Section 23.
+- **A computer cannot crack it, and we can say why.** The method that decoded an ancient script against a related language was tried on the commonest signs against Rapa Nui. It fails its own test: given a real Rapa Nui text disguised as signs, it cannot recover the text. Giving it Rapa Nui's relatives to learn from, three million syllables of Māori and Tahitian scripture, helps a little and not enough. The limit is the text itself: on a known Māori text the search needs about eight thousand syllables to succeed, and the tablets offer a third of that among their frequent signs. No statistical assignment of the frequent signs to syllables can be verified with the text that exists, ours or anyone's. Section 23.
 - **The drawings have been checked against the wood.** Ten thousand glyphs cut from Barthel's tracings show carvers narrowing their glyphs toward the ends of lines, as if fitting a fixed text. The tracings were then registered to the retouched photographs, line by line, and the same measurement on the photographs agrees: the narrowing is the carver's, and Barthel's proportions are faithful. Whose hand carved what is still open, and the report now says why: the shape matcher cannot see stroke weight, and in a retouched print the stroke is the retoucher's. Sections 9 and 25.
 
 Nothing here says what any sign means. What it says is what kind of thing the texts are and how they are put together, which is the ground a real decipherment would have to stand on.
@@ -73,7 +73,7 @@ Nothing here says what any sign means. What it says is what kind of thing the te
 | Is the Staff a genealogy? | Triads real; genealogical reading unsupported by sequence | 14, 15, 16 |
 | Is the Mamari calendar a lunar month? | Structure reproduced; count 28 against 30 names; markers not phase boundaries | 21 |
 | Was Metoro reading? | No, but consistent; a second reciter contradicts him | 17, 22 |
-| Can the frequent signs be assigned syllables statistically? | Bounded: not with any Rapa Nui corpus that exists | 23 |
+| Can the frequent signs be assigned syllables statistically? | Bounded: not with the text that exists, under any language model; the search needs three times more text than the tablets give | 23 |
 | Are the twelve isolated sides a hidden genre? | Answered no | 26 |
 | Whose hand carved which tablet? | Open; the prints are now registered and cut, but the shape matcher is blind to stroke weight and the retouched prints carry the retoucher's stroke | 25 |
 | What does any sign mean? | Open, and not addressed | |
@@ -795,6 +795,43 @@ The method is the one used on Ugaritic against Hebrew. A syllable bigram model o
 - **So the sign scores mean nothing either way.** The tablets gain 0.061 over their shuffles under Rapa Nui and, on the 24 signs the two languages can share, 0.031 under Rapa Nui against 0.025 under English; reversed reads as well as forward. Those numbers are of the size the search produces from any structured sequence, and the wrong language does nearly as well as the right one. No syllabic reading of the frequent signs can be supported or refuted by this route at this scale.
 - **What it would take.** The method works on Ugaritic because the related language, Hebrew, has a corpus of millions of words and the cipher text has thousands of distinct words to constrain the mapping. Here the language model rests on six thousand syllables and the sign corpus has fewer than three thousand pairs among its frequent signs. A model that could recover a known text would need to be larger by orders of magnitude, more Rapa Nui of the old genres than was ever written down. The remaining public-domain sources add nothing: Jaussen's 1894 volume is a scan of handwritten notes whose OCR is noise, and Routledge's 1919 book holds no Rapa Nui passages.
 
+### A related-language model, and the length of the text
+
+*In plain words: the search failed because it had too little Rapa Nui to learn from. So it was given the next best thing, Rapa Nui's close relatives. Māori and Tahitian scripture and story collections from the nineteenth century, out of copyright, run to three million syllables each, a thousand times the Rapa Nui. The search does better with them, and still fails. Then the other input was tested: not how much language the search knows, but how much text it is given to crack. With a known Māori text the search needs many times more text than the tablets contain before it recovers the truth.*
+
+The Ugaritic result rested on a Hebrew corpus of millions of words. Rapa Nui's closest well-attested relatives have corpora of that size in the public domain: the 1868 Māori Bible, the 1841 New Testament and Grey's 1853 and 1854 collections of songs and traditions; the 1878 Tahitian Bible and the 1853 New Testament. All six were fetched from archive.org as OCR text and reduced to Rapa Nui-shaped tokens: Māori *wh* and *w* mapped to *h* and *v*, the correspondences of the cognates (*whare* and *hare*, *wai* and *vai*), Tahitian *f* to *h* and its glottal stop dropped, and every word kept that consists of open syllables over Rapa Nui's nine consonants. Tahitian has no *k* and no *ng*, which Rapa Nui keeps, so its model lacks a fifth of the syllabary; Māori has both. The same search and the same four controls were run under each model, with Apai still held out.
+
+| Model | Syllables in the model | Positive control: syllables recovered | Searched against true | Tablets' gain over shuffles |
+|---|---|---|---|---|
+| Rapa Nui alone | 6,000 | 5% | -3.438 against -3.642 | +0.061 |
+| plus Māori | 2.8 million | 12% | -3.397 against -3.561 | +0.065 |
+| plus Tahitian | 2.6 million | 12% | -3.593 against -4.341 | +0.065 |
+| plus both | 5.4 million | 20% | -3.396 against -3.570 | +0.052 |
+
+![The decipherment control under four language models](docs/img/decipher_models.png)
+
+- **A larger model helps, and not enough.** Recovery of the known text rises from one syllable in twenty to one in five as the model grows a thousandfold. Under every model the assignment the search finds scores well above the true one, by 0.16 to 0.20 per pair, the same margin as before. The relatives are not the problem: under the Māori model the true Rapa Nui text scores better than under the Rapa Nui model itself, since a model from six thousand syllables is mostly smoothing. Tahitian, lacking *k* and *ng*, gives the true text a poor score and the search a false one to beat it with.
+- **The tablets do not move.** Their gain over shuffles stays at 0.05 to 0.07 under every model, a third of what the known text gains, and reversed reads as well as forward in each case. Nothing in the sign sequence responds to a better model of the language.
+
+**How much text the search needs.** The Māori corpus is large enough to answer the question the Rapa Nui one cannot: hold out Grey's 1854 traditions entirely, train the model on the rest, and give the search the first L syllables of the held-out text as unknown signs, forty signs, one syllable each, exactly as the tablets are handled.
+
+| Syllables given to the search | Pairs among the 40 signs | Recovered | Searched against true |
+|---|---|---|---|
+| 500 | 497 | 10% | -3.211 against -3.595 |
+| 1,000 | 984 | 25% | -3.324 against -3.350 |
+| 2,000 | 1,970 | 25% | -3.410 against -3.257 |
+| 4,000 | 3,936 | 62% | -3.274 against -3.223 |
+| 8,000 | 7,856 | 100% | -3.120 against -3.120 |
+| 16,000 to 64,000 | 15,716 to 62,554 | 100% | equal |
+
+![How much text the search needs](docs/img/decipher_length.png)
+
+- **Two regimes, and the tablets sit in the first.** Below about a thousand syllables a false assignment scores above the true one, so no search could succeed; the language model is not at fault, the text is too short to pin the mapping down. Between two and four thousand the true assignment is the best there is, and the search, eight restarts of forty thousand steps, cannot find it. From eight thousand syllables the search recovers every syllable and its score equals the truth's. Apai, at 1,100 syllables, and the tablets, at 2,600 pairs among their frequent signs, both fall where recovery is a quarter of the signs at best.
+- **The bound is now on the text, not the language.** A related-language model a thousand times larger than the Rapa Nui one raised recovery from a twentieth to a fifth; three times more text than the tablets contain would be needed to raise it to all. The rongorongo corpus cannot be enlarged. So the section's verdict stands in a stronger form: under the one-sign-one-syllable hypothesis, no statistical assignment of the frequent signs can be verified with the text that exists, whatever the language model, and a published one that claims otherwise has not passed a control of this kind. What the test does not rule out is a different hypothesis, such as one sign per word, which this search does not model.
+
+> **Caveat.** The Māori and Tahitian OCR is nineteenth-century print read by machine; the phonotactic filter keeps only well-formed words, but mis-read vowels remain, and the mappings from Māori and Tahitian sounds to Rapa Nui's are the regular correspondences, not a reconstruction. The length curve is one text under one model with one search budget; a stronger search would move the crossover down somewhat, but not below the thousand syllables where the truth stops being the optimum.
+
+
 The best assignment the search found is written to `out/decipher_mapping.csv` for completeness. It should not be read; it is one of many that score as well, and the positive control shows such assignments are wrong even when the language is right.
 
 > **Caveat.** The Rapa Nui model is in-sample for the main run, since the same recitations trained it; the positive control holds Apai out. Syllabification is (C)V by rule, so long vowels count as two syllables and OCR slips add noise. None of this changes the conclusion, which the positive control carries on its own.
@@ -947,6 +984,10 @@ All charts are produced by `scripts/charts.py` from the tables in `out/`.
 
 ![Print against tracing](docs/img/prints.png)
 
+![The decipherment control under four language models](docs/img/decipher_models.png)
+
+![How much text the search needs](docs/img/decipher_length.png)
+
 ## 28. What it means and what it does not
 
 Nothing here reads a sign. Fish 700 appears five times on Keiti's verso, always inside a formula or a list slot; the verso's commonest signs are strokes, the delimiter, and sign 22, none of them pictures of anything. A rendering into English sentences would be invention.
@@ -1023,6 +1064,9 @@ python scripts/mamari_calendar.py
 python scripts/calendar_names.py       # needs data/rapanui/nights.txt, the thirty night names
 python scripts/two_islanders.py
 python scripts/decipher.py             # about 3 minutes
+python scripts/fetch_polynesian.py     # Maori and Tahitian texts from archive.org, reduced to Rapa Nui-shaped tokens
+python scripts/decipher.py --lm maori  # the same search and controls under a related-language model; also tahitian, polynesian
+python scripts/decipher_length.py      # how much text the search needs, on a known Maori text
 python scripts/attachments.py
 python scripts/fetch_tracings.py       # Barthel's tracings from Commons, at a polite pace
 python scripts/tracings.py
@@ -1067,7 +1111,9 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | mamari_calendar.py | The Mamari calendar lines classified into crescents, marker groups and other signs; runs and counts against a lunar month |
 | calendar_names.py | The calendar's runs and marker groups against the thirty named nights of the month, with permutation tests |
 | two_islanders.py | Vocabulary similarity between Ure Vaeiko's 1886 recitations and Metoro's 1873 chants, same-tablet pairs against the rest |
-| decipher.py | One-to-one assignment of the frequent signs to Rapa Nui syllables by annealing, with shuffled, reversed, wrong-language and positive controls |
+| decipher.py | One-to-one assignment of the frequent signs to Rapa Nui syllables by annealing, with shuffled, reversed, wrong-language and positive controls; `--lm maori`, `tahitian` or `polynesian` trains the model on a related language as well |
+| fetch_polynesian.py | Public-domain Maori and Tahitian scripture and traditions from archive.org, mapped to Rapa Nui phonotactics as token streams |
+| decipher_length.py | The same search on a held-out Māori text at increasing lengths, to find how much text recovery needs |
 | attachments.py | Concentration and density of the attached components against the Rapa Nui particle class and content words |
 | fetch_tracings.py, tracings.py | Barthel's tracings of 31 sides from Commons; lines and glyph instances cut and aligned to the transliteration, with a quality flag per line |
 | tracings_analysis.py | Per-sign variation, cross-side hand penalties with a thickened-stroke positive control, and glyph width along the line with end-dropping and line-parity checks; `--source photos` runs it on the print glyphs |
@@ -1077,7 +1123,7 @@ Requires Python 3.10 or later with numpy, scipy, Pillow, matplotlib and scikit-i
 | parity_check.py | Odd against even lines per side, with a permutation test of the slope difference |
 | untyped.py | Periodicity, line structure, loose internal repeats, vocabulary affinity and sign profile for every side, read for the twelve untyped ones |
 | tahua_period.py | What carries Tahua's recurrence at 22 to 24 signs: driving signs, returning groups, gap stability, line positions, and side b |
-| charts.py | The nineteen charts in docs/img |
+| charts.py | The twenty-one charts in docs/img |
 | glyphs.py | The labelled glyph strips in docs/img/glyphs, cut from the catalogue drawings |
 
 ### How to cite

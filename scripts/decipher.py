@@ -41,6 +41,8 @@ ap.add_argument("--restarts", type=int, default=12)
 ap.add_argument("--iters", type=int, default=40000, help="annealing steps per restart")
 ap.add_argument("--shuffles", type=int, default=5)
 ap.add_argument("--seed", type=int, default=1)
+ap.add_argument("--lm", choices=["rapanui", "maori", "tahitian", "polynesian"], default="rapanui",
+                help="language model: Rapa Nui alone, or Rapa Nui plus a related language's tokens from fetch_polynesian.py; outputs are suffixed")
 args = ap.parse_args()
 random.seed(args.seed); np.random.seed(args.seed)
 
@@ -92,6 +94,14 @@ metraux_words = metraux_file.read_text(encoding="utf-8").split() if metraux_file
 words += metraux_words
 words_no_apai += metraux_words
 LM_NOTE = f"Thomson recitations plus {len(metraux_words)} Metraux tokens" if metraux_words else "Thomson recitations"
+# a related language, mapped to Rapa Nui phonotactics by fetch_polynesian.py, enlarges the model by
+# two to three orders of magnitude; Apai is still held out, since it is not in those texts
+extra_words = []
+if args.lm != "rapanui":
+    for lang in (["maori", "tahitian"] if args.lm == "polynesian" else [args.lm]):
+        extra_words += (root / "data" / "polynesian" / f"{lang}_tokens.txt").read_text(encoding="utf-8").split()
+    LM_NOTE += f" plus {len(extra_words)} {args.lm} tokens"
+SUFFIX = "" if args.lm == "rapanui" else f"_{args.lm}"
 CONS = ["ng", "h", "k", "m", "n", "p", "r", "t", "v"]
 
 
@@ -111,8 +121,18 @@ def syllabify(w):
     return syl
 
 
-rn_stream = [s for w in words for s in syllabify(w)]
-rn_train = [s for w in words_no_apai for s in syllabify(w)]        # model for the positive control
+_syl_cache = {}
+
+
+def syllabify_cached(w):
+    if w not in _syl_cache:
+        _syl_cache[w] = syllabify(w)
+    return _syl_cache[w]
+
+
+extra_stream = [s for w in extra_words for s in syllabify_cached(w)]
+rn_stream = [s for w in words for s in syllabify(w)] + extra_stream
+rn_train = [s for w in words_no_apai for s in syllabify(w)] + extra_stream        # model for the positive control
 apai_stream = [s for w in recitations[apai_key] for s in syllabify(w)]
 
 
@@ -280,12 +300,12 @@ rs = list(rn_stream); random.shuffle(rs)
 scores["shuffled Rapa Nui text under its own model"] = stream_score(rs, rn_vocab, rn_logP)
 
 # ---------------------------------------------------------------- outputs
-with open(out / "decipher_scores.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / f"decipher_scores{SUFFIX}.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh)
     w.writerow(["condition", "log_likelihood_per_pair"])
     for k, v in scores.items():
         w.writerow([k, f"{v:.4f}"])
-with open(out / "decipher_mapping.csv", "w", newline="", encoding="utf-8") as fh:
+with open(out / f"decipher_mapping{SUFFIX}.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh)
     w.writerow(["sign", "tokens", "syllable"])
     for s in signs:
@@ -313,5 +333,5 @@ md.append("## The best assignment, for what it is worth\n")
 md.append("| sign | tokens | syllable |\n|---|---|---|")
 for s in signs[:25]:
     md.append(f"| {s} | {freq[s]} | {rn_vocab[mapping[sidx[s]]]} |")
-(out / "decipher.md").write_text("\n".join(md), encoding="utf-8")
+(out / f"decipher{SUFFIX}.md").write_text("\n".join(md), encoding="utf-8")
 print("\n".join(md[:14]))

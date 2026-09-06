@@ -1,0 +1,14 @@
+condition,log_likelihood_per_pair
+"real, Rapa Nui",-4.0689
+"reversed, Rapa Nui",-4.0520
+"shuffled, Rapa Nui, mean",-4.1333
+"shuffled, Rapa Nui, max",-4.1134
+"real, English letters (24 signs)",-3.4401
+"shuffled, English letters (24 signs), mean",-3.4639
+"real, Rapa Nui (24 signs)",-3.3698
+"shuffled, Rapa Nui (24 signs), mean",-3.4062
+"positive control: Apai syllables as unknown signs, searched",-3.5934
+positive control: Apai under the true assignment,-4.3413
+"positive control: Apai shuffled, searched",-3.7827
+Rapa Nui text under its own model,-2.6231
+shuffled Rapa Nui text under its own model,-3.3370

@@ -548,3 +548,67 @@ if (out / "photos_planning.csv").exists() and (out / "hands_prints.csv").exists(
     fig.tight_layout(w_pad=3)
     fig.savefig(img / "prints.png", bbox_inches="tight", pad_inches=0.25)
     plt.close(fig)
+# 20 the decipherment control under four language models -------------------
+if (out / "decipher_maori.md").exists():
+    models = [("rapanui", "Rapa Nui alone\n6,000 syllables"), ("maori", "plus Maori\n3 million"), ("tahitian", "plus Tahitian\n3 million"), ("polynesian", "plus both\n6 million")]
+    rec, gain_pos, gain_real, gain_en, names = [], [], [], [], []
+    for key, label in models:
+        suffix = "" if key == "rapanui" else f"_{key}"
+        if not (out / f"decipher{suffix}.md").exists():
+            continue
+        md = (out / f"decipher{suffix}.md").read_text(encoding="utf-8")
+        m = re.search(r"(\d+)% of (\d+) syllables recovered", md)
+        sc = {r["condition"]: float(r["log_likelihood_per_pair"]) for r in read(f"decipher_scores{suffix}.csv")}
+        rec.append(int(m.group(1)) if m else 0)
+        gain_pos.append(sc["positive control: Apai syllables as unknown signs, searched"] - sc["positive control: Apai shuffled, searched"])
+        gain_real.append(sc["real, Rapa Nui"] - sc["shuffled, Rapa Nui, mean"])
+        names.append(label)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10.5, 4.2))
+    x = np.arange(len(names))
+    ax1.bar(x, rec, width=0.6, color=[C[2] if v >= 50 else C[1] for v in rec])
+    for i, v in enumerate(rec):
+        ax1.text(i, v + 1.5, f"{v}%", ha="center", color=INK2, fontsize=9)
+    ax1.axhline(50, color=AXIS, lw=1, ls="--")
+    ax1.set_xticks(x); ax1.set_xticklabels(names, fontsize=9); ax1.set_ylim(0, 105)
+    ax1.set_ylabel("Syllables of a known Rapa Nui text recovered")
+    ax1.grid(axis="x", visible=False); ax1.tick_params(length=0)
+    ax1.set_title("Can the search recover Rapa Nui from Rapa Nui?", pad=26)
+    ax1.annotate("Apai's syllables treated as unknown signs and searched under each model", (0, 1), xycoords="axes fraction",
+                 xytext=(0, 7), textcoords="offset points", color=INK2, fontsize=9.5, va="bottom")
+    w = 0.36
+    ax2.bar(x - w / 2, gain_pos, width=w, color=C[0], label="known Rapa Nui text as signs")
+    ax2.bar(x + w / 2, gain_real, width=w, color=C[1], label="the tablets' signs")
+    ax2.axhline(0, color=AXIS, lw=1)
+    ax2.set_xticks(x); ax2.set_xticklabels(names, fontsize=9)
+    ax2.set_ylabel("Gain of the searched score over shuffles")
+    ax2.legend(loc="upper left", fontsize=9)
+    ax2.grid(axis="x", visible=False); ax2.tick_params(length=0)
+    ax2.set_title("What the search gains from sign order", pad=26)
+    ax2.annotate("Log-likelihood per pair, searched sequence minus its shuffles, under each model", (0, 1), xycoords="axes fraction",
+                 xytext=(0, 7), textcoords="offset points", color=INK2, fontsize=9.5, va="bottom")
+    fig.tight_layout(w_pad=3)
+    fig.savefig(img / "decipher_models.png", bbox_inches="tight", pad_inches=0.25)
+    plt.close(fig)
+# 21 how much text the search needs ------------------------------------------
+if (out / "decipher_length.csv").exists():
+    rows = read("decipher_length.csv")
+    L = [int(r["syllables"]) for r in rows]; rec = [100 * float(r["recovered"]) for r in rows]
+    gap = [float(r["searched"]) - float(r["true"]) for r in rows]
+    fig, ax = plt.subplots(figsize=(8, 4.4))
+    ax.plot(L, rec, marker="o", color=C[0], lw=2, label="syllables recovered, %")
+    ax.set_xscale("log"); ax.set_xticks(L); ax.set_xticklabels([f"{v:,}" for v in L], fontsize=9)
+    ax.set_ylim(0, 105); ax.set_ylabel("Syllables of the known text recovered, %")
+    ax.set_xlabel("Length of the known Māori text given to the search, in syllables")
+    for x, lab in ((1100, "Apai"), (2600, "the tablets' pairs")):
+        ax.axvline(x, color=C[1], lw=1.2, ls="--")
+        ax.text(x * 1.05, 96, lab, color=C[1], fontsize=9, va="top")
+    ax2 = ax.twinx()
+    ax2.plot(L, gap, marker="s", color=MUTED, lw=1.5, ls=":", label="false assignment's lead over the truth")
+    ax2.set_ylabel("Searched score minus true score, per pair", color=INK2)
+    ax2.axhline(0, color=AXIS, lw=1)
+    ax2.tick_params(length=0)
+    ax.grid(axis="x", visible=False)
+    h1, l1 = ax.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels()
+    ax.legend(h1 + h2, l1 + l2, loc="lower right", fontsize=9)
+    finish(fig, ax, "How much text the search needs",
+           "A held-out Māori text as unknown signs under a Māori model of 2.6 million syllables; 40 signs, one syllable each", "decipher_length.png")
