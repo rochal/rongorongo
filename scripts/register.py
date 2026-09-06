@@ -421,6 +421,21 @@ for side in sides:
     if side == args.check:
         check = {"gray": G, "boxes": boxes_draw}
 
+if args.sides:
+    # a run restricted to some sides replaces only their rows in the tables, keeping every other side's
+    def kept(name, conv):
+        f = out / name
+        if not f.exists():
+            return []
+        rows = [r for r in list(csv.reader(open(f, encoding="utf-8")))[1:] if r and r[0] not in args.sides]
+        for r in rows:
+            for i, fn in conv.items():
+                r[i] = fn(r[i])
+        return rows
+    side_rows = sorted(kept("register_sides.csv", {8: int, 9: int}) + side_rows, key=lambda r: r[0])
+    line_rows = sorted(kept("register_lines.csv", {}) + line_rows, key=lambda r: r[0])
+    inst_rows = sorted(kept("photo_instances.csv", {2: int, 9: int, 10: int, 11: float}) + inst_rows, key=lambda r: r[0])
+    fid_rows = sorted(kept("photo_fidelity.csv", {2: int, 4: int, 5: int, 6: float, 7: float}) + fid_rows, key=lambda r: r[0])
 with open(out / "register_sides.csv", "w", newline="", encoding="utf-8") as fh:
     w = csv.writer(fh); w.writerow(["side", "scale", "polarity", "vote", "pitch", "first_line_y", "direction", "parity", "reliable_lines", "placed", "status"]); w.writerows(side_rows)
 with open(out / "register_lines.csv", "w", newline="", encoding="utf-8") as fh:

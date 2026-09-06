@@ -1,6 +1,6 @@
 # Stroke weight on the prints
 
-3033 locally matched instances on 22 sides; 15 sides with glyphs at least 30 px tall on the print and 20 instances.
+3044 locally matched instances on 22 sides; 15 sides with glyphs at least 30 px tall on the print and 20 instances.
 
 | side | instances | glyph height, px | stroke width over height | IQR | ink density | |
 |---|---|---|---|---|---|---|
@@ -8,7 +8,7 @@
 | Hv | 155 | 14 | 0.1538 | 0.0873 | 0.25 | too small |
 | Er | 274 | 56 | 0.1033 | 0.032 | 0.457 | measured |
 | Sa | 72 | 27 | 0.0881 | 0.0429 | 0.298 | too small |
-| Ev | 273 | 61 | 0.0858 | 0.0253 | 0.424 | measured |
+| Ev | 284 | 62 | 0.0844 | 0.0226 | 0.399 | measured |
 | Cb | 27 | 53 | 0.0764 | 0.0781 | 0.198 | measured |
 | Ra | 76 | 69 | 0.0717 | 0.0278 | 0.311 | measured |
 | Pv | 328 | 29 | 0.0714 | 0.044 | 0.198 | too small |
@@ -30,4 +30,4 @@
 ## Are the two sides of one object alike?
 
 5 same-object pairs among the measured sides: Br-Bv, Ca-Cb, Er-Ev, Gr-Gv, Ra-Rb.
-Mean difference in stroke ratio, same-object pairs: 0.0189; other pairs: 0.0217. Permutation test, 5000 relabellings: same-object pairs this close or closer in 0.320 of them.
+Mean difference in stroke ratio, same-object pairs: 0.0192; other pairs: 0.0216. Permutation test, 5000 relabellings: same-object pairs this close or closer in 0.345 of them.
